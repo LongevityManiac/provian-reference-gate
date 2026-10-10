@@ -1,0 +1,4044 @@
+{
+  "kind": "provian-reference-gate.illustrative-contrast.v1",
+  "illustrative": true,
+  "note": "Illustrative. Presentations signed by the reference’s own test issuer key, not by Provian; presenters are fixtures. Every decision went through the same SDK verifier a live gate uses; the relay’s second opinion was off, and the one anchor read a disclosed record needs was answered by a local stub, not Base.",
+  "at": "2026-10-10T00:00:00.000Z",
+  "gate": "gate.example.com",
+  "issuer": {
+    "kid": "illustrative-issuer-k1",
+    "x": "imZryog5cgDOs0qE8cXnmXtir_pN-dd_KlfAIP4UKIU",
+    "note": "TEST key derived from a public label — not Provian’s."
+  },
+  "presenters": [
+    {
+      "id": "fresh",
+      "label": "Fresh key",
+      "summary": "A new identity: a valid key and nothing behind it.",
+      "address": "0xb58ae8f4cc3f85c186c36fc6fb0ce1823e12305f",
+      "wallet_id": "wallet_aw_illustrative_fresh"
+    },
+    {
+      "id": "established",
+      "label": "Established agent",
+      "summary": "An agent with the record the network produces at maturity — and one adverse event it carries.",
+      "address": "0x9493c31d5abf66ac25912ab08edcee6e004e1783",
+      "wallet_id": "wallet_aw_illustrative_established"
+    }
+  ],
+  "examples": [
+    {
+      "policy": {
+        "slug": "counterparty-onboarding",
+        "name": "Counterparty onboarding",
+        "action": "Let an agent this system has never met act for the first time",
+        "predicates": [
+          "continuity.active_days gte 30",
+          "continuity.active_days_90d gte 10",
+          "work.witnessed_90d gte 25",
+          "consumption.independent_parties gte 3",
+          "accountability.human_beneficiary eq 1",
+          "standing.adverse_events_90d in {0}",
+          "standing.open_bond_claims_against eq 0",
+          "standing.invalidation_active eq 0"
+        ]
+      },
+      "runs": [
+        {
+          "presenter": "fresh",
+          "challenge": {
+            "nonce": "3ab6b210dc10b2361840357eef3a4daeccfc22862f7c31027b646ca1facb3297",
+            "issued_at": 1791590400,
+            "expires_at": 1791591300,
+            "kid": "gate-k1",
+            "sig": "I23CdRM2_n5dswu_sPnNRw_uLMq6vwhUc0faKXz8LgNC09UHlt-mJiATdBHrnMUbYiA1ZxqApZDlMJvAgiRwCQ"
+          },
+          "presentation_id": "c501da23843e134f56a85875d90c5cff48312a0e52389bb2ca19126b963bcf20",
+          "burn": {
+            "tier": "reputation",
+            "floor_pvt": 15,
+            "id": "c501da23843e134f56a85875d90c5cff48312a0e52389bb2ca19126b963bcf20",
+            "onchain": false
+          },
+          "signature_check": "valid",
+          "decision": {
+            "decision": "block",
+            "gate": "gate.example.com",
+            "policy": "counterparty-onboarding",
+            "action": "Let an agent this system has never met act for the first time",
+            "at": "2026-10-10T00:00:00.000Z",
+            "reasons": [
+              "false: continuity.active_days gte 30",
+              "false: continuity.active_days_90d gte 10",
+              "false: work.witnessed_90d gte 25",
+              "false: consumption.independent_parties gte 3",
+              "false: accountability.human_beneficiary eq 1"
+            ],
+            "presentation": {
+              "id": "c501da23843e134f56a85875d90c5cff48312a0e52389bb2ca19126b963bcf20",
+              "tier": "reputation",
+              "presenter": {
+                "address": "0xb58ae8f4cc3f85c186c36fc6fb0ce1823e12305f",
+                "wallet_id": "wallet_aw_illustrative_fresh"
+              },
+              "requester": {
+                "type": "domain",
+                "id": "gate.example.com"
+              },
+              "challenge_expires_at": 1791591300
+            },
+            "predicates": [
+              {
+                "field": "continuity.active_days",
+                "op": "gte",
+                "threshold": 30,
+                "result": false
+              },
+              {
+                "field": "continuity.active_days_90d",
+                "op": "gte",
+                "threshold": 10,
+                "result": false
+              },
+              {
+                "field": "work.witnessed_90d",
+                "op": "gte",
+                "threshold": 25,
+                "result": false
+              },
+              {
+                "field": "consumption.independent_parties",
+                "op": "gte",
+                "threshold": 3,
+                "result": false
+              },
+              {
+                "field": "accountability.human_beneficiary",
+                "op": "eq",
+                "threshold": 1,
+                "result": false
+              },
+              {
+                "field": "standing.adverse_events_90d",
+                "op": "in",
+                "set": [
+                  0
+                ],
+                "result": true
+              },
+              {
+                "field": "standing.open_bond_claims_against",
+                "op": "eq",
+                "threshold": 0,
+                "result": true
+              },
+              {
+                "field": "standing.invalidation_active",
+                "op": "eq",
+                "threshold": 0,
+                "result": true
+              }
+            ],
+            "disclosures": [],
+            "standing": {
+              "adverse_events": 0,
+              "adverse_events_30d": 0,
+              "adverse_events_90d": 0,
+              "adverse_events_365d": 0,
+              "bond_active": false,
+              "open_bond_claims_against": 0,
+              "invalidation_active": false,
+              "by_type": {}
+            },
+            "verification": {
+              "relay": "skipped",
+              "local": "valid",
+              "onchain_checked": false,
+              "replay": "first"
+            },
+            "report": {
+              "sections": [
+                {
+                  "heading": "Identity",
+                  "lines": [
+                    {
+                      "text": "No witnessed act on record: nothing stands behind this key.",
+                      "fields": [
+                        "continuity.first_seen_ms"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "Fewer than 30 distinct days active under witness.",
+                      "fields": [
+                        "continuity.active_days"
+                      ],
+                      "source": "answer"
+                    },
+                    {
+                      "text": "Fewer than 10 active days in the last 90.",
+                      "fields": [
+                        "continuity.active_days_90d"
+                      ],
+                      "source": "answer"
+                    },
+                    {
+                      "text": "No registered device.",
+                      "fields": [
+                        "continuity.registered_devices"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "An empty hash chain: no act has ever been recorded.",
+                      "fields": [
+                        "continuity.chain_depth"
+                      ],
+                      "source": "disclosed"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Accountable human",
+                  "lines": [
+                    {
+                      "text": "No person is linked to this agent or answers for it.",
+                      "fields": [
+                        "accountability.human_beneficiary"
+                      ],
+                      "source": "answer"
+                    },
+                    {
+                      "text": "No turn a person directed.",
+                      "fields": [
+                        "accountability.supervised_turns"
+                      ],
+                      "source": "disclosed"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Witnessed history",
+                  "lines": [
+                    {
+                      "text": "Fewer than 25 acts in the last 90 days witnessed by something other than the actor.",
+                      "fields": [
+                        "work.witnessed_90d"
+                      ],
+                      "source": "answer"
+                    },
+                    {
+                      "text": "No hardware-rooted act in the last 90 days.",
+                      "fields": [
+                        "work.hardware_rooted_90d"
+                      ],
+                      "source": "disclosed"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Standing",
+                  "lines": [
+                    {
+                      "text": "No adverse event on record.",
+                      "fields": [
+                        "standing.adverse_events"
+                      ],
+                      "source": "standing"
+                    },
+                    {
+                      "text": "No open bond claim against it; no active invalidation.",
+                      "fields": [
+                        "standing.open_bond_claims_against",
+                        "standing.invalidation_active"
+                      ],
+                      "source": "standing"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Counterparties",
+                  "lines": [
+                    {
+                      "text": "Fewer than 3 independent parties built on its output.",
+                      "fields": [
+                        "consumption.independent_parties"
+                      ],
+                      "source": "answer"
+                    },
+                    {
+                      "text": "It cites no one’s work but its own.",
+                      "fields": [
+                        "coupling.independent_owners"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "No independent party paid it in the last 90 days.",
+                      "fields": [
+                        "money.independent_payers_90d"
+                      ],
+                      "source": "disclosed"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Money witnessed",
+                  "lines": [
+                    {
+                      "text": "No inbound payment the chain witnessed.",
+                      "fields": [
+                        "money.witnessed_inbound"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "No inbound payment the chain witnessed in the last 90 days.",
+                      "fields": [
+                        "money.witnessed_inbound_90d"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "No financial act the chain witnessed in the last 90 days.",
+                      "fields": [
+                        "money.witnessed_financial_90d"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "No promise fulfilled.",
+                      "fields": [
+                        "money.promises_fulfilled"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "No promise defaulted.",
+                      "fields": [
+                        "money.promises_defaulted"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "No escrow completed as the provider.",
+                      "fields": [
+                        "money.escrows_completed_as_provider"
+                      ],
+                      "source": "disclosed"
+                    }
+                  ]
+                }
+              ],
+              "decision": "BLOCK",
+              "reasons": [
+                "Fewer than 30 distinct days active under witness (asked: continuity.active_days gte 30).",
+                "Fewer than 10 active days in the last 90 (asked: continuity.active_days_90d gte 10).",
+                "Fewer than 25 acts in the last 90 days witnessed by something other than the actor (asked: work.witnessed_90d gte 25).",
+                "Fewer than 3 independent parties built on its output (asked: consumption.independent_parties gte 3).",
+                "No person is linked to this agent or answers for it (asked: accountability.human_beneficiary eq 1)."
+              ],
+              "reason": "Fewer than 30 distinct days active under witness (asked: continuity.active_days gte 30). Fewer than 10 active days in the last 90 (asked: continuity.active_days_90d gte 10). Fewer than 25 acts in the last 90 days witnessed by something other than the actor (asked: work.witnessed_90d gte 25). Fewer than 3 independent parties built on its output (asked: consumption.independent_parties gte 3). No person is linked to this agent or answers for it (asked: accountability.human_beneficiary eq 1)."
+            }
+          },
+          "replay": {
+            "decision": "block",
+            "gate": "gate.example.com",
+            "policy": "counterparty-onboarding",
+            "action": "Let an agent this system has never met act for the first time",
+            "at": "2026-10-10T00:00:00.000Z",
+            "reasons": [
+              "local verify: replayed"
+            ],
+            "presentation": null,
+            "predicates": [],
+            "disclosures": [],
+            "standing": null,
+            "verification": {
+              "relay": "skipped",
+              "local": "invalid",
+              "onchain_checked": false,
+              "replay": "replayed"
+            },
+            "report": {
+              "sections": [
+                {
+                  "heading": "Identity",
+                  "lines": [
+                    {
+                      "text": "Not read: the presentation did not verify, so nothing in it is evidence.",
+                      "fields": [],
+                      "source": "unverified"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Accountable human",
+                  "lines": [
+                    {
+                      "text": "Not read: the presentation did not verify, so nothing in it is evidence.",
+                      "fields": [],
+                      "source": "unverified"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Witnessed history",
+                  "lines": [
+                    {
+                      "text": "Not read: the presentation did not verify, so nothing in it is evidence.",
+                      "fields": [],
+                      "source": "unverified"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Standing",
+                  "lines": [
+                    {
+                      "text": "Not read: the presentation did not verify, so nothing in it is evidence.",
+                      "fields": [],
+                      "source": "unverified"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Counterparties",
+                  "lines": [
+                    {
+                      "text": "Not read: the presentation did not verify, so nothing in it is evidence.",
+                      "fields": [],
+                      "source": "unverified"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Money witnessed",
+                  "lines": [
+                    {
+                      "text": "Not read: the presentation did not verify, so nothing in it is evidence.",
+                      "fields": [],
+                      "source": "unverified"
+                    }
+                  ]
+                }
+              ],
+              "decision": "BLOCK",
+              "reasons": [
+                "Refused: this presentation was already accepted here once."
+              ],
+              "reason": "Refused: this presentation was already accepted here once."
+            }
+          }
+        },
+        {
+          "presenter": "established",
+          "challenge": {
+            "nonce": "fd3e3f150ab85eda68a523924f7f3ffc038744b3fcc1cf891183847f1eecc669",
+            "issued_at": 1791590400,
+            "expires_at": 1791591300,
+            "kid": "gate-k1",
+            "sig": "FcHY4U6dOTqiC7ucfch5PvDkrHSLO1DVW3OYV6n8qovV5jZ3wk-gx0XtziIkbpWhNaOekGkYl0WZnzQviUyeBQ"
+          },
+          "presentation_id": "026273fa9f355f9dce134386b747f6752cc8e07292f47487fe652a02d0302b56",
+          "burn": {
+            "tier": "reputation",
+            "floor_pvt": 15,
+            "id": "026273fa9f355f9dce134386b747f6752cc8e07292f47487fe652a02d0302b56",
+            "onchain": false
+          },
+          "signature_check": "valid",
+          "decision": {
+            "decision": "allow",
+            "gate": "gate.example.com",
+            "policy": "counterparty-onboarding",
+            "action": "Let an agent this system has never met act for the first time",
+            "at": "2026-10-10T00:00:00.000Z",
+            "reasons": [
+              "true: continuity.active_days gte 30",
+              "true: continuity.active_days_90d gte 10",
+              "true: work.witnessed_90d gte 25",
+              "true: consumption.independent_parties gte 3",
+              "true: accountability.human_beneficiary eq 1",
+              "true: standing.adverse_events_90d in {0}",
+              "true: standing.open_bond_claims_against eq 0",
+              "true: standing.invalidation_active eq 0"
+            ],
+            "presentation": {
+              "id": "026273fa9f355f9dce134386b747f6752cc8e07292f47487fe652a02d0302b56",
+              "tier": "reputation",
+              "presenter": {
+                "address": "0x9493c31d5abf66ac25912ab08edcee6e004e1783",
+                "wallet_id": "wallet_aw_illustrative_established"
+              },
+              "requester": {
+                "type": "domain",
+                "id": "gate.example.com"
+              },
+              "challenge_expires_at": 1791591300
+            },
+            "predicates": [
+              {
+                "field": "continuity.active_days",
+                "op": "gte",
+                "threshold": 30,
+                "result": true
+              },
+              {
+                "field": "continuity.active_days_90d",
+                "op": "gte",
+                "threshold": 10,
+                "result": true
+              },
+              {
+                "field": "work.witnessed_90d",
+                "op": "gte",
+                "threshold": 25,
+                "result": true
+              },
+              {
+                "field": "consumption.independent_parties",
+                "op": "gte",
+                "threshold": 3,
+                "result": true
+              },
+              {
+                "field": "accountability.human_beneficiary",
+                "op": "eq",
+                "threshold": 1,
+                "result": true
+              },
+              {
+                "field": "standing.adverse_events_90d",
+                "op": "in",
+                "set": [
+                  0
+                ],
+                "result": true
+              },
+              {
+                "field": "standing.open_bond_claims_against",
+                "op": "eq",
+                "threshold": 0,
+                "result": true
+              },
+              {
+                "field": "standing.invalidation_active",
+                "op": "eq",
+                "threshold": 0,
+                "result": true
+              }
+            ],
+            "disclosures": [],
+            "standing": {
+              "adverse_events": 1,
+              "adverse_events_30d": 0,
+              "adverse_events_90d": 0,
+              "adverse_events_365d": 1,
+              "bond_active": true,
+              "open_bond_claims_against": 0,
+              "invalidation_active": false,
+              "by_type": {
+                "standing.bond_expired": 1
+              }
+            },
+            "verification": {
+              "relay": "skipped",
+              "local": "valid",
+              "onchain_checked": false,
+              "replay": "first"
+            },
+            "report": {
+              "sections": [
+                {
+                  "heading": "Identity",
+                  "lines": [
+                    {
+                      "text": "First witnessed 2025-08-05, 431 days before this presentation.",
+                      "fields": [
+                        "continuity.first_seen_ms"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "At least 30 distinct days active under witness.",
+                      "fields": [
+                        "continuity.active_days"
+                      ],
+                      "source": "answer"
+                    },
+                    {
+                      "text": "At least 10 active days in the last 90.",
+                      "fields": [
+                        "continuity.active_days_90d"
+                      ],
+                      "source": "answer"
+                    },
+                    {
+                      "text": "3 registered devices.",
+                      "fields": [
+                        "continuity.registered_devices"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "48,210 acts in its hash chain.",
+                      "fields": [
+                        "continuity.chain_depth"
+                      ],
+                      "source": "disclosed"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Accountable human",
+                  "lines": [
+                    {
+                      "text": "A person is linked to this agent and answers for it.",
+                      "fields": [
+                        "accountability.human_beneficiary"
+                      ],
+                      "source": "answer"
+                    },
+                    {
+                      "text": "15,312 turns a person directed.",
+                      "fields": [
+                        "accountability.supervised_turns"
+                      ],
+                      "source": "disclosed"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Witnessed history",
+                  "lines": [
+                    {
+                      "text": "At least 25 acts in the last 90 days witnessed by something other than the actor.",
+                      "fields": [
+                        "work.witnessed_90d"
+                      ],
+                      "source": "answer"
+                    },
+                    {
+                      "text": "1,284 commits a code forge witnessed.",
+                      "fields": [
+                        "work.compute.forge_witnessed"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "9,412 hardware-rooted acts in the last 90 days.",
+                      "fields": [
+                        "work.hardware_rooted_90d"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "100% of its work in the last 90 days is hardware-rooted.",
+                      "fields": [
+                        "share.witness_90d.hardware_rooted"
+                      ],
+                      "source": "disclosed"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Standing",
+                  "lines": [
+                    {
+                      "text": "One adverse event on record: a bond it posted expired — none in the last 90 days, within the last year. It stays in every presentation this actor makes.",
+                      "fields": [
+                        "standing.adverse_events",
+                        "standing.adverse_events_90d",
+                        "standing.adverse_events_365d"
+                      ],
+                      "source": "standing"
+                    },
+                    {
+                      "text": "No open bond claim against it; no active invalidation.",
+                      "fields": [
+                        "standing.open_bond_claims_against",
+                        "standing.invalidation_active"
+                      ],
+                      "source": "standing"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Counterparties",
+                  "lines": [
+                    {
+                      "text": "At least 3 independent parties built on its output.",
+                      "fields": [
+                        "consumption.independent_parties"
+                      ],
+                      "source": "answer"
+                    },
+                    {
+                      "text": "212 owners other than itself whose work it cites.",
+                      "fields": [
+                        "coupling.independent_owners"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "19 independent parties paid it in the last 90 days.",
+                      "fields": [
+                        "money.independent_payers_90d"
+                      ],
+                      "source": "disclosed"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Money witnessed",
+                  "lines": [
+                    {
+                      "text": "640 inbound payments the chain witnessed.",
+                      "fields": [
+                        "money.witnessed_inbound"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "71 inbound payments the chain witnessed in the last 90 days.",
+                      "fields": [
+                        "money.witnessed_inbound_90d"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "184 financial acts the chain witnessed in the last 90 days.",
+                      "fields": [
+                        "money.witnessed_financial_90d"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "31 promises fulfilled.",
+                      "fields": [
+                        "money.promises_fulfilled"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "No promise defaulted.",
+                      "fields": [
+                        "money.promises_defaulted"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "44 escrows completed as the provider.",
+                      "fields": [
+                        "money.escrows_completed_as_provider"
+                      ],
+                      "source": "disclosed"
+                    }
+                  ]
+                }
+              ],
+              "decision": "ALLOW",
+              "reasons": [
+                "Every question this gate asked was answered yes, and nothing in Standing objects."
+              ],
+              "reason": "Every question this gate asked was answered yes, and nothing in Standing objects."
+            }
+          },
+          "replay": {
+            "decision": "block",
+            "gate": "gate.example.com",
+            "policy": "counterparty-onboarding",
+            "action": "Let an agent this system has never met act for the first time",
+            "at": "2026-10-10T00:00:00.000Z",
+            "reasons": [
+              "local verify: replayed"
+            ],
+            "presentation": null,
+            "predicates": [],
+            "disclosures": [],
+            "standing": null,
+            "verification": {
+              "relay": "skipped",
+              "local": "invalid",
+              "onchain_checked": false,
+              "replay": "replayed"
+            },
+            "report": {
+              "sections": [
+                {
+                  "heading": "Identity",
+                  "lines": [
+                    {
+                      "text": "Not read: the presentation did not verify, so nothing in it is evidence.",
+                      "fields": [],
+                      "source": "unverified"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Accountable human",
+                  "lines": [
+                    {
+                      "text": "Not read: the presentation did not verify, so nothing in it is evidence.",
+                      "fields": [],
+                      "source": "unverified"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Witnessed history",
+                  "lines": [
+                    {
+                      "text": "Not read: the presentation did not verify, so nothing in it is evidence.",
+                      "fields": [],
+                      "source": "unverified"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Standing",
+                  "lines": [
+                    {
+                      "text": "Not read: the presentation did not verify, so nothing in it is evidence.",
+                      "fields": [],
+                      "source": "unverified"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Counterparties",
+                  "lines": [
+                    {
+                      "text": "Not read: the presentation did not verify, so nothing in it is evidence.",
+                      "fields": [],
+                      "source": "unverified"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Money witnessed",
+                  "lines": [
+                    {
+                      "text": "Not read: the presentation did not verify, so nothing in it is evidence.",
+                      "fields": [],
+                      "source": "unverified"
+                    }
+                  ]
+                }
+              ],
+              "decision": "BLOCK",
+              "reasons": [
+                "Refused: this presentation was already accepted here once."
+              ],
+              "reason": "Refused: this presentation was already accepted here once."
+            }
+          }
+        }
+      ]
+    },
+    {
+      "policy": {
+        "slug": "payment-rail",
+        "name": "Payment-rail commitment",
+        "action": "Enable instant settlement for a payee",
+        "predicates": [
+          "money.independent_payers_90d gte 3",
+          "money.witnessed_inbound_90d gte 5",
+          "continuity.active_days_90d gte 10",
+          "money.promises_defaulted eq 0",
+          "standing.adverse_events_90d in {0}",
+          "standing.open_bond_claims_against eq 0",
+          "standing.invalidation_active eq 0"
+        ]
+      },
+      "runs": [
+        {
+          "presenter": "fresh",
+          "challenge": {
+            "nonce": "b0b9f17d7a77f6de2826512b9a32dcd308d48f5d18cd90db41e4097015f47992",
+            "issued_at": 1791590400,
+            "expires_at": 1791591300,
+            "kid": "gate-k1",
+            "sig": "CddCwOh9Lro4Goxt8E7e4uNa2dIBxcNTy4wRaRgVTkGYsHDAmsjgj1bN69CxtPwebevIlPVYYfXyBv6Fe83aCw"
+          },
+          "presentation_id": "2ee16c0195881d1061e3e95ebf089a8b453fdde89a911e21c6204d1df71c2f07",
+          "burn": {
+            "tier": "reputation",
+            "floor_pvt": 15,
+            "id": "2ee16c0195881d1061e3e95ebf089a8b453fdde89a911e21c6204d1df71c2f07",
+            "onchain": false
+          },
+          "signature_check": "valid",
+          "decision": {
+            "decision": "block",
+            "gate": "gate.example.com",
+            "policy": "payment-rail",
+            "action": "Enable instant settlement for a payee",
+            "at": "2026-10-10T00:00:00.000Z",
+            "reasons": [
+              "false: money.independent_payers_90d gte 3",
+              "false: money.witnessed_inbound_90d gte 5",
+              "false: continuity.active_days_90d gte 10"
+            ],
+            "presentation": {
+              "id": "2ee16c0195881d1061e3e95ebf089a8b453fdde89a911e21c6204d1df71c2f07",
+              "tier": "reputation",
+              "presenter": {
+                "address": "0xb58ae8f4cc3f85c186c36fc6fb0ce1823e12305f",
+                "wallet_id": "wallet_aw_illustrative_fresh"
+              },
+              "requester": {
+                "type": "domain",
+                "id": "gate.example.com"
+              },
+              "challenge_expires_at": 1791591300
+            },
+            "predicates": [
+              {
+                "field": "money.independent_payers_90d",
+                "op": "gte",
+                "threshold": 3,
+                "result": false
+              },
+              {
+                "field": "money.witnessed_inbound_90d",
+                "op": "gte",
+                "threshold": 5,
+                "result": false
+              },
+              {
+                "field": "continuity.active_days_90d",
+                "op": "gte",
+                "threshold": 10,
+                "result": false
+              },
+              {
+                "field": "money.promises_defaulted",
+                "op": "eq",
+                "threshold": 0,
+                "result": true
+              },
+              {
+                "field": "standing.adverse_events_90d",
+                "op": "in",
+                "set": [
+                  0
+                ],
+                "result": true
+              },
+              {
+                "field": "standing.open_bond_claims_against",
+                "op": "eq",
+                "threshold": 0,
+                "result": true
+              },
+              {
+                "field": "standing.invalidation_active",
+                "op": "eq",
+                "threshold": 0,
+                "result": true
+              }
+            ],
+            "disclosures": [],
+            "standing": {
+              "adverse_events": 0,
+              "adverse_events_30d": 0,
+              "adverse_events_90d": 0,
+              "adverse_events_365d": 0,
+              "bond_active": false,
+              "open_bond_claims_against": 0,
+              "invalidation_active": false,
+              "by_type": {}
+            },
+            "verification": {
+              "relay": "skipped",
+              "local": "valid",
+              "onchain_checked": false,
+              "replay": "first"
+            },
+            "report": {
+              "sections": [
+                {
+                  "heading": "Identity",
+                  "lines": [
+                    {
+                      "text": "No witnessed act on record: nothing stands behind this key.",
+                      "fields": [
+                        "continuity.first_seen_ms"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "Not one day active under witness.",
+                      "fields": [
+                        "continuity.active_days"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "Fewer than 10 active days in the last 90.",
+                      "fields": [
+                        "continuity.active_days_90d"
+                      ],
+                      "source": "answer"
+                    },
+                    {
+                      "text": "No registered device.",
+                      "fields": [
+                        "continuity.registered_devices"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "An empty hash chain: no act has ever been recorded.",
+                      "fields": [
+                        "continuity.chain_depth"
+                      ],
+                      "source": "disclosed"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Accountable human",
+                  "lines": [
+                    {
+                      "text": "No person is linked to this agent or answers for it.",
+                      "fields": [
+                        "accountability.human_beneficiary"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "No turn a person directed.",
+                      "fields": [
+                        "accountability.supervised_turns"
+                      ],
+                      "source": "disclosed"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Witnessed history",
+                  "lines": [
+                    {
+                      "text": "No act in the last 90 days witnessed by anything other than the actor.",
+                      "fields": [
+                        "work.witnessed_90d"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "No hardware-rooted act in the last 90 days.",
+                      "fields": [
+                        "work.hardware_rooted_90d"
+                      ],
+                      "source": "disclosed"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Standing",
+                  "lines": [
+                    {
+                      "text": "No adverse event on record.",
+                      "fields": [
+                        "standing.adverse_events"
+                      ],
+                      "source": "standing"
+                    },
+                    {
+                      "text": "No open bond claim against it; no active invalidation.",
+                      "fields": [
+                        "standing.open_bond_claims_against",
+                        "standing.invalidation_active"
+                      ],
+                      "source": "standing"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Counterparties",
+                  "lines": [
+                    {
+                      "text": "No independent party has built on its output.",
+                      "fields": [
+                        "consumption.independent_parties"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "It cites no one’s work but its own.",
+                      "fields": [
+                        "coupling.independent_owners"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "Fewer than 3 independent parties paid it in the last 90 days.",
+                      "fields": [
+                        "money.independent_payers_90d"
+                      ],
+                      "source": "answer"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Money witnessed",
+                  "lines": [
+                    {
+                      "text": "No inbound payment the chain witnessed.",
+                      "fields": [
+                        "money.witnessed_inbound"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "Fewer than 5 inbound payments the chain witnessed in the last 90 days.",
+                      "fields": [
+                        "money.witnessed_inbound_90d"
+                      ],
+                      "source": "answer"
+                    },
+                    {
+                      "text": "No financial act the chain witnessed in the last 90 days.",
+                      "fields": [
+                        "money.witnessed_financial_90d"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "No promise fulfilled.",
+                      "fields": [
+                        "money.promises_fulfilled"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "No promise defaulted.",
+                      "fields": [
+                        "money.promises_defaulted"
+                      ],
+                      "source": "answer"
+                    },
+                    {
+                      "text": "No escrow completed as the provider.",
+                      "fields": [
+                        "money.escrows_completed_as_provider"
+                      ],
+                      "source": "disclosed"
+                    }
+                  ]
+                }
+              ],
+              "decision": "BLOCK",
+              "reasons": [
+                "Fewer than 3 independent parties paid it in the last 90 days (asked: money.independent_payers_90d gte 3).",
+                "Fewer than 5 inbound payments the chain witnessed in the last 90 days (asked: money.witnessed_inbound_90d gte 5).",
+                "Fewer than 10 active days in the last 90 (asked: continuity.active_days_90d gte 10)."
+              ],
+              "reason": "Fewer than 3 independent parties paid it in the last 90 days (asked: money.independent_payers_90d gte 3). Fewer than 5 inbound payments the chain witnessed in the last 90 days (asked: money.witnessed_inbound_90d gte 5). Fewer than 10 active days in the last 90 (asked: continuity.active_days_90d gte 10)."
+            }
+          },
+          "replay": {
+            "decision": "block",
+            "gate": "gate.example.com",
+            "policy": "payment-rail",
+            "action": "Enable instant settlement for a payee",
+            "at": "2026-10-10T00:00:00.000Z",
+            "reasons": [
+              "local verify: replayed"
+            ],
+            "presentation": null,
+            "predicates": [],
+            "disclosures": [],
+            "standing": null,
+            "verification": {
+              "relay": "skipped",
+              "local": "invalid",
+              "onchain_checked": false,
+              "replay": "replayed"
+            },
+            "report": {
+              "sections": [
+                {
+                  "heading": "Identity",
+                  "lines": [
+                    {
+                      "text": "Not read: the presentation did not verify, so nothing in it is evidence.",
+                      "fields": [],
+                      "source": "unverified"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Accountable human",
+                  "lines": [
+                    {
+                      "text": "Not read: the presentation did not verify, so nothing in it is evidence.",
+                      "fields": [],
+                      "source": "unverified"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Witnessed history",
+                  "lines": [
+                    {
+                      "text": "Not read: the presentation did not verify, so nothing in it is evidence.",
+                      "fields": [],
+                      "source": "unverified"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Standing",
+                  "lines": [
+                    {
+                      "text": "Not read: the presentation did not verify, so nothing in it is evidence.",
+                      "fields": [],
+                      "source": "unverified"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Counterparties",
+                  "lines": [
+                    {
+                      "text": "Not read: the presentation did not verify, so nothing in it is evidence.",
+                      "fields": [],
+                      "source": "unverified"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Money witnessed",
+                  "lines": [
+                    {
+                      "text": "Not read: the presentation did not verify, so nothing in it is evidence.",
+                      "fields": [],
+                      "source": "unverified"
+                    }
+                  ]
+                }
+              ],
+              "decision": "BLOCK",
+              "reasons": [
+                "Refused: this presentation was already accepted here once."
+              ],
+              "reason": "Refused: this presentation was already accepted here once."
+            }
+          }
+        },
+        {
+          "presenter": "established",
+          "challenge": {
+            "nonce": "d2410079cee4de89d408d8614b05d121cc1acb9c7f902bc1f88dbae60f9ee3b4",
+            "issued_at": 1791590400,
+            "expires_at": 1791591300,
+            "kid": "gate-k1",
+            "sig": "RwbEwQ-UERrhrNA2WZ5i3su76pgeWbCcsE_oLo2CEfx5sTylKs98HOwLlMQJ0jesc8Eqivj7rbH90TRm3UqTDQ"
+          },
+          "presentation_id": "d47e613b1159d8168d2e8d7c12efcac101a023712a844f4a64c66bd165821be3",
+          "burn": {
+            "tier": "reputation",
+            "floor_pvt": 15,
+            "id": "d47e613b1159d8168d2e8d7c12efcac101a023712a844f4a64c66bd165821be3",
+            "onchain": false
+          },
+          "signature_check": "valid",
+          "decision": {
+            "decision": "allow",
+            "gate": "gate.example.com",
+            "policy": "payment-rail",
+            "action": "Enable instant settlement for a payee",
+            "at": "2026-10-10T00:00:00.000Z",
+            "reasons": [
+              "true: money.independent_payers_90d gte 3",
+              "true: money.witnessed_inbound_90d gte 5",
+              "true: continuity.active_days_90d gte 10",
+              "true: money.promises_defaulted eq 0",
+              "true: standing.adverse_events_90d in {0}",
+              "true: standing.open_bond_claims_against eq 0",
+              "true: standing.invalidation_active eq 0"
+            ],
+            "presentation": {
+              "id": "d47e613b1159d8168d2e8d7c12efcac101a023712a844f4a64c66bd165821be3",
+              "tier": "reputation",
+              "presenter": {
+                "address": "0x9493c31d5abf66ac25912ab08edcee6e004e1783",
+                "wallet_id": "wallet_aw_illustrative_established"
+              },
+              "requester": {
+                "type": "domain",
+                "id": "gate.example.com"
+              },
+              "challenge_expires_at": 1791591300
+            },
+            "predicates": [
+              {
+                "field": "money.independent_payers_90d",
+                "op": "gte",
+                "threshold": 3,
+                "result": true
+              },
+              {
+                "field": "money.witnessed_inbound_90d",
+                "op": "gte",
+                "threshold": 5,
+                "result": true
+              },
+              {
+                "field": "continuity.active_days_90d",
+                "op": "gte",
+                "threshold": 10,
+                "result": true
+              },
+              {
+                "field": "money.promises_defaulted",
+                "op": "eq",
+                "threshold": 0,
+                "result": true
+              },
+              {
+                "field": "standing.adverse_events_90d",
+                "op": "in",
+                "set": [
+                  0
+                ],
+                "result": true
+              },
+              {
+                "field": "standing.open_bond_claims_against",
+                "op": "eq",
+                "threshold": 0,
+                "result": true
+              },
+              {
+                "field": "standing.invalidation_active",
+                "op": "eq",
+                "threshold": 0,
+                "result": true
+              }
+            ],
+            "disclosures": [],
+            "standing": {
+              "adverse_events": 1,
+              "adverse_events_30d": 0,
+              "adverse_events_90d": 0,
+              "adverse_events_365d": 1,
+              "bond_active": true,
+              "open_bond_claims_against": 0,
+              "invalidation_active": false,
+              "by_type": {
+                "standing.bond_expired": 1
+              }
+            },
+            "verification": {
+              "relay": "skipped",
+              "local": "valid",
+              "onchain_checked": false,
+              "replay": "first"
+            },
+            "report": {
+              "sections": [
+                {
+                  "heading": "Identity",
+                  "lines": [
+                    {
+                      "text": "First witnessed 2025-08-05, 431 days before this presentation.",
+                      "fields": [
+                        "continuity.first_seen_ms"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "372 distinct days active under witness.",
+                      "fields": [
+                        "continuity.active_days"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "At least 10 active days in the last 90.",
+                      "fields": [
+                        "continuity.active_days_90d"
+                      ],
+                      "source": "answer"
+                    },
+                    {
+                      "text": "3 registered devices.",
+                      "fields": [
+                        "continuity.registered_devices"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "48,210 acts in its hash chain.",
+                      "fields": [
+                        "continuity.chain_depth"
+                      ],
+                      "source": "disclosed"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Accountable human",
+                  "lines": [
+                    {
+                      "text": "A person is linked to this agent and answers for it.",
+                      "fields": [
+                        "accountability.human_beneficiary"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "15,312 turns a person directed.",
+                      "fields": [
+                        "accountability.supervised_turns"
+                      ],
+                      "source": "disclosed"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Witnessed history",
+                  "lines": [
+                    {
+                      "text": "9,412 acts in the last 90 days witnessed by something other than the actor.",
+                      "fields": [
+                        "work.witnessed_90d"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "1,284 commits a code forge witnessed.",
+                      "fields": [
+                        "work.compute.forge_witnessed"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "9,412 hardware-rooted acts in the last 90 days.",
+                      "fields": [
+                        "work.hardware_rooted_90d"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "100% of its work in the last 90 days is hardware-rooted.",
+                      "fields": [
+                        "share.witness_90d.hardware_rooted"
+                      ],
+                      "source": "disclosed"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Standing",
+                  "lines": [
+                    {
+                      "text": "One adverse event on record: a bond it posted expired — none in the last 90 days, within the last year. It stays in every presentation this actor makes.",
+                      "fields": [
+                        "standing.adverse_events",
+                        "standing.adverse_events_90d",
+                        "standing.adverse_events_365d"
+                      ],
+                      "source": "standing"
+                    },
+                    {
+                      "text": "No open bond claim against it; no active invalidation.",
+                      "fields": [
+                        "standing.open_bond_claims_against",
+                        "standing.invalidation_active"
+                      ],
+                      "source": "standing"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Counterparties",
+                  "lines": [
+                    {
+                      "text": "87 independent parties built on its output.",
+                      "fields": [
+                        "consumption.independent_parties"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "212 owners other than itself whose work it cites.",
+                      "fields": [
+                        "coupling.independent_owners"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "At least 3 independent parties paid it in the last 90 days.",
+                      "fields": [
+                        "money.independent_payers_90d"
+                      ],
+                      "source": "answer"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Money witnessed",
+                  "lines": [
+                    {
+                      "text": "640 inbound payments the chain witnessed.",
+                      "fields": [
+                        "money.witnessed_inbound"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "At least 5 inbound payments the chain witnessed in the last 90 days.",
+                      "fields": [
+                        "money.witnessed_inbound_90d"
+                      ],
+                      "source": "answer"
+                    },
+                    {
+                      "text": "184 financial acts the chain witnessed in the last 90 days.",
+                      "fields": [
+                        "money.witnessed_financial_90d"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "31 promises fulfilled.",
+                      "fields": [
+                        "money.promises_fulfilled"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "No promise defaulted.",
+                      "fields": [
+                        "money.promises_defaulted"
+                      ],
+                      "source": "answer"
+                    },
+                    {
+                      "text": "44 escrows completed as the provider.",
+                      "fields": [
+                        "money.escrows_completed_as_provider"
+                      ],
+                      "source": "disclosed"
+                    }
+                  ]
+                }
+              ],
+              "decision": "ALLOW",
+              "reasons": [
+                "Every question this gate asked was answered yes, and nothing in Standing objects."
+              ],
+              "reason": "Every question this gate asked was answered yes, and nothing in Standing objects."
+            }
+          },
+          "replay": {
+            "decision": "block",
+            "gate": "gate.example.com",
+            "policy": "payment-rail",
+            "action": "Enable instant settlement for a payee",
+            "at": "2026-10-10T00:00:00.000Z",
+            "reasons": [
+              "local verify: replayed"
+            ],
+            "presentation": null,
+            "predicates": [],
+            "disclosures": [],
+            "standing": null,
+            "verification": {
+              "relay": "skipped",
+              "local": "invalid",
+              "onchain_checked": false,
+              "replay": "replayed"
+            },
+            "report": {
+              "sections": [
+                {
+                  "heading": "Identity",
+                  "lines": [
+                    {
+                      "text": "Not read: the presentation did not verify, so nothing in it is evidence.",
+                      "fields": [],
+                      "source": "unverified"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Accountable human",
+                  "lines": [
+                    {
+                      "text": "Not read: the presentation did not verify, so nothing in it is evidence.",
+                      "fields": [],
+                      "source": "unverified"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Witnessed history",
+                  "lines": [
+                    {
+                      "text": "Not read: the presentation did not verify, so nothing in it is evidence.",
+                      "fields": [],
+                      "source": "unverified"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Standing",
+                  "lines": [
+                    {
+                      "text": "Not read: the presentation did not verify, so nothing in it is evidence.",
+                      "fields": [],
+                      "source": "unverified"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Counterparties",
+                  "lines": [
+                    {
+                      "text": "Not read: the presentation did not verify, so nothing in it is evidence.",
+                      "fields": [],
+                      "source": "unverified"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Money witnessed",
+                  "lines": [
+                    {
+                      "text": "Not read: the presentation did not verify, so nothing in it is evidence.",
+                      "fields": [],
+                      "source": "unverified"
+                    }
+                  ]
+                }
+              ],
+              "decision": "BLOCK",
+              "reasons": [
+                "Refused: this presentation was already accepted here once."
+              ],
+              "reason": "Refused: this presentation was already accepted here once."
+            }
+          }
+        }
+      ]
+    },
+    {
+      "policy": {
+        "slug": "repository-merge",
+        "name": "Repository merge gate",
+        "action": "Merge a pull request authored by an agent",
+        "predicates": [
+          "work.compute.forge_witnessed gte 10",
+          "work.witnessed_90d gte 25",
+          "continuity.active_days_90d gte 10",
+          "coupling.independent_owners gte 1",
+          "accountability.human_beneficiary eq 1",
+          "standing.adverse_events in {0}",
+          "standing.invalidation_active eq 0"
+        ]
+      },
+      "runs": [
+        {
+          "presenter": "fresh",
+          "challenge": {
+            "nonce": "64df603f393bad76546fd12bd06eb48d55ece3cdf70e090302a557e2905df8e4",
+            "issued_at": 1791590400,
+            "expires_at": 1791591300,
+            "kid": "gate-k1",
+            "sig": "mX1Sj9CidMdXyULKPNSHQS9T1qHBY2S9bS2ZgDk5QlUTJsvdomzYxoMFfdhGCrvTRW72CajDqebYKPxCG6BmCw"
+          },
+          "presentation_id": "8e811661241cd4d5ed3023333fd6af7e0f647d18c711588c4973b6b1601a1b90",
+          "burn": {
+            "tier": "reputation",
+            "floor_pvt": 15,
+            "id": "8e811661241cd4d5ed3023333fd6af7e0f647d18c711588c4973b6b1601a1b90",
+            "onchain": false
+          },
+          "signature_check": "valid",
+          "decision": {
+            "decision": "block",
+            "gate": "gate.example.com",
+            "policy": "repository-merge",
+            "action": "Merge a pull request authored by an agent",
+            "at": "2026-10-10T00:00:00.000Z",
+            "reasons": [
+              "false: work.compute.forge_witnessed gte 10",
+              "false: work.witnessed_90d gte 25",
+              "false: continuity.active_days_90d gte 10",
+              "false: coupling.independent_owners gte 1",
+              "false: accountability.human_beneficiary eq 1"
+            ],
+            "presentation": {
+              "id": "8e811661241cd4d5ed3023333fd6af7e0f647d18c711588c4973b6b1601a1b90",
+              "tier": "reputation",
+              "presenter": {
+                "address": "0xb58ae8f4cc3f85c186c36fc6fb0ce1823e12305f",
+                "wallet_id": "wallet_aw_illustrative_fresh"
+              },
+              "requester": {
+                "type": "domain",
+                "id": "gate.example.com"
+              },
+              "challenge_expires_at": 1791591300
+            },
+            "predicates": [
+              {
+                "field": "work.compute.forge_witnessed",
+                "op": "gte",
+                "threshold": 10,
+                "result": false
+              },
+              {
+                "field": "work.witnessed_90d",
+                "op": "gte",
+                "threshold": 25,
+                "result": false
+              },
+              {
+                "field": "continuity.active_days_90d",
+                "op": "gte",
+                "threshold": 10,
+                "result": false
+              },
+              {
+                "field": "coupling.independent_owners",
+                "op": "gte",
+                "threshold": 1,
+                "result": false
+              },
+              {
+                "field": "accountability.human_beneficiary",
+                "op": "eq",
+                "threshold": 1,
+                "result": false
+              },
+              {
+                "field": "standing.adverse_events",
+                "op": "in",
+                "set": [
+                  0
+                ],
+                "result": true
+              },
+              {
+                "field": "standing.invalidation_active",
+                "op": "eq",
+                "threshold": 0,
+                "result": true
+              }
+            ],
+            "disclosures": [],
+            "standing": {
+              "adverse_events": 0,
+              "adverse_events_30d": 0,
+              "adverse_events_90d": 0,
+              "adverse_events_365d": 0,
+              "bond_active": false,
+              "open_bond_claims_against": 0,
+              "invalidation_active": false,
+              "by_type": {}
+            },
+            "verification": {
+              "relay": "skipped",
+              "local": "valid",
+              "onchain_checked": false,
+              "replay": "first"
+            },
+            "report": {
+              "sections": [
+                {
+                  "heading": "Identity",
+                  "lines": [
+                    {
+                      "text": "No witnessed act on record: nothing stands behind this key.",
+                      "fields": [
+                        "continuity.first_seen_ms"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "Not one day active under witness.",
+                      "fields": [
+                        "continuity.active_days"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "Fewer than 10 active days in the last 90.",
+                      "fields": [
+                        "continuity.active_days_90d"
+                      ],
+                      "source": "answer"
+                    },
+                    {
+                      "text": "No registered device.",
+                      "fields": [
+                        "continuity.registered_devices"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "An empty hash chain: no act has ever been recorded.",
+                      "fields": [
+                        "continuity.chain_depth"
+                      ],
+                      "source": "disclosed"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Accountable human",
+                  "lines": [
+                    {
+                      "text": "No person is linked to this agent or answers for it.",
+                      "fields": [
+                        "accountability.human_beneficiary"
+                      ],
+                      "source": "answer"
+                    },
+                    {
+                      "text": "No turn a person directed.",
+                      "fields": [
+                        "accountability.supervised_turns"
+                      ],
+                      "source": "disclosed"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Witnessed history",
+                  "lines": [
+                    {
+                      "text": "Fewer than 25 acts in the last 90 days witnessed by something other than the actor.",
+                      "fields": [
+                        "work.witnessed_90d"
+                      ],
+                      "source": "answer"
+                    },
+                    {
+                      "text": "Fewer than 10 commits a code forge witnessed.",
+                      "fields": [
+                        "work.compute.forge_witnessed"
+                      ],
+                      "source": "answer"
+                    },
+                    {
+                      "text": "No hardware-rooted act in the last 90 days.",
+                      "fields": [
+                        "work.hardware_rooted_90d"
+                      ],
+                      "source": "disclosed"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Standing",
+                  "lines": [
+                    {
+                      "text": "No adverse event on record.",
+                      "fields": [
+                        "standing.adverse_events"
+                      ],
+                      "source": "standing"
+                    },
+                    {
+                      "text": "No open bond claim against it; no active invalidation.",
+                      "fields": [
+                        "standing.open_bond_claims_against",
+                        "standing.invalidation_active"
+                      ],
+                      "source": "standing"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Counterparties",
+                  "lines": [
+                    {
+                      "text": "No independent party has built on its output.",
+                      "fields": [
+                        "consumption.independent_parties"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "It cites no one’s work but its own.",
+                      "fields": [
+                        "coupling.independent_owners"
+                      ],
+                      "source": "answer"
+                    },
+                    {
+                      "text": "No independent party paid it in the last 90 days.",
+                      "fields": [
+                        "money.independent_payers_90d"
+                      ],
+                      "source": "disclosed"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Money witnessed",
+                  "lines": [
+                    {
+                      "text": "No inbound payment the chain witnessed.",
+                      "fields": [
+                        "money.witnessed_inbound"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "No inbound payment the chain witnessed in the last 90 days.",
+                      "fields": [
+                        "money.witnessed_inbound_90d"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "No financial act the chain witnessed in the last 90 days.",
+                      "fields": [
+                        "money.witnessed_financial_90d"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "No promise fulfilled.",
+                      "fields": [
+                        "money.promises_fulfilled"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "No promise defaulted.",
+                      "fields": [
+                        "money.promises_defaulted"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "No escrow completed as the provider.",
+                      "fields": [
+                        "money.escrows_completed_as_provider"
+                      ],
+                      "source": "disclosed"
+                    }
+                  ]
+                }
+              ],
+              "decision": "BLOCK",
+              "reasons": [
+                "Fewer than 10 commits a code forge witnessed (asked: work.compute.forge_witnessed gte 10).",
+                "Fewer than 25 acts in the last 90 days witnessed by something other than the actor (asked: work.witnessed_90d gte 25).",
+                "Fewer than 10 active days in the last 90 (asked: continuity.active_days_90d gte 10).",
+                "It cites no one’s work but its own (asked: coupling.independent_owners gte 1).",
+                "No person is linked to this agent or answers for it (asked: accountability.human_beneficiary eq 1)."
+              ],
+              "reason": "Fewer than 10 commits a code forge witnessed (asked: work.compute.forge_witnessed gte 10). Fewer than 25 acts in the last 90 days witnessed by something other than the actor (asked: work.witnessed_90d gte 25). Fewer than 10 active days in the last 90 (asked: continuity.active_days_90d gte 10). It cites no one’s work but its own (asked: coupling.independent_owners gte 1). No person is linked to this agent or answers for it (asked: accountability.human_beneficiary eq 1)."
+            }
+          },
+          "replay": {
+            "decision": "block",
+            "gate": "gate.example.com",
+            "policy": "repository-merge",
+            "action": "Merge a pull request authored by an agent",
+            "at": "2026-10-10T00:00:00.000Z",
+            "reasons": [
+              "local verify: replayed"
+            ],
+            "presentation": null,
+            "predicates": [],
+            "disclosures": [],
+            "standing": null,
+            "verification": {
+              "relay": "skipped",
+              "local": "invalid",
+              "onchain_checked": false,
+              "replay": "replayed"
+            },
+            "report": {
+              "sections": [
+                {
+                  "heading": "Identity",
+                  "lines": [
+                    {
+                      "text": "Not read: the presentation did not verify, so nothing in it is evidence.",
+                      "fields": [],
+                      "source": "unverified"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Accountable human",
+                  "lines": [
+                    {
+                      "text": "Not read: the presentation did not verify, so nothing in it is evidence.",
+                      "fields": [],
+                      "source": "unverified"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Witnessed history",
+                  "lines": [
+                    {
+                      "text": "Not read: the presentation did not verify, so nothing in it is evidence.",
+                      "fields": [],
+                      "source": "unverified"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Standing",
+                  "lines": [
+                    {
+                      "text": "Not read: the presentation did not verify, so nothing in it is evidence.",
+                      "fields": [],
+                      "source": "unverified"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Counterparties",
+                  "lines": [
+                    {
+                      "text": "Not read: the presentation did not verify, so nothing in it is evidence.",
+                      "fields": [],
+                      "source": "unverified"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Money witnessed",
+                  "lines": [
+                    {
+                      "text": "Not read: the presentation did not verify, so nothing in it is evidence.",
+                      "fields": [],
+                      "source": "unverified"
+                    }
+                  ]
+                }
+              ],
+              "decision": "BLOCK",
+              "reasons": [
+                "Refused: this presentation was already accepted here once."
+              ],
+              "reason": "Refused: this presentation was already accepted here once."
+            }
+          }
+        },
+        {
+          "presenter": "established",
+          "challenge": {
+            "nonce": "dd897ae5184c9a49b93007e6d04fb47bc7b021efa378892933f6e41fd123ff8b",
+            "issued_at": 1791590400,
+            "expires_at": 1791591300,
+            "kid": "gate-k1",
+            "sig": "MfV8rQl7OR3uuv0XkMExBEAW2Bt02J1Eun3R2B5Eid3WTLv0azztPbuS1v59fDpGM-2OQmEg2RmA_e2FnHrjAA"
+          },
+          "presentation_id": "664747b21ebd55e52da1cc653e13c50f6b8f9956fda4087bbd454118d88da392",
+          "burn": {
+            "tier": "reputation",
+            "floor_pvt": 15,
+            "id": "664747b21ebd55e52da1cc653e13c50f6b8f9956fda4087bbd454118d88da392",
+            "onchain": false
+          },
+          "signature_check": "valid",
+          "decision": {
+            "decision": "block",
+            "gate": "gate.example.com",
+            "policy": "repository-merge",
+            "action": "Merge a pull request authored by an agent",
+            "at": "2026-10-10T00:00:00.000Z",
+            "reasons": [
+              "false: standing.adverse_events in {0}"
+            ],
+            "presentation": {
+              "id": "664747b21ebd55e52da1cc653e13c50f6b8f9956fda4087bbd454118d88da392",
+              "tier": "reputation",
+              "presenter": {
+                "address": "0x9493c31d5abf66ac25912ab08edcee6e004e1783",
+                "wallet_id": "wallet_aw_illustrative_established"
+              },
+              "requester": {
+                "type": "domain",
+                "id": "gate.example.com"
+              },
+              "challenge_expires_at": 1791591300
+            },
+            "predicates": [
+              {
+                "field": "work.compute.forge_witnessed",
+                "op": "gte",
+                "threshold": 10,
+                "result": true
+              },
+              {
+                "field": "work.witnessed_90d",
+                "op": "gte",
+                "threshold": 25,
+                "result": true
+              },
+              {
+                "field": "continuity.active_days_90d",
+                "op": "gte",
+                "threshold": 10,
+                "result": true
+              },
+              {
+                "field": "coupling.independent_owners",
+                "op": "gte",
+                "threshold": 1,
+                "result": true
+              },
+              {
+                "field": "accountability.human_beneficiary",
+                "op": "eq",
+                "threshold": 1,
+                "result": true
+              },
+              {
+                "field": "standing.adverse_events",
+                "op": "in",
+                "set": [
+                  0
+                ],
+                "result": false
+              },
+              {
+                "field": "standing.invalidation_active",
+                "op": "eq",
+                "threshold": 0,
+                "result": true
+              }
+            ],
+            "disclosures": [],
+            "standing": {
+              "adverse_events": 1,
+              "adverse_events_30d": 0,
+              "adverse_events_90d": 0,
+              "adverse_events_365d": 1,
+              "bond_active": true,
+              "open_bond_claims_against": 0,
+              "invalidation_active": false,
+              "by_type": {
+                "standing.bond_expired": 1
+              }
+            },
+            "verification": {
+              "relay": "skipped",
+              "local": "valid",
+              "onchain_checked": false,
+              "replay": "first"
+            },
+            "report": {
+              "sections": [
+                {
+                  "heading": "Identity",
+                  "lines": [
+                    {
+                      "text": "First witnessed 2025-08-05, 431 days before this presentation.",
+                      "fields": [
+                        "continuity.first_seen_ms"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "372 distinct days active under witness.",
+                      "fields": [
+                        "continuity.active_days"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "At least 10 active days in the last 90.",
+                      "fields": [
+                        "continuity.active_days_90d"
+                      ],
+                      "source": "answer"
+                    },
+                    {
+                      "text": "3 registered devices.",
+                      "fields": [
+                        "continuity.registered_devices"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "48,210 acts in its hash chain.",
+                      "fields": [
+                        "continuity.chain_depth"
+                      ],
+                      "source": "disclosed"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Accountable human",
+                  "lines": [
+                    {
+                      "text": "A person is linked to this agent and answers for it.",
+                      "fields": [
+                        "accountability.human_beneficiary"
+                      ],
+                      "source": "answer"
+                    },
+                    {
+                      "text": "15,312 turns a person directed.",
+                      "fields": [
+                        "accountability.supervised_turns"
+                      ],
+                      "source": "disclosed"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Witnessed history",
+                  "lines": [
+                    {
+                      "text": "At least 25 acts in the last 90 days witnessed by something other than the actor.",
+                      "fields": [
+                        "work.witnessed_90d"
+                      ],
+                      "source": "answer"
+                    },
+                    {
+                      "text": "At least 10 commits a code forge witnessed.",
+                      "fields": [
+                        "work.compute.forge_witnessed"
+                      ],
+                      "source": "answer"
+                    },
+                    {
+                      "text": "9,412 hardware-rooted acts in the last 90 days.",
+                      "fields": [
+                        "work.hardware_rooted_90d"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "100% of its work in the last 90 days is hardware-rooted.",
+                      "fields": [
+                        "share.witness_90d.hardware_rooted"
+                      ],
+                      "source": "disclosed"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Standing",
+                  "lines": [
+                    {
+                      "text": "One adverse event on record: a bond it posted expired — none in the last 90 days, within the last year. It stays in every presentation this actor makes.",
+                      "fields": [
+                        "standing.adverse_events",
+                        "standing.adverse_events_90d",
+                        "standing.adverse_events_365d"
+                      ],
+                      "source": "standing"
+                    },
+                    {
+                      "text": "No open bond claim against it; no active invalidation.",
+                      "fields": [
+                        "standing.open_bond_claims_against",
+                        "standing.invalidation_active"
+                      ],
+                      "source": "standing"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Counterparties",
+                  "lines": [
+                    {
+                      "text": "87 independent parties built on its output.",
+                      "fields": [
+                        "consumption.independent_parties"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "At least 1 owner other than itself whose work it cites.",
+                      "fields": [
+                        "coupling.independent_owners"
+                      ],
+                      "source": "answer"
+                    },
+                    {
+                      "text": "19 independent parties paid it in the last 90 days.",
+                      "fields": [
+                        "money.independent_payers_90d"
+                      ],
+                      "source": "disclosed"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Money witnessed",
+                  "lines": [
+                    {
+                      "text": "640 inbound payments the chain witnessed.",
+                      "fields": [
+                        "money.witnessed_inbound"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "71 inbound payments the chain witnessed in the last 90 days.",
+                      "fields": [
+                        "money.witnessed_inbound_90d"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "184 financial acts the chain witnessed in the last 90 days.",
+                      "fields": [
+                        "money.witnessed_financial_90d"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "31 promises fulfilled.",
+                      "fields": [
+                        "money.promises_fulfilled"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "No promise defaulted.",
+                      "fields": [
+                        "money.promises_defaulted"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "44 escrows completed as the provider.",
+                      "fields": [
+                        "money.escrows_completed_as_provider"
+                      ],
+                      "source": "disclosed"
+                    }
+                  ]
+                }
+              ],
+              "decision": "BLOCK",
+              "reasons": [
+                "An adverse event is on record, and this gate admits none at any time (asked: standing.adverse_events in {0})."
+              ],
+              "reason": "An adverse event is on record, and this gate admits none at any time (asked: standing.adverse_events in {0})."
+            }
+          },
+          "replay": {
+            "decision": "block",
+            "gate": "gate.example.com",
+            "policy": "repository-merge",
+            "action": "Merge a pull request authored by an agent",
+            "at": "2026-10-10T00:00:00.000Z",
+            "reasons": [
+              "local verify: replayed"
+            ],
+            "presentation": null,
+            "predicates": [],
+            "disclosures": [],
+            "standing": null,
+            "verification": {
+              "relay": "skipped",
+              "local": "invalid",
+              "onchain_checked": false,
+              "replay": "replayed"
+            },
+            "report": {
+              "sections": [
+                {
+                  "heading": "Identity",
+                  "lines": [
+                    {
+                      "text": "Not read: the presentation did not verify, so nothing in it is evidence.",
+                      "fields": [],
+                      "source": "unverified"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Accountable human",
+                  "lines": [
+                    {
+                      "text": "Not read: the presentation did not verify, so nothing in it is evidence.",
+                      "fields": [],
+                      "source": "unverified"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Witnessed history",
+                  "lines": [
+                    {
+                      "text": "Not read: the presentation did not verify, so nothing in it is evidence.",
+                      "fields": [],
+                      "source": "unverified"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Standing",
+                  "lines": [
+                    {
+                      "text": "Not read: the presentation did not verify, so nothing in it is evidence.",
+                      "fields": [],
+                      "source": "unverified"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Counterparties",
+                  "lines": [
+                    {
+                      "text": "Not read: the presentation did not verify, so nothing in it is evidence.",
+                      "fields": [],
+                      "source": "unverified"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Money witnessed",
+                  "lines": [
+                    {
+                      "text": "Not read: the presentation did not verify, so nothing in it is evidence.",
+                      "fields": [],
+                      "source": "unverified"
+                    }
+                  ]
+                }
+              ],
+              "decision": "BLOCK",
+              "reasons": [
+                "Refused: this presentation was already accepted here once."
+              ],
+              "reason": "Refused: this presentation was already accepted here once."
+            }
+          }
+        }
+      ]
+    },
+    {
+      "policy": {
+        "slug": "mission-critical-action",
+        "name": "Mission-critical action",
+        "action": "Authorize an action that cannot be taken back (sign a release, run a privileged job, provision a machine)",
+        "predicates": [
+          "work.witnessed_90d gte 1",
+          "share.issuer_90d.594759594b9b61524f6c8ef668f7177f7b9066bc0674f2f49fe9e052be78beb2 gte 10000",
+          "share.measurement_90d.sha256:9f2c1a7e0d4b6c8e3a5f7d9b1c3e5a7f2d4b6c8e0a1f3d5b7c9e1a3f5d7b9c1e gte 10000",
+          "share.region_90d.us-central1 gte 10000",
+          "standing.adverse_events in {0}",
+          "standing.invalidation_active eq 0"
+        ]
+      },
+      "runs": [
+        {
+          "presenter": "fresh",
+          "challenge": {
+            "nonce": "10f6436b4d163401e52c63f153acb29dc52b25c02b46e4f3affc28d4cc26d938",
+            "issued_at": 1791590400,
+            "expires_at": 1791591300,
+            "kid": "gate-k1",
+            "sig": "SJix9xcY8Nc9gfbZga0nObN-z51hECdpYPQ4Id1RFu9xYTw_Oixpkn8jNijSLXyNt1cJSlVVfEvgggaw9DWTDg"
+          },
+          "presentation_id": "b9f672c99416098b49e73ce5e74c96f98d61ed191613b47f34cbdbbe2ddeff24",
+          "burn": {
+            "tier": "reputation",
+            "floor_pvt": 15,
+            "id": "b9f672c99416098b49e73ce5e74c96f98d61ed191613b47f34cbdbbe2ddeff24",
+            "onchain": false
+          },
+          "signature_check": "valid",
+          "decision": {
+            "decision": "block",
+            "gate": "gate.example.com",
+            "policy": "mission-critical-action",
+            "action": "Authorize an action that cannot be taken back (sign a release, run a privileged job, provision a machine)",
+            "at": "2026-10-10T00:00:00.000Z",
+            "reasons": [
+              "false: work.witnessed_90d gte 1",
+              "false: share.issuer_90d.594759594b9b61524f6c8ef668f7177f7b9066bc0674f2f49fe9e052be78beb2 gte 10000",
+              "false: share.measurement_90d.sha256:9f2c1a7e0d4b6c8e3a5f7d9b1c3e5a7f2d4b6c8e0a1f3d5b7c9e1a3f5d7b9c1e gte 10000",
+              "false: share.region_90d.us-central1 gte 10000"
+            ],
+            "presentation": {
+              "id": "b9f672c99416098b49e73ce5e74c96f98d61ed191613b47f34cbdbbe2ddeff24",
+              "tier": "reputation",
+              "presenter": {
+                "address": "0xb58ae8f4cc3f85c186c36fc6fb0ce1823e12305f",
+                "wallet_id": "wallet_aw_illustrative_fresh"
+              },
+              "requester": {
+                "type": "domain",
+                "id": "gate.example.com"
+              },
+              "challenge_expires_at": 1791591300
+            },
+            "predicates": [
+              {
+                "field": "work.witnessed_90d",
+                "op": "gte",
+                "threshold": 1,
+                "result": false
+              },
+              {
+                "field": "share.issuer_90d.594759594b9b61524f6c8ef668f7177f7b9066bc0674f2f49fe9e052be78beb2",
+                "op": "gte",
+                "threshold": 10000,
+                "result": false
+              },
+              {
+                "field": "share.measurement_90d.sha256:9f2c1a7e0d4b6c8e3a5f7d9b1c3e5a7f2d4b6c8e0a1f3d5b7c9e1a3f5d7b9c1e",
+                "op": "gte",
+                "threshold": 10000,
+                "result": false
+              },
+              {
+                "field": "share.region_90d.us-central1",
+                "op": "gte",
+                "threshold": 10000,
+                "result": false
+              },
+              {
+                "field": "standing.adverse_events",
+                "op": "in",
+                "set": [
+                  0
+                ],
+                "result": true
+              },
+              {
+                "field": "standing.invalidation_active",
+                "op": "eq",
+                "threshold": 0,
+                "result": true
+              }
+            ],
+            "disclosures": [],
+            "standing": {
+              "adverse_events": 0,
+              "adverse_events_30d": 0,
+              "adverse_events_90d": 0,
+              "adverse_events_365d": 0,
+              "bond_active": false,
+              "open_bond_claims_against": 0,
+              "invalidation_active": false,
+              "by_type": {}
+            },
+            "verification": {
+              "relay": "skipped",
+              "local": "valid",
+              "onchain_checked": false,
+              "replay": "first"
+            },
+            "report": {
+              "sections": [
+                {
+                  "heading": "Identity",
+                  "lines": [
+                    {
+                      "text": "No witnessed act on record: nothing stands behind this key.",
+                      "fields": [
+                        "continuity.first_seen_ms"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "Not one day active under witness.",
+                      "fields": [
+                        "continuity.active_days"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "No active day in the last 90.",
+                      "fields": [
+                        "continuity.active_days_90d"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "No registered device.",
+                      "fields": [
+                        "continuity.registered_devices"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "An empty hash chain: no act has ever been recorded.",
+                      "fields": [
+                        "continuity.chain_depth"
+                      ],
+                      "source": "disclosed"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Accountable human",
+                  "lines": [
+                    {
+                      "text": "No person is linked to this agent or answers for it.",
+                      "fields": [
+                        "accountability.human_beneficiary"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "No turn a person directed.",
+                      "fields": [
+                        "accountability.supervised_turns"
+                      ],
+                      "source": "disclosed"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Witnessed history",
+                  "lines": [
+                    {
+                      "text": "No act in the last 90 days witnessed by anything other than the actor.",
+                      "fields": [
+                        "work.witnessed_90d"
+                      ],
+                      "source": "answer"
+                    },
+                    {
+                      "text": "No hardware-rooted act in the last 90 days.",
+                      "fields": [
+                        "work.hardware_rooted_90d"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "Less than 100% of its work in the last 90 days ran on hardware attested under issuer root 594759594b9b6152….",
+                      "fields": [
+                        "share.issuer_90d.594759594b9b61524f6c8ef668f7177f7b9066bc0674f2f49fe9e052be78beb2"
+                      ],
+                      "source": "answer"
+                    },
+                    {
+                      "text": "Less than 100% of its work in the last 90 days ran on hardware attested under launch measurement sha256:9f2c1a7e0d4b6c8e….",
+                      "fields": [
+                        "share.measurement_90d.sha256:9f2c1a7e0d4b6c8e3a5f7d9b1c3e5a7f2d4b6c8e0a1f3d5b7c9e1a3f5d7b9c1e"
+                      ],
+                      "source": "answer"
+                    },
+                    {
+                      "text": "Less than 100% of its work in the last 90 days ran on hardware attested in region us-central1.",
+                      "fields": [
+                        "share.region_90d.us-central1"
+                      ],
+                      "source": "answer"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Standing",
+                  "lines": [
+                    {
+                      "text": "No adverse event on record.",
+                      "fields": [
+                        "standing.adverse_events"
+                      ],
+                      "source": "standing"
+                    },
+                    {
+                      "text": "No open bond claim against it; no active invalidation.",
+                      "fields": [
+                        "standing.open_bond_claims_against",
+                        "standing.invalidation_active"
+                      ],
+                      "source": "standing"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Counterparties",
+                  "lines": [
+                    {
+                      "text": "No independent party has built on its output.",
+                      "fields": [
+                        "consumption.independent_parties"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "It cites no one’s work but its own.",
+                      "fields": [
+                        "coupling.independent_owners"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "No independent party paid it in the last 90 days.",
+                      "fields": [
+                        "money.independent_payers_90d"
+                      ],
+                      "source": "disclosed"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Money witnessed",
+                  "lines": [
+                    {
+                      "text": "No inbound payment the chain witnessed.",
+                      "fields": [
+                        "money.witnessed_inbound"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "No inbound payment the chain witnessed in the last 90 days.",
+                      "fields": [
+                        "money.witnessed_inbound_90d"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "No financial act the chain witnessed in the last 90 days.",
+                      "fields": [
+                        "money.witnessed_financial_90d"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "No promise fulfilled.",
+                      "fields": [
+                        "money.promises_fulfilled"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "No promise defaulted.",
+                      "fields": [
+                        "money.promises_defaulted"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "No escrow completed as the provider.",
+                      "fields": [
+                        "money.escrows_completed_as_provider"
+                      ],
+                      "source": "disclosed"
+                    }
+                  ]
+                }
+              ],
+              "decision": "BLOCK",
+              "reasons": [
+                "No act in the last 90 days witnessed by anything other than the actor (asked: work.witnessed_90d gte 1).",
+                "Less than 100% of its work in the last 90 days ran on hardware attested under issuer root 594759594b9b6152… (asked: share.issuer_90d.594759594b9b61524f6c8ef668f7177f7b9066bc0674f2f49fe9e052be78beb2 gte 10000).",
+                "Less than 100% of its work in the last 90 days ran on hardware attested under launch measurement sha256:9f2c1a7e0d4b6c8e… (asked: share.measurement_90d.sha256:9f2c1a7e0d4b6c8e3a5f7d9b1c3e5a7f2d4b6c8e0a1f3d5b7c9e1a3f5d7b9c1e gte 10000).",
+                "Less than 100% of its work in the last 90 days ran on hardware attested in region us-central1 (asked: share.region_90d.us-central1 gte 10000)."
+              ],
+              "reason": "No act in the last 90 days witnessed by anything other than the actor (asked: work.witnessed_90d gte 1). Less than 100% of its work in the last 90 days ran on hardware attested under issuer root 594759594b9b6152… (asked: share.issuer_90d.594759594b9b61524f6c8ef668f7177f7b9066bc0674f2f49fe9e052be78beb2 gte 10000). Less than 100% of its work in the last 90 days ran on hardware attested under launch measurement sha256:9f2c1a7e0d4b6c8e… (asked: share.measurement_90d.sha256:9f2c1a7e0d4b6c8e3a5f7d9b1c3e5a7f2d4b6c8e0a1f3d5b7c9e1a3f5d7b9c1e gte 10000). Less than 100% of its work in the last 90 days ran on hardware attested in region us-central1 (asked: share.region_90d.us-central1 gte 10000)."
+            }
+          },
+          "replay": {
+            "decision": "block",
+            "gate": "gate.example.com",
+            "policy": "mission-critical-action",
+            "action": "Authorize an action that cannot be taken back (sign a release, run a privileged job, provision a machine)",
+            "at": "2026-10-10T00:00:00.000Z",
+            "reasons": [
+              "local verify: replayed"
+            ],
+            "presentation": null,
+            "predicates": [],
+            "disclosures": [],
+            "standing": null,
+            "verification": {
+              "relay": "skipped",
+              "local": "invalid",
+              "onchain_checked": false,
+              "replay": "replayed"
+            },
+            "report": {
+              "sections": [
+                {
+                  "heading": "Identity",
+                  "lines": [
+                    {
+                      "text": "Not read: the presentation did not verify, so nothing in it is evidence.",
+                      "fields": [],
+                      "source": "unverified"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Accountable human",
+                  "lines": [
+                    {
+                      "text": "Not read: the presentation did not verify, so nothing in it is evidence.",
+                      "fields": [],
+                      "source": "unverified"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Witnessed history",
+                  "lines": [
+                    {
+                      "text": "Not read: the presentation did not verify, so nothing in it is evidence.",
+                      "fields": [],
+                      "source": "unverified"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Standing",
+                  "lines": [
+                    {
+                      "text": "Not read: the presentation did not verify, so nothing in it is evidence.",
+                      "fields": [],
+                      "source": "unverified"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Counterparties",
+                  "lines": [
+                    {
+                      "text": "Not read: the presentation did not verify, so nothing in it is evidence.",
+                      "fields": [],
+                      "source": "unverified"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Money witnessed",
+                  "lines": [
+                    {
+                      "text": "Not read: the presentation did not verify, so nothing in it is evidence.",
+                      "fields": [],
+                      "source": "unverified"
+                    }
+                  ]
+                }
+              ],
+              "decision": "BLOCK",
+              "reasons": [
+                "Refused: this presentation was already accepted here once."
+              ],
+              "reason": "Refused: this presentation was already accepted here once."
+            }
+          }
+        },
+        {
+          "presenter": "established",
+          "challenge": {
+            "nonce": "746d7d26a9b849d042ee41b700c54ace0c32c066e900eef2fed849fe1c543e68",
+            "issued_at": 1791590400,
+            "expires_at": 1791591300,
+            "kid": "gate-k1",
+            "sig": "OhStCT15wsozCvB2Xxwn30wboT0pF3q16NsQk9rTf719fPz00WkaR3sHINs4BRQk5uWXtOLkU3EHQNHTYfDuCw"
+          },
+          "presentation_id": "534130238283a6ce3f7b99c52814b2785212768afcc422d0b2f24427d7118eba",
+          "burn": {
+            "tier": "reputation",
+            "floor_pvt": 15,
+            "id": "534130238283a6ce3f7b99c52814b2785212768afcc422d0b2f24427d7118eba",
+            "onchain": false
+          },
+          "signature_check": "valid",
+          "decision": {
+            "decision": "block",
+            "gate": "gate.example.com",
+            "policy": "mission-critical-action",
+            "action": "Authorize an action that cannot be taken back (sign a release, run a privileged job, provision a machine)",
+            "at": "2026-10-10T00:00:00.000Z",
+            "reasons": [
+              "false: standing.adverse_events in {0}"
+            ],
+            "presentation": {
+              "id": "534130238283a6ce3f7b99c52814b2785212768afcc422d0b2f24427d7118eba",
+              "tier": "reputation",
+              "presenter": {
+                "address": "0x9493c31d5abf66ac25912ab08edcee6e004e1783",
+                "wallet_id": "wallet_aw_illustrative_established"
+              },
+              "requester": {
+                "type": "domain",
+                "id": "gate.example.com"
+              },
+              "challenge_expires_at": 1791591300
+            },
+            "predicates": [
+              {
+                "field": "work.witnessed_90d",
+                "op": "gte",
+                "threshold": 1,
+                "result": true
+              },
+              {
+                "field": "share.issuer_90d.594759594b9b61524f6c8ef668f7177f7b9066bc0674f2f49fe9e052be78beb2",
+                "op": "gte",
+                "threshold": 10000,
+                "result": true
+              },
+              {
+                "field": "share.measurement_90d.sha256:9f2c1a7e0d4b6c8e3a5f7d9b1c3e5a7f2d4b6c8e0a1f3d5b7c9e1a3f5d7b9c1e",
+                "op": "gte",
+                "threshold": 10000,
+                "result": true
+              },
+              {
+                "field": "share.region_90d.us-central1",
+                "op": "gte",
+                "threshold": 10000,
+                "result": true
+              },
+              {
+                "field": "standing.adverse_events",
+                "op": "in",
+                "set": [
+                  0
+                ],
+                "result": false
+              },
+              {
+                "field": "standing.invalidation_active",
+                "op": "eq",
+                "threshold": 0,
+                "result": true
+              }
+            ],
+            "disclosures": [],
+            "standing": {
+              "adverse_events": 1,
+              "adverse_events_30d": 0,
+              "adverse_events_90d": 0,
+              "adverse_events_365d": 1,
+              "bond_active": true,
+              "open_bond_claims_against": 0,
+              "invalidation_active": false,
+              "by_type": {
+                "standing.bond_expired": 1
+              }
+            },
+            "verification": {
+              "relay": "skipped",
+              "local": "valid",
+              "onchain_checked": false,
+              "replay": "first"
+            },
+            "report": {
+              "sections": [
+                {
+                  "heading": "Identity",
+                  "lines": [
+                    {
+                      "text": "First witnessed 2025-08-05, 431 days before this presentation.",
+                      "fields": [
+                        "continuity.first_seen_ms"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "372 distinct days active under witness.",
+                      "fields": [
+                        "continuity.active_days"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "84 active days in the last 90.",
+                      "fields": [
+                        "continuity.active_days_90d"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "3 registered devices.",
+                      "fields": [
+                        "continuity.registered_devices"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "48,210 acts in its hash chain.",
+                      "fields": [
+                        "continuity.chain_depth"
+                      ],
+                      "source": "disclosed"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Accountable human",
+                  "lines": [
+                    {
+                      "text": "A person is linked to this agent and answers for it.",
+                      "fields": [
+                        "accountability.human_beneficiary"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "15,312 turns a person directed.",
+                      "fields": [
+                        "accountability.supervised_turns"
+                      ],
+                      "source": "disclosed"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Witnessed history",
+                  "lines": [
+                    {
+                      "text": "At least 1 act in the last 90 days witnessed by something other than the actor.",
+                      "fields": [
+                        "work.witnessed_90d"
+                      ],
+                      "source": "answer"
+                    },
+                    {
+                      "text": "1,284 commits a code forge witnessed.",
+                      "fields": [
+                        "work.compute.forge_witnessed"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "9,412 hardware-rooted acts in the last 90 days.",
+                      "fields": [
+                        "work.hardware_rooted_90d"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "100% of its work in the last 90 days is hardware-rooted.",
+                      "fields": [
+                        "share.witness_90d.hardware_rooted"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "At least 100% of its work in the last 90 days ran on hardware attested under issuer root 594759594b9b6152….",
+                      "fields": [
+                        "share.issuer_90d.594759594b9b61524f6c8ef668f7177f7b9066bc0674f2f49fe9e052be78beb2"
+                      ],
+                      "source": "answer"
+                    },
+                    {
+                      "text": "At least 100% of its work in the last 90 days ran on hardware attested under launch measurement sha256:9f2c1a7e0d4b6c8e….",
+                      "fields": [
+                        "share.measurement_90d.sha256:9f2c1a7e0d4b6c8e3a5f7d9b1c3e5a7f2d4b6c8e0a1f3d5b7c9e1a3f5d7b9c1e"
+                      ],
+                      "source": "answer"
+                    },
+                    {
+                      "text": "At least 100% of its work in the last 90 days ran on hardware attested in region us-central1.",
+                      "fields": [
+                        "share.region_90d.us-central1"
+                      ],
+                      "source": "answer"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Standing",
+                  "lines": [
+                    {
+                      "text": "One adverse event on record: a bond it posted expired — none in the last 90 days, within the last year. It stays in every presentation this actor makes.",
+                      "fields": [
+                        "standing.adverse_events",
+                        "standing.adverse_events_90d",
+                        "standing.adverse_events_365d"
+                      ],
+                      "source": "standing"
+                    },
+                    {
+                      "text": "No open bond claim against it; no active invalidation.",
+                      "fields": [
+                        "standing.open_bond_claims_against",
+                        "standing.invalidation_active"
+                      ],
+                      "source": "standing"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Counterparties",
+                  "lines": [
+                    {
+                      "text": "87 independent parties built on its output.",
+                      "fields": [
+                        "consumption.independent_parties"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "212 owners other than itself whose work it cites.",
+                      "fields": [
+                        "coupling.independent_owners"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "19 independent parties paid it in the last 90 days.",
+                      "fields": [
+                        "money.independent_payers_90d"
+                      ],
+                      "source": "disclosed"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Money witnessed",
+                  "lines": [
+                    {
+                      "text": "640 inbound payments the chain witnessed.",
+                      "fields": [
+                        "money.witnessed_inbound"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "71 inbound payments the chain witnessed in the last 90 days.",
+                      "fields": [
+                        "money.witnessed_inbound_90d"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "184 financial acts the chain witnessed in the last 90 days.",
+                      "fields": [
+                        "money.witnessed_financial_90d"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "31 promises fulfilled.",
+                      "fields": [
+                        "money.promises_fulfilled"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "No promise defaulted.",
+                      "fields": [
+                        "money.promises_defaulted"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "44 escrows completed as the provider.",
+                      "fields": [
+                        "money.escrows_completed_as_provider"
+                      ],
+                      "source": "disclosed"
+                    }
+                  ]
+                }
+              ],
+              "decision": "BLOCK",
+              "reasons": [
+                "An adverse event is on record, and this gate admits none at any time (asked: standing.adverse_events in {0})."
+              ],
+              "reason": "An adverse event is on record, and this gate admits none at any time (asked: standing.adverse_events in {0})."
+            }
+          },
+          "replay": {
+            "decision": "block",
+            "gate": "gate.example.com",
+            "policy": "mission-critical-action",
+            "action": "Authorize an action that cannot be taken back (sign a release, run a privileged job, provision a machine)",
+            "at": "2026-10-10T00:00:00.000Z",
+            "reasons": [
+              "local verify: replayed"
+            ],
+            "presentation": null,
+            "predicates": [],
+            "disclosures": [],
+            "standing": null,
+            "verification": {
+              "relay": "skipped",
+              "local": "invalid",
+              "onchain_checked": false,
+              "replay": "replayed"
+            },
+            "report": {
+              "sections": [
+                {
+                  "heading": "Identity",
+                  "lines": [
+                    {
+                      "text": "Not read: the presentation did not verify, so nothing in it is evidence.",
+                      "fields": [],
+                      "source": "unverified"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Accountable human",
+                  "lines": [
+                    {
+                      "text": "Not read: the presentation did not verify, so nothing in it is evidence.",
+                      "fields": [],
+                      "source": "unverified"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Witnessed history",
+                  "lines": [
+                    {
+                      "text": "Not read: the presentation did not verify, so nothing in it is evidence.",
+                      "fields": [],
+                      "source": "unverified"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Standing",
+                  "lines": [
+                    {
+                      "text": "Not read: the presentation did not verify, so nothing in it is evidence.",
+                      "fields": [],
+                      "source": "unverified"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Counterparties",
+                  "lines": [
+                    {
+                      "text": "Not read: the presentation did not verify, so nothing in it is evidence.",
+                      "fields": [],
+                      "source": "unverified"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Money witnessed",
+                  "lines": [
+                    {
+                      "text": "Not read: the presentation did not verify, so nothing in it is evidence.",
+                      "fields": [],
+                      "source": "unverified"
+                    }
+                  ]
+                }
+              ],
+              "decision": "BLOCK",
+              "reasons": [
+                "Refused: this presentation was already accepted here once."
+              ],
+              "reason": "Refused: this presentation was already accepted here once."
+            }
+          }
+        }
+      ]
+    },
+    {
+      "policy": {
+        "slug": "sensitive-site",
+        "name": "Sensitive site",
+        "action": "Admit an agent to a site that requires a specific credential",
+        "predicates": [
+          "standing.adverse_events_90d in {0}",
+          "standing.open_bond_claims_against eq 0",
+          "standing.invalidation_active eq 0"
+        ],
+        "disclosures": [
+          "pe 7c4e1b9d2a6f8c0e… under 594759594b9b6152… + content artifacts,description"
+        ]
+      },
+      "runs": [
+        {
+          "presenter": "fresh",
+          "challenge": {
+            "nonce": "2410a219aaf7c7b707a6591d9e6cd1e8c9133aa4a09e85b6f3844f416840f2b2",
+            "issued_at": 1791590400,
+            "expires_at": 1791591300,
+            "kid": "gate-k1",
+            "sig": "SC-fBX8jsLXOGJ8cqqmRqN19TqL2M1Znk3W3OVIJsazepiGyXf6H1qtMikHOyJa5TnrTCIItpuAb2-zHsaCxBA"
+          },
+          "presentation_id": "b87b5177f985ebcf005e6c88e5acc72bfb96c8a6b719225bc3e0b294b5662c58",
+          "burn": {
+            "tier": "reputation",
+            "floor_pvt": 15,
+            "id": "b87b5177f985ebcf005e6c88e5acc72bfb96c8a6b719225bc3e0b294b5662c58",
+            "onchain": false
+          },
+          "signature_check": "valid",
+          "decision": {
+            "decision": "block",
+            "gate": "gate.example.com",
+            "policy": "sensitive-site",
+            "action": "Admit an agent to a site that requires a specific credential",
+            "at": "2026-10-10T00:00:00.000Z",
+            "reasons": [
+              "the presenter holds no record carrying the named credential"
+            ],
+            "presentation": {
+              "id": "b87b5177f985ebcf005e6c88e5acc72bfb96c8a6b719225bc3e0b294b5662c58",
+              "tier": "reputation",
+              "presenter": {
+                "address": "0xb58ae8f4cc3f85c186c36fc6fb0ce1823e12305f",
+                "wallet_id": "wallet_aw_illustrative_fresh"
+              },
+              "requester": {
+                "type": "domain",
+                "id": "gate.example.com"
+              },
+              "challenge_expires_at": 1791591300
+            },
+            "predicates": [
+              {
+                "field": "standing.adverse_events_90d",
+                "op": "in",
+                "set": [
+                  0
+                ],
+                "result": true
+              },
+              {
+                "field": "standing.open_bond_claims_against",
+                "op": "eq",
+                "threshold": 0,
+                "result": true
+              },
+              {
+                "field": "standing.invalidation_active",
+                "op": "eq",
+                "threshold": 0,
+                "result": true
+              }
+            ],
+            "disclosures": [
+              {
+                "request": {
+                  "kind": "pe",
+                  "output_digest": "7c4e1b9d2a6f8c0e3b5d7f9a1c3e5b7d9f1a3c5e7b9d1f3a5c7e9b1d3f5a7c9e",
+                  "issuer": "594759594b9b61524f6c8ef668f7177f7b9066bc0674f2f49fe9e052be78beb2",
+                  "content": [
+                    "artifacts",
+                    "description"
+                  ]
+                },
+                "election": "disclosed",
+                "records": []
+              }
+            ],
+            "standing": {
+              "adverse_events": 0,
+              "adverse_events_30d": 0,
+              "adverse_events_90d": 0,
+              "adverse_events_365d": 0,
+              "bond_active": false,
+              "open_bond_claims_against": 0,
+              "invalidation_active": false,
+              "by_type": {}
+            },
+            "verification": {
+              "relay": "skipped",
+              "local": "valid",
+              "onchain_checked": false,
+              "replay": "first"
+            },
+            "report": {
+              "sections": [
+                {
+                  "heading": "Identity",
+                  "lines": [
+                    {
+                      "text": "No witnessed act on record: nothing stands behind this key.",
+                      "fields": [
+                        "continuity.first_seen_ms"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "Not one day active under witness.",
+                      "fields": [
+                        "continuity.active_days"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "No active day in the last 90.",
+                      "fields": [
+                        "continuity.active_days_90d"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "No registered device.",
+                      "fields": [
+                        "continuity.registered_devices"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "An empty hash chain: no act has ever been recorded.",
+                      "fields": [
+                        "continuity.chain_depth"
+                      ],
+                      "source": "disclosed"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Accountable human",
+                  "lines": [
+                    {
+                      "text": "No person is linked to this agent or answers for it.",
+                      "fields": [
+                        "accountability.human_beneficiary"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "No turn a person directed.",
+                      "fields": [
+                        "accountability.supervised_turns"
+                      ],
+                      "source": "disclosed"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Witnessed history",
+                  "lines": [
+                    {
+                      "text": "No act in the last 90 days witnessed by anything other than the actor.",
+                      "fields": [
+                        "work.witnessed_90d"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "No hardware-rooted act in the last 90 days.",
+                      "fields": [
+                        "work.hardware_rooted_90d"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "Holds no record answering the named request (pe 7c4e1b9d2a6f8c0e… under 594759594b9b6152… + content artifacts,description).",
+                      "fields": [],
+                      "source": "disclosed"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Standing",
+                  "lines": [
+                    {
+                      "text": "No adverse event on record.",
+                      "fields": [
+                        "standing.adverse_events"
+                      ],
+                      "source": "standing"
+                    },
+                    {
+                      "text": "No open bond claim against it; no active invalidation.",
+                      "fields": [
+                        "standing.open_bond_claims_against",
+                        "standing.invalidation_active"
+                      ],
+                      "source": "standing"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Counterparties",
+                  "lines": [
+                    {
+                      "text": "No independent party has built on its output.",
+                      "fields": [
+                        "consumption.independent_parties"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "It cites no one’s work but its own.",
+                      "fields": [
+                        "coupling.independent_owners"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "No independent party paid it in the last 90 days.",
+                      "fields": [
+                        "money.independent_payers_90d"
+                      ],
+                      "source": "disclosed"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Money witnessed",
+                  "lines": [
+                    {
+                      "text": "No inbound payment the chain witnessed.",
+                      "fields": [
+                        "money.witnessed_inbound"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "No inbound payment the chain witnessed in the last 90 days.",
+                      "fields": [
+                        "money.witnessed_inbound_90d"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "No financial act the chain witnessed in the last 90 days.",
+                      "fields": [
+                        "money.witnessed_financial_90d"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "No promise fulfilled.",
+                      "fields": [
+                        "money.promises_fulfilled"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "No promise defaulted.",
+                      "fields": [
+                        "money.promises_defaulted"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "No escrow completed as the provider.",
+                      "fields": [
+                        "money.escrows_completed_as_provider"
+                      ],
+                      "source": "disclosed"
+                    }
+                  ]
+                }
+              ],
+              "decision": "BLOCK",
+              "reasons": [
+                "The presenter holds no record carrying the named credential."
+              ],
+              "reason": "The presenter holds no record carrying the named credential."
+            }
+          },
+          "replay": {
+            "decision": "block",
+            "gate": "gate.example.com",
+            "policy": "sensitive-site",
+            "action": "Admit an agent to a site that requires a specific credential",
+            "at": "2026-10-10T00:00:00.000Z",
+            "reasons": [
+              "local verify: replayed"
+            ],
+            "presentation": null,
+            "predicates": [],
+            "disclosures": [],
+            "standing": null,
+            "verification": {
+              "relay": "skipped",
+              "local": "invalid",
+              "onchain_checked": false,
+              "replay": "replayed"
+            },
+            "report": {
+              "sections": [
+                {
+                  "heading": "Identity",
+                  "lines": [
+                    {
+                      "text": "Not read: the presentation did not verify, so nothing in it is evidence.",
+                      "fields": [],
+                      "source": "unverified"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Accountable human",
+                  "lines": [
+                    {
+                      "text": "Not read: the presentation did not verify, so nothing in it is evidence.",
+                      "fields": [],
+                      "source": "unverified"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Witnessed history",
+                  "lines": [
+                    {
+                      "text": "Not read: the presentation did not verify, so nothing in it is evidence.",
+                      "fields": [],
+                      "source": "unverified"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Standing",
+                  "lines": [
+                    {
+                      "text": "Not read: the presentation did not verify, so nothing in it is evidence.",
+                      "fields": [],
+                      "source": "unverified"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Counterparties",
+                  "lines": [
+                    {
+                      "text": "Not read: the presentation did not verify, so nothing in it is evidence.",
+                      "fields": [],
+                      "source": "unverified"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Money witnessed",
+                  "lines": [
+                    {
+                      "text": "Not read: the presentation did not verify, so nothing in it is evidence.",
+                      "fields": [],
+                      "source": "unverified"
+                    }
+                  ]
+                }
+              ],
+              "decision": "BLOCK",
+              "reasons": [
+                "Refused: this presentation was already accepted here once."
+              ],
+              "reason": "Refused: this presentation was already accepted here once."
+            }
+          }
+        },
+        {
+          "presenter": "established",
+          "challenge": {
+            "nonce": "17c543402db0c83460e1d3cb85b5288dc5140b61790ac8c92196d2d7940f9180",
+            "issued_at": 1791590400,
+            "expires_at": 1791591300,
+            "kid": "gate-k1",
+            "sig": "BjLCc6il2frxRotY429oe1dguydFp42T-UUuuC9Gr3-CyJROH6ZGbObiN8xVtDbVbnhltKwAWtsuZDfYsGHTCg"
+          },
+          "presentation_id": "baaed684856c334b286a64bd0c7d73ebb2fd60aa8e23ae9a7b443c20fd0105cd",
+          "burn": {
+            "tier": "reputation",
+            "floor_pvt": 15,
+            "id": "baaed684856c334b286a64bd0c7d73ebb2fd60aa8e23ae9a7b443c20fd0105cd",
+            "onchain": false
+          },
+          "signature_check": "valid",
+          "decision": {
+            "decision": "allow",
+            "gate": "gate.example.com",
+            "policy": "sensitive-site",
+            "action": "Admit an agent to a site that requires a specific credential",
+            "at": "2026-10-10T00:00:00.000Z",
+            "reasons": [
+              "true: standing.adverse_events_90d in {0}",
+              "true: standing.open_bond_claims_against eq 0",
+              "true: standing.invalidation_active eq 0"
+            ],
+            "presentation": {
+              "id": "baaed684856c334b286a64bd0c7d73ebb2fd60aa8e23ae9a7b443c20fd0105cd",
+              "tier": "reputation",
+              "presenter": {
+                "address": "0x9493c31d5abf66ac25912ab08edcee6e004e1783",
+                "wallet_id": "wallet_aw_illustrative_established"
+              },
+              "requester": {
+                "type": "domain",
+                "id": "gate.example.com"
+              },
+              "challenge_expires_at": 1791591300
+            },
+            "predicates": [
+              {
+                "field": "standing.adverse_events_90d",
+                "op": "in",
+                "set": [
+                  0
+                ],
+                "result": true
+              },
+              {
+                "field": "standing.open_bond_claims_against",
+                "op": "eq",
+                "threshold": 0,
+                "result": true
+              },
+              {
+                "field": "standing.invalidation_active",
+                "op": "eq",
+                "threshold": 0,
+                "result": true
+              }
+            ],
+            "disclosures": [
+              {
+                "request": {
+                  "kind": "pe",
+                  "output_digest": "7c4e1b9d2a6f8c0e3b5d7f9a1c3e5b7d9f1a3c5e7b9d1f3a5c7e9b1d3f5a7c9e",
+                  "issuer": "594759594b9b61524f6c8ef668f7177f7b9066bc0674f2f49fe9e052be78beb2",
+                  "content": [
+                    "artifacts",
+                    "description"
+                  ]
+                },
+                "election": "disclosed",
+                "records": [
+                  {
+                    "pe_id": "pe_illustrative_clearance_2026-07-14",
+                    "pe_hash": "36432a7567c5bf041681e678cfc8acfef8f6db8da89ad52545e2baac2af9444e",
+                    "action_type": "compute_session",
+                    "timestamp": 1784021400000,
+                    "witness": {
+                      "kind": "hardware",
+                      "scheme": "tpm2_quote",
+                      "issuer": "594759594b9b61524f6c8ef668f7177f7b9066bc0674f2f49fe9e052be78beb2",
+                      "signer": "0d304b9772032e32c2ae66247c56028a1155d5e28e10362d68800110c5e606a5",
+                      "measurement": "sha256:9f2c1a7e0d4b6c8e3a5f7d9b1c3e5a7f2d4b6c8e0a1f3d5b7c9e1a3f5d7b9c1e",
+                      "region": "us-central1"
+                    },
+                    "output_digest": "7c4e1b9d2a6f8c0e3b5d7f9a1c3e5b7d9f1a3c5e7b9d1f3a5c7e9b1d3f5a7c9e",
+                    "content": {
+                      "artifacts": [
+                        {
+                          "hash": "7c4e1b9d2a6f8c0e3b5d7f9a1c3e5b7d9f1a3c5e7b9d1f3a5c7e9b1d3f5a7c9e",
+                          "kind": "credential"
+                        }
+                      ],
+                      "description": "Clearance issued by the operator’s security office for control-plane access, tier 2, valid through 2027-07-14."
+                    }
+                  }
+                ]
+              }
+            ],
+            "standing": {
+              "adverse_events": 1,
+              "adverse_events_30d": 0,
+              "adverse_events_90d": 0,
+              "adverse_events_365d": 1,
+              "bond_active": true,
+              "open_bond_claims_against": 0,
+              "invalidation_active": false,
+              "by_type": {
+                "standing.bond_expired": 1
+              }
+            },
+            "verification": {
+              "relay": "skipped",
+              "local": "valid",
+              "onchain_checked": true,
+              "replay": "first"
+            },
+            "report": {
+              "sections": [
+                {
+                  "heading": "Identity",
+                  "lines": [
+                    {
+                      "text": "First witnessed 2025-08-05, 431 days before this presentation.",
+                      "fields": [
+                        "continuity.first_seen_ms"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "372 distinct days active under witness.",
+                      "fields": [
+                        "continuity.active_days"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "84 active days in the last 90.",
+                      "fields": [
+                        "continuity.active_days_90d"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "3 registered devices.",
+                      "fields": [
+                        "continuity.registered_devices"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "48,210 acts in its hash chain.",
+                      "fields": [
+                        "continuity.chain_depth"
+                      ],
+                      "source": "disclosed"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Accountable human",
+                  "lines": [
+                    {
+                      "text": "A person is linked to this agent and answers for it.",
+                      "fields": [
+                        "accountability.human_beneficiary"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "15,312 turns a person directed.",
+                      "fields": [
+                        "accountability.supervised_turns"
+                      ],
+                      "source": "disclosed"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Witnessed history",
+                  "lines": [
+                    {
+                      "text": "9,412 acts in the last 90 days witnessed by something other than the actor.",
+                      "fields": [
+                        "work.witnessed_90d"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "1,284 commits a code forge witnessed.",
+                      "fields": [
+                        "work.compute.forge_witnessed"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "9,412 hardware-rooted acts in the last 90 days.",
+                      "fields": [
+                        "work.hardware_rooted_90d"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "100% of its work in the last 90 days is hardware-rooted.",
+                      "fields": [
+                        "share.witness_90d.hardware_rooted"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "Disclosed: compute_session on 2026-07-14, witnessed in hardware (tpm2_quote) under issuer root 594759594b9b6152…, in us-central1, carrying 7c4e1b9d2a6f8c0e…. Described as: “Clearance issued by the operator’s security office for control-plane access, tier 2, valid through 2027-07-14.”. 1 artifact disclosed.",
+                      "fields": [],
+                      "source": "disclosed"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Standing",
+                  "lines": [
+                    {
+                      "text": "One adverse event on record: a bond it posted expired — none in the last 90 days, within the last year. It stays in every presentation this actor makes.",
+                      "fields": [
+                        "standing.adverse_events",
+                        "standing.adverse_events_90d",
+                        "standing.adverse_events_365d"
+                      ],
+                      "source": "standing"
+                    },
+                    {
+                      "text": "No open bond claim against it; no active invalidation.",
+                      "fields": [
+                        "standing.open_bond_claims_against",
+                        "standing.invalidation_active"
+                      ],
+                      "source": "standing"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Counterparties",
+                  "lines": [
+                    {
+                      "text": "87 independent parties built on its output.",
+                      "fields": [
+                        "consumption.independent_parties"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "212 owners other than itself whose work it cites.",
+                      "fields": [
+                        "coupling.independent_owners"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "19 independent parties paid it in the last 90 days.",
+                      "fields": [
+                        "money.independent_payers_90d"
+                      ],
+                      "source": "disclosed"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Money witnessed",
+                  "lines": [
+                    {
+                      "text": "640 inbound payments the chain witnessed.",
+                      "fields": [
+                        "money.witnessed_inbound"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "71 inbound payments the chain witnessed in the last 90 days.",
+                      "fields": [
+                        "money.witnessed_inbound_90d"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "184 financial acts the chain witnessed in the last 90 days.",
+                      "fields": [
+                        "money.witnessed_financial_90d"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "31 promises fulfilled.",
+                      "fields": [
+                        "money.promises_fulfilled"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "No promise defaulted.",
+                      "fields": [
+                        "money.promises_defaulted"
+                      ],
+                      "source": "disclosed"
+                    },
+                    {
+                      "text": "44 escrows completed as the provider.",
+                      "fields": [
+                        "money.escrows_completed_as_provider"
+                      ],
+                      "source": "disclosed"
+                    }
+                  ]
+                }
+              ],
+              "decision": "ALLOW",
+              "reasons": [
+                "Every question this gate asked was answered yes, and nothing in Standing objects."
+              ],
+              "reason": "Every question this gate asked was answered yes, and nothing in Standing objects."
+            }
+          },
+          "replay": {
+            "decision": "block",
+            "gate": "gate.example.com",
+            "policy": "sensitive-site",
+            "action": "Admit an agent to a site that requires a specific credential",
+            "at": "2026-10-10T00:00:00.000Z",
+            "reasons": [
+              "local verify: replayed"
+            ],
+            "presentation": null,
+            "predicates": [],
+            "disclosures": [],
+            "standing": null,
+            "verification": {
+              "relay": "skipped",
+              "local": "invalid",
+              "onchain_checked": false,
+              "replay": "replayed"
+            },
+            "report": {
+              "sections": [
+                {
+                  "heading": "Identity",
+                  "lines": [
+                    {
+                      "text": "Not read: the presentation did not verify, so nothing in it is evidence.",
+                      "fields": [],
+                      "source": "unverified"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Accountable human",
+                  "lines": [
+                    {
+                      "text": "Not read: the presentation did not verify, so nothing in it is evidence.",
+                      "fields": [],
+                      "source": "unverified"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Witnessed history",
+                  "lines": [
+                    {
+                      "text": "Not read: the presentation did not verify, so nothing in it is evidence.",
+                      "fields": [],
+                      "source": "unverified"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Standing",
+                  "lines": [
+                    {
+                      "text": "Not read: the presentation did not verify, so nothing in it is evidence.",
+                      "fields": [],
+                      "source": "unverified"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Counterparties",
+                  "lines": [
+                    {
+                      "text": "Not read: the presentation did not verify, so nothing in it is evidence.",
+                      "fields": [],
+                      "source": "unverified"
+                    }
+                  ]
+                },
+                {
+                  "heading": "Money witnessed",
+                  "lines": [
+                    {
+                      "text": "Not read: the presentation did not verify, so nothing in it is evidence.",
+                      "fields": [],
+                      "source": "unverified"
+                    }
+                  ]
+                }
+              ],
+              "decision": "BLOCK",
+              "reasons": [
+                "Refused: this presentation was already accepted here once."
+              ],
+              "reason": "Refused: this presentation was already accepted here once."
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

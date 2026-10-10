@@ -1,0 +1,404 @@
+ILLUSTRATIVE — presentations signed by the reference’s test issuer, presenters are fixtures; the verifier and the gate are the live ones.
+
+================================================================================================
+Counterparty onboarding — Let an agent this system has never met act for the first time
+asks: continuity.active_days gte 30 · continuity.active_days_90d gte 10 · work.witnessed_90d gte 25 · consumption.independent_parties gte 3 · accountability.human_beneficiary eq 1 · standing.adverse_events_90d in {0} · standing.open_bond_claims_against eq 0 · standing.invalidation_active eq 0
+
+── Fresh key (0xb58ae8f4cc3f85c186c36fc6fb0ce1823e12305f)
+signature check: valid
+
+Identity
+  No witnessed act on record: nothing stands behind this key.
+  Fewer than 30 distinct days active under witness.
+  Fewer than 10 active days in the last 90.
+  No registered device.
+  An empty hash chain: no act has ever been recorded.
+Accountable human
+  No person is linked to this agent or answers for it.
+  No turn a person directed.
+Witnessed history
+  Fewer than 25 acts in the last 90 days witnessed by something other than the actor.
+  No hardware-rooted act in the last 90 days.
+Standing
+  No adverse event on record.
+  No open bond claim against it; no active invalidation.
+Counterparties
+  Fewer than 3 independent parties built on its output.
+  It cites no one’s work but its own.
+  No independent party paid it in the last 90 days.
+Money witnessed
+  No inbound payment the chain witnessed.
+  No inbound payment the chain witnessed in the last 90 days.
+  No financial act the chain witnessed in the last 90 days.
+  No promise fulfilled.
+  No promise defaulted.
+  No escrow completed as the provider.
+
+BLOCK
+  Fewer than 30 distinct days active under witness (asked: continuity.active_days gte 30).
+  Fewer than 10 active days in the last 90 (asked: continuity.active_days_90d gte 10).
+  Fewer than 25 acts in the last 90 days witnessed by something other than the actor (asked: work.witnessed_90d gte 25).
+  Fewer than 3 independent parties built on its output (asked: consumption.independent_parties gte 3).
+  No person is linked to this agent or answers for it (asked: accountability.human_beneficiary eq 1).
+
+replay: BLOCK — Refused: this presentation was already accepted here once.
+
+── Established agent (0x9493c31d5abf66ac25912ab08edcee6e004e1783)
+signature check: valid
+
+Identity
+  First witnessed 2025-08-05, 431 days before this presentation.
+  At least 30 distinct days active under witness.
+  At least 10 active days in the last 90.
+  3 registered devices.
+  48,210 acts in its hash chain.
+Accountable human
+  A person is linked to this agent and answers for it.
+  15,312 turns a person directed.
+Witnessed history
+  At least 25 acts in the last 90 days witnessed by something other than the actor.
+  1,284 commits a code forge witnessed.
+  9,412 hardware-rooted acts in the last 90 days.
+  100% of its work in the last 90 days is hardware-rooted.
+Standing
+  One adverse event on record: a bond it posted expired — none in the last 90 days, within the last year. It stays in every presentation this actor makes.
+  No open bond claim against it; no active invalidation.
+Counterparties
+  At least 3 independent parties built on its output.
+  212 owners other than itself whose work it cites.
+  19 independent parties paid it in the last 90 days.
+Money witnessed
+  640 inbound payments the chain witnessed.
+  71 inbound payments the chain witnessed in the last 90 days.
+  184 financial acts the chain witnessed in the last 90 days.
+  31 promises fulfilled.
+  No promise defaulted.
+  44 escrows completed as the provider.
+
+ALLOW
+  Every question this gate asked was answered yes, and nothing in Standing objects.
+
+replay: BLOCK — Refused: this presentation was already accepted here once.
+
+================================================================================================
+Payment-rail commitment — Enable instant settlement for a payee
+asks: money.independent_payers_90d gte 3 · money.witnessed_inbound_90d gte 5 · continuity.active_days_90d gte 10 · money.promises_defaulted eq 0 · standing.adverse_events_90d in {0} · standing.open_bond_claims_against eq 0 · standing.invalidation_active eq 0
+
+── Fresh key (0xb58ae8f4cc3f85c186c36fc6fb0ce1823e12305f)
+signature check: valid
+
+Identity
+  No witnessed act on record: nothing stands behind this key.
+  Not one day active under witness.
+  Fewer than 10 active days in the last 90.
+  No registered device.
+  An empty hash chain: no act has ever been recorded.
+Accountable human
+  No person is linked to this agent or answers for it.
+  No turn a person directed.
+Witnessed history
+  No act in the last 90 days witnessed by anything other than the actor.
+  No hardware-rooted act in the last 90 days.
+Standing
+  No adverse event on record.
+  No open bond claim against it; no active invalidation.
+Counterparties
+  No independent party has built on its output.
+  It cites no one’s work but its own.
+  Fewer than 3 independent parties paid it in the last 90 days.
+Money witnessed
+  No inbound payment the chain witnessed.
+  Fewer than 5 inbound payments the chain witnessed in the last 90 days.
+  No financial act the chain witnessed in the last 90 days.
+  No promise fulfilled.
+  No promise defaulted.
+  No escrow completed as the provider.
+
+BLOCK
+  Fewer than 3 independent parties paid it in the last 90 days (asked: money.independent_payers_90d gte 3).
+  Fewer than 5 inbound payments the chain witnessed in the last 90 days (asked: money.witnessed_inbound_90d gte 5).
+  Fewer than 10 active days in the last 90 (asked: continuity.active_days_90d gte 10).
+
+replay: BLOCK — Refused: this presentation was already accepted here once.
+
+── Established agent (0x9493c31d5abf66ac25912ab08edcee6e004e1783)
+signature check: valid
+
+Identity
+  First witnessed 2025-08-05, 431 days before this presentation.
+  372 distinct days active under witness.
+  At least 10 active days in the last 90.
+  3 registered devices.
+  48,210 acts in its hash chain.
+Accountable human
+  A person is linked to this agent and answers for it.
+  15,312 turns a person directed.
+Witnessed history
+  9,412 acts in the last 90 days witnessed by something other than the actor.
+  1,284 commits a code forge witnessed.
+  9,412 hardware-rooted acts in the last 90 days.
+  100% of its work in the last 90 days is hardware-rooted.
+Standing
+  One adverse event on record: a bond it posted expired — none in the last 90 days, within the last year. It stays in every presentation this actor makes.
+  No open bond claim against it; no active invalidation.
+Counterparties
+  87 independent parties built on its output.
+  212 owners other than itself whose work it cites.
+  At least 3 independent parties paid it in the last 90 days.
+Money witnessed
+  640 inbound payments the chain witnessed.
+  At least 5 inbound payments the chain witnessed in the last 90 days.
+  184 financial acts the chain witnessed in the last 90 days.
+  31 promises fulfilled.
+  No promise defaulted.
+  44 escrows completed as the provider.
+
+ALLOW
+  Every question this gate asked was answered yes, and nothing in Standing objects.
+
+replay: BLOCK — Refused: this presentation was already accepted here once.
+
+================================================================================================
+Repository merge gate — Merge a pull request authored by an agent
+asks: work.compute.forge_witnessed gte 10 · work.witnessed_90d gte 25 · continuity.active_days_90d gte 10 · coupling.independent_owners gte 1 · accountability.human_beneficiary eq 1 · standing.adverse_events in {0} · standing.invalidation_active eq 0
+
+── Fresh key (0xb58ae8f4cc3f85c186c36fc6fb0ce1823e12305f)
+signature check: valid
+
+Identity
+  No witnessed act on record: nothing stands behind this key.
+  Not one day active under witness.
+  Fewer than 10 active days in the last 90.
+  No registered device.
+  An empty hash chain: no act has ever been recorded.
+Accountable human
+  No person is linked to this agent or answers for it.
+  No turn a person directed.
+Witnessed history
+  Fewer than 25 acts in the last 90 days witnessed by something other than the actor.
+  Fewer than 10 commits a code forge witnessed.
+  No hardware-rooted act in the last 90 days.
+Standing
+  No adverse event on record.
+  No open bond claim against it; no active invalidation.
+Counterparties
+  No independent party has built on its output.
+  It cites no one’s work but its own.
+  No independent party paid it in the last 90 days.
+Money witnessed
+  No inbound payment the chain witnessed.
+  No inbound payment the chain witnessed in the last 90 days.
+  No financial act the chain witnessed in the last 90 days.
+  No promise fulfilled.
+  No promise defaulted.
+  No escrow completed as the provider.
+
+BLOCK
+  Fewer than 10 commits a code forge witnessed (asked: work.compute.forge_witnessed gte 10).
+  Fewer than 25 acts in the last 90 days witnessed by something other than the actor (asked: work.witnessed_90d gte 25).
+  Fewer than 10 active days in the last 90 (asked: continuity.active_days_90d gte 10).
+  It cites no one’s work but its own (asked: coupling.independent_owners gte 1).
+  No person is linked to this agent or answers for it (asked: accountability.human_beneficiary eq 1).
+
+replay: BLOCK — Refused: this presentation was already accepted here once.
+
+── Established agent (0x9493c31d5abf66ac25912ab08edcee6e004e1783)
+signature check: valid
+
+Identity
+  First witnessed 2025-08-05, 431 days before this presentation.
+  372 distinct days active under witness.
+  At least 10 active days in the last 90.
+  3 registered devices.
+  48,210 acts in its hash chain.
+Accountable human
+  A person is linked to this agent and answers for it.
+  15,312 turns a person directed.
+Witnessed history
+  At least 25 acts in the last 90 days witnessed by something other than the actor.
+  At least 10 commits a code forge witnessed.
+  9,412 hardware-rooted acts in the last 90 days.
+  100% of its work in the last 90 days is hardware-rooted.
+Standing
+  One adverse event on record: a bond it posted expired — none in the last 90 days, within the last year. It stays in every presentation this actor makes.
+  No open bond claim against it; no active invalidation.
+Counterparties
+  87 independent parties built on its output.
+  At least 1 owner other than itself whose work it cites.
+  19 independent parties paid it in the last 90 days.
+Money witnessed
+  640 inbound payments the chain witnessed.
+  71 inbound payments the chain witnessed in the last 90 days.
+  184 financial acts the chain witnessed in the last 90 days.
+  31 promises fulfilled.
+  No promise defaulted.
+  44 escrows completed as the provider.
+
+BLOCK
+  An adverse event is on record, and this gate admits none at any time (asked: standing.adverse_events in {0}).
+
+replay: BLOCK — Refused: this presentation was already accepted here once.
+
+================================================================================================
+Mission-critical action — Authorize an action that cannot be taken back (sign a release, run a privileged job, provision a machine)
+asks: work.witnessed_90d gte 1 · share.issuer_90d.594759594b9b61524f6c8ef668f7177f7b9066bc0674f2f49fe9e052be78beb2 gte 10000 · share.measurement_90d.sha256:9f2c1a7e0d4b6c8e3a5f7d9b1c3e5a7f2d4b6c8e0a1f3d5b7c9e1a3f5d7b9c1e gte 10000 · share.region_90d.us-central1 gte 10000 · standing.adverse_events in {0} · standing.invalidation_active eq 0
+
+── Fresh key (0xb58ae8f4cc3f85c186c36fc6fb0ce1823e12305f)
+signature check: valid
+
+Identity
+  No witnessed act on record: nothing stands behind this key.
+  Not one day active under witness.
+  No active day in the last 90.
+  No registered device.
+  An empty hash chain: no act has ever been recorded.
+Accountable human
+  No person is linked to this agent or answers for it.
+  No turn a person directed.
+Witnessed history
+  No act in the last 90 days witnessed by anything other than the actor.
+  No hardware-rooted act in the last 90 days.
+  Less than 100% of its work in the last 90 days ran on hardware attested under issuer root 594759594b9b6152….
+  Less than 100% of its work in the last 90 days ran on hardware attested under launch measurement sha256:9f2c1a7e0d4b6c8e….
+  Less than 100% of its work in the last 90 days ran on hardware attested in region us-central1.
+Standing
+  No adverse event on record.
+  No open bond claim against it; no active invalidation.
+Counterparties
+  No independent party has built on its output.
+  It cites no one’s work but its own.
+  No independent party paid it in the last 90 days.
+Money witnessed
+  No inbound payment the chain witnessed.
+  No inbound payment the chain witnessed in the last 90 days.
+  No financial act the chain witnessed in the last 90 days.
+  No promise fulfilled.
+  No promise defaulted.
+  No escrow completed as the provider.
+
+BLOCK
+  No act in the last 90 days witnessed by anything other than the actor (asked: work.witnessed_90d gte 1).
+  Less than 100% of its work in the last 90 days ran on hardware attested under issuer root 594759594b9b6152… (asked: share.issuer_90d.594759594b9b61524f6c8ef668f7177f7b9066bc0674f2f49fe9e052be78beb2 gte 10000).
+  Less than 100% of its work in the last 90 days ran on hardware attested under launch measurement sha256:9f2c1a7e0d4b6c8e… (asked: share.measurement_90d.sha256:9f2c1a7e0d4b6c8e3a5f7d9b1c3e5a7f2d4b6c8e0a1f3d5b7c9e1a3f5d7b9c1e gte 10000).
+  Less than 100% of its work in the last 90 days ran on hardware attested in region us-central1 (asked: share.region_90d.us-central1 gte 10000).
+
+replay: BLOCK — Refused: this presentation was already accepted here once.
+
+── Established agent (0x9493c31d5abf66ac25912ab08edcee6e004e1783)
+signature check: valid
+
+Identity
+  First witnessed 2025-08-05, 431 days before this presentation.
+  372 distinct days active under witness.
+  84 active days in the last 90.
+  3 registered devices.
+  48,210 acts in its hash chain.
+Accountable human
+  A person is linked to this agent and answers for it.
+  15,312 turns a person directed.
+Witnessed history
+  At least 1 act in the last 90 days witnessed by something other than the actor.
+  1,284 commits a code forge witnessed.
+  9,412 hardware-rooted acts in the last 90 days.
+  100% of its work in the last 90 days is hardware-rooted.
+  At least 100% of its work in the last 90 days ran on hardware attested under issuer root 594759594b9b6152….
+  At least 100% of its work in the last 90 days ran on hardware attested under launch measurement sha256:9f2c1a7e0d4b6c8e….
+  At least 100% of its work in the last 90 days ran on hardware attested in region us-central1.
+Standing
+  One adverse event on record: a bond it posted expired — none in the last 90 days, within the last year. It stays in every presentation this actor makes.
+  No open bond claim against it; no active invalidation.
+Counterparties
+  87 independent parties built on its output.
+  212 owners other than itself whose work it cites.
+  19 independent parties paid it in the last 90 days.
+Money witnessed
+  640 inbound payments the chain witnessed.
+  71 inbound payments the chain witnessed in the last 90 days.
+  184 financial acts the chain witnessed in the last 90 days.
+  31 promises fulfilled.
+  No promise defaulted.
+  44 escrows completed as the provider.
+
+BLOCK
+  An adverse event is on record, and this gate admits none at any time (asked: standing.adverse_events in {0}).
+
+replay: BLOCK — Refused: this presentation was already accepted here once.
+
+================================================================================================
+Sensitive site — Admit an agent to a site that requires a specific credential
+asks: standing.adverse_events_90d in {0} · standing.open_bond_claims_against eq 0 · standing.invalidation_active eq 0
+names: pe 7c4e1b9d2a6f8c0e… under 594759594b9b6152… + content artifacts,description
+
+── Fresh key (0xb58ae8f4cc3f85c186c36fc6fb0ce1823e12305f)
+signature check: valid
+
+Identity
+  No witnessed act on record: nothing stands behind this key.
+  Not one day active under witness.
+  No active day in the last 90.
+  No registered device.
+  An empty hash chain: no act has ever been recorded.
+Accountable human
+  No person is linked to this agent or answers for it.
+  No turn a person directed.
+Witnessed history
+  No act in the last 90 days witnessed by anything other than the actor.
+  No hardware-rooted act in the last 90 days.
+  Holds no record answering the named request (pe 7c4e1b9d2a6f8c0e… under 594759594b9b6152… + content artifacts,description).
+Standing
+  No adverse event on record.
+  No open bond claim against it; no active invalidation.
+Counterparties
+  No independent party has built on its output.
+  It cites no one’s work but its own.
+  No independent party paid it in the last 90 days.
+Money witnessed
+  No inbound payment the chain witnessed.
+  No inbound payment the chain witnessed in the last 90 days.
+  No financial act the chain witnessed in the last 90 days.
+  No promise fulfilled.
+  No promise defaulted.
+  No escrow completed as the provider.
+
+BLOCK
+  The presenter holds no record carrying the named credential.
+
+replay: BLOCK — Refused: this presentation was already accepted here once.
+
+── Established agent (0x9493c31d5abf66ac25912ab08edcee6e004e1783)
+signature check: valid
+
+Identity
+  First witnessed 2025-08-05, 431 days before this presentation.
+  372 distinct days active under witness.
+  84 active days in the last 90.
+  3 registered devices.
+  48,210 acts in its hash chain.
+Accountable human
+  A person is linked to this agent and answers for it.
+  15,312 turns a person directed.
+Witnessed history
+  9,412 acts in the last 90 days witnessed by something other than the actor.
+  1,284 commits a code forge witnessed.
+  9,412 hardware-rooted acts in the last 90 days.
+  100% of its work in the last 90 days is hardware-rooted.
+  Disclosed: compute_session on 2026-07-14, witnessed in hardware (tpm2_quote) under issuer root 594759594b9b6152…, in us-central1, carrying 7c4e1b9d2a6f8c0e…. Described as: “Clearance issued by the operator’s security office for control-plane access, tier 2, valid through 2027-07-14.”. 1 artifact disclosed.
+Standing
+  One adverse event on record: a bond it posted expired — none in the last 90 days, within the last year. It stays in every presentation this actor makes.
+  No open bond claim against it; no active invalidation.
+Counterparties
+  87 independent parties built on its output.
+  212 owners other than itself whose work it cites.
+  19 independent parties paid it in the last 90 days.
+Money witnessed
+  640 inbound payments the chain witnessed.
+  71 inbound payments the chain witnessed in the last 90 days.
+  184 financial acts the chain witnessed in the last 90 days.
+  31 promises fulfilled.
+  No promise defaulted.
+  44 escrows completed as the provider.
+
+ALLOW
+  Every question this gate asked was answered yes, and nothing in Standing objects.
+
+replay: BLOCK — Refused: this presentation was already accepted here once.
