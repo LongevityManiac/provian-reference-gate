@@ -7,6 +7,12 @@ gate makes the actor **present its record first**, verifies the presentation its
 own predicates, and decides. Reading the record costs the gate nothing: no Provian account, no key
 from Provian, no fee.
 
+Burn-to-present is Provian's foundational burn, and gates like this one are where most of it
+happens. A gate does not register with Provian. Provian proves the presentation is real: burned,
+signed, bound to this gate's challenge, not reused. What the gate grants on it is the gate's own
+policy. An agent does not burn on every transaction: one presentation opens the
+relationship, and the gate decides how long it trusts it and when it asks again.
+
 <p align="center">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="docs/gate-handshake-dark.svg">
