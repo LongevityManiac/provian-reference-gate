@@ -153,8 +153,8 @@ export async function reverifyAdmission(entry: AdmissionEntry, trustedGateKey: G
     presentation = { valid: false, reason: 'malformed' };
   }
   const anchorCheck = offlineAnchorCheck(record.token, record.anchor_observations);
-  if (presentation?.valid && (anchorCheck === 'invalid' || anchorCheck === 'unavailable')) {
-    presentation = { valid: false, reason: presentation.tier === 'reputation' ? 'disclosure_record_invalid' : 'pe_fact_proof_onchain_invalid' };
+  if (presentation?.valid && (anchorCheck === 'invalid' || anchorCheck === 'unavailable' || anchorCheck === 'untrusted')) {
+    presentation = { valid: false, reason: presentation.tier === 'reputation' ? 'disclosure_record_invalid' : anchorCheck === 'untrusted' ? 'pe_fact_anchor_untrusted' : 'pe_fact_proof_onchain_invalid' };
   }
   let policyCheck: 'matches' | 'mismatch' | 'not_run' = 'not_run';
   if (policy && presentation?.valid && record.verification.local?.valid) {

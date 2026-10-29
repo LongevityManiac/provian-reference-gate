@@ -49,7 +49,7 @@ async function main(): Promise<number> {
     const tokenFile = flag('--token');
     if (!challengeFile || !tokenFile) { console.error('decide needs --challenge <file> and --token <file|->'); return 1; }
     const challenge = readFileSync(challengeFile, 'utf8');
-    const token = (tokenFile === '-' ? readFileSync(0, 'utf8') : readFileSync(tokenFile, 'utf8')).trim();
+    const token = (tokenFile === '-' ? readFileSync(0, 'utf8') : readFileSync(tokenFile, 'utf8'));
     const decision = await gate.decide(policy, token, { challenge });
     process.stdout.write(`${JSON.stringify(decision, null, 2)}\n`);
     process.stderr.write(`\n${formatReport(decision.report)}\n`);

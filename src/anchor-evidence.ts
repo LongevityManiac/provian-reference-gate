@@ -1,9 +1,10 @@
 /** Receipt-time Base observations; no owner data, headers or credential-bearing RPC URLs retained. */
+import { isIP } from 'node:net';
 import { lookup } from 'node:dns/promises';
 import { request as httpsRequest } from 'node:https';
 import { request as httpRequest } from 'node:http';
 import { decodeFunctionResult, encodeFunctionData, keccak256, concatHex, type Hex } from 'viem';
-import { decodePresentationToken, PROVIAN_BASE_PE_ANCHOR, DEFAULT_BASE_RPC_URL, validateEgressTarget } from '@provian/agent-sdk';
+import { decodePresentationToken, parseDisclosureAnswers, PROVIAN_BASE_PE_ANCHOR, DEFAULT_BASE_RPC_URL, validateEgressTarget } from '@provian/agent-sdk';
 
 const ABI = [{ type: 'function', name: 'getBatch', stateMutability: 'view',
   inputs: [{ name: 'batchId', type: 'bytes32' }], outputs: [
@@ -19,25 +20,54 @@ export interface AnchorObservation {
   readonly status: 'observed' | 'unavailable';
   readonly source: 'verified_inclusion' | 'rpc_root';
 }
-interface Proof { anchor: { batch_id?: unknown; contract_address?: unknown }; leaf: { leaf_value?: unknown }; merkle_proof: unknown[] }
+interface Proof { pe_id?: string; anchor: { batch_id?: unknown; contract_address?: unknown }; leaf: { leaf_value?: unknown }; merkle_proof: unknown[] }
 function proofsOf(token: string): Proof[] {
   const p = decodePresentationToken(token.trim());
-  return [...(Array.isArray(p?.proofs) ? p.proofs : []), ...(Array.isArray(p?.disclosure_proofs) ? p.disclosure_proofs : [])]
-    .filter((proof) => typeof proof === 'object' && proof !== null) as Proof[];
+  if (!p) return [];
+  const objects = (value: unknown): Proof[] => Array.isArray(value)
+    ? value.filter((proof): proof is Proof => typeof proof === 'object' && proof !== null) : [];
+  if (p.tier === 'pe_fact') return objects(p.proofs); // SDK checks every outer PE-fact proof.
+  if (p.tier !== 'reputation' || typeof p.provian_jws !== 'string') return [];
+  // The SDK reads reputation records from the SIGNED JWS payload, never its unsigned outer copy.
+  let signed: unknown;
+  try { signed = JSON.parse(Buffer.from(p.provian_jws.split('.')[1] ?? '', 'base64url').toString('utf8')); }
+  catch { return []; }
+  if (typeof signed !== 'object' || signed === null || !('disclosures' in signed) || !Array.isArray(signed.disclosures)) return [];
+  const candidates = objects(p.disclosure_proofs);
+  const selected: Proof[] = [];
+  for (const answer of parseDisclosureAnswers(signed.disclosures) ?? []) {
+    if (answer.election !== 'disclosed') continue;
+    for (const record of answer.records ?? []) {
+      // Same first match by PE id as checkDisclosedRecords; unused/duplicate outer proofs are inert.
+      const proof = candidates.find((candidate) => candidate.pe_id === record.pe_id);
+      if (proof && !selected.includes(proof)) selected.push(proof);
+    }
+  }
+  return selected;
 }
 
 /** Default outbound read: validate all DNS answers, pin the selected public address at the socket,
  * refuse redirects. Injected fetch is the same explicit transport seam as the gate/SDK tests. */
 export const anchorFetch: typeof fetch = async (input, init) => {
+  init?.signal?.throwIfAborted();
   const url = new URL(String(input));
-  const checked = await validateEgressTarget(url.href, { resolveHost: async (hostname) => (await lookup(hostname, { all: true })).map((a) => a.address) });
-  const ip = checked.resolvedIps?.[0];
+  const validation = validateEgressTarget(url.href, { resolveHost: async (hostname) => (await lookup(hostname, { all: true })).map((a) => a.address) });
+  const signal = init?.signal;
+  const checked = signal ? await new Promise<Awaited<typeof validation>>((resolve, reject) => {
+    const abort = () => reject(signal.reason);
+    signal.addEventListener('abort', abort, { once: true });
+    if (signal.aborted) { signal.removeEventListener('abort', abort); reject(signal.reason); return; }
+    validation.then((value) => { signal.removeEventListener('abort', abort); resolve(value); },
+      (error: unknown) => { signal.removeEventListener('abort', abort); reject(error); });
+  }) : await validation;
+  const literal = url.hostname.replace(/^\[|\]$/g, '');
+  const ip = checked.resolvedIps?.[0] ?? (isIP(literal) ? literal : undefined);
   if (!checked.ok || !ip) throw new Error('anchor RPC egress refused');
   return new Promise<Response>((resolve, reject) => {
     const request = (url.protocol === 'https:' ? httpsRequest : httpRequest)(url, {
-      method: 'POST', headers: { 'content-type': 'application/json' },
+      method: 'POST', headers: { 'content-type': 'application/json' }, family: ip.includes(':') ? 6 : 4,
       lookup: (_hostname, _options, callback) => callback(null, ip, ip.includes(':') ? 6 : 4),
-      timeout: 10_000,
+      timeout: 10_000, ...(signal ? { signal } : {}),
     }, (response) => {
       const chunks: Buffer[] = []; let size = 0;
       response.on('data', (chunk: Buffer) => { size += chunk.length; if (size > 64 * 1024) response.destroy(new Error('anchor RPC response too large')); else chunks.push(chunk); });
@@ -112,11 +142,11 @@ export async function captureAnchorObservations(token: string, rpcUrl = DEFAULT_
   return observations;
 }
 
-export function offlineAnchorCheck(token: string, observations: readonly AnchorObservation[]): 'valid' | 'invalid' | 'unavailable' | 'not_needed' {
+export function offlineAnchorCheck(token: string, observations: readonly AnchorObservation[]): 'valid' | 'invalid' | 'untrusted' | 'unavailable' | 'not_needed' {
   const proofs = proofsOf(token);
   if (proofs.length === 0) return 'not_needed';
   for (const proof of proofs) {
-    if (typeof proof.anchor?.contract_address === 'string' && proof.anchor.contract_address.toLowerCase() !== PROVIAN_BASE_PE_ANCHOR.toLowerCase()) return 'invalid';
+    if (decodePresentationToken(token.trim())?.tier === 'pe_fact' && typeof proof.anchor?.contract_address === 'string' && proof.anchor.contract_address.toLowerCase() !== PROVIAN_BASE_PE_ANCHOR.toLowerCase()) return 'untrusted';
     const observation = observations.find((o) => o.batch_id === proof.anchor?.batch_id);
     if (!observation || observation.status !== 'observed') return 'unavailable';
     if (observation.contract !== PROVIAN_BASE_PE_ANCHOR.toLowerCase() || observation.chain_id !== 8453 || !observation.exists ||

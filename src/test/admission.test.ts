@@ -1,15 +1,20 @@
-import { test, after } from 'node:test';
+import { test, after, mock } from 'node:test';
 import assert from 'node:assert/strict';
 import { mkdtempSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
-import { createFileSeenStore } from '@provian/agent-sdk';
+import crypto from 'node:crypto';
+import { keccak256, encodePacked, type Hex } from 'viem';
+import https from 'node:https';
+import http, { type RequestOptions, type IncomingMessage } from 'node:http';
+import { syncBuiltinESMExports } from 'node:module';
+import { createFileSeenStore, buildAgentPresentationRequest, deriveAddressFromPrivateKey, PROVIAN_BASE_PE_ANCHOR } from '@provian/agent-sdk';
 import { Gate, generateGateKey } from '../gate.js';
 import { createFileAdmissionLog, reverifyAdmission, AdmissionLogError, type AdmissionEntry } from '../admission.js';
 import { readEnv } from '../config.js';
 import { counterpartyOnboarding, sensitiveSite } from '../examples/index.js';
 import { REPORT_HEADINGS } from '../report.js';
-import { outerProofRoot } from '../anchor-evidence.js';
+import { anchorFetch, outerProofRoot } from '../anchor-evidence.js';
 import { DOMAIN, fakeRelayFetch, relayShapedAnswer, forgeReputationToken, makeIssuer, makePresenter } from '../illustrative/forge.js';
 import { establishedPresenter, ILLUSTRATIVE_NOW as NOW } from '../illustrative/presenters.js';
 import { startAnchorStub } from '../illustrative/anchor-stub.js';
@@ -204,4 +209,90 @@ test('rotation refresh preserves the exact key set actually used, never private 
   assert.ok(!JSON.stringify(entry).includes('PRIVATE-DO-NOT-RETAIN'));
   const result = await reverifyAdmission(entry, s.key.publicJwk, counterpartyOnboarding);
   assert.equal(result.presentation?.valid, true); assert.equal(result.verification_matches, true);
+});
+
+
+test('unused outer proofs cannot create observed roots or invalidate an otherwise valid receipt (RED)', async () => {
+  const s = await setup(); const c = s.gate.issueChallenge(counterpartyOnboarding);
+  const raw = JSON.parse(Buffer.from(s.token(c), 'base64url').toString('utf8')) as Record<string, unknown>;
+  const bogus = { pe_id: 'unused', anchor: { batch_id: `0x${'aa'.repeat(32)}` }, leaf: { leaf_value: `0x${'bb'.repeat(32)}` }, merkle_proof: [] };
+  raw.proofs = [bogus]; raw.disclosure_proofs = [bogus];
+  const token = Buffer.from(JSON.stringify(raw)).toString('base64url');
+  assert.equal((await s.gate.decide(counterpartyOnboarding, token)).decision, 'allow');
+  const entry = entries(s.dir)[0]!;
+  assert.deepEqual(entry.record.anchor_observations, []);
+  const result = await reverifyAdmission(entry, s.key.publicJwk, counterpartyOnboarding);
+  assert.equal(result.presentation?.valid, true); assert.equal(result.anchor_check, 'not_needed');
+  assert.equal(result.verification_matches, true); assert.equal(result.policy_check, 'matches');
+});
+
+test('RED — default anchor transport refuses private addresses before a socket is opened', async () => {
+  await assert.rejects(anchorFetch('https://127.0.0.1:1', { method: 'POST', body: '{}' }), /egress refused/);
+  await assert.rejects(anchorFetch('https://169.254.169.254/latest/meta-data', { method: 'POST', body: '{}' }), /egress refused/);
+});
+
+
+test('RED — slow response bytes cannot evade the anchor transport total deadline', async () => {
+  const server = http.createServer((_request, response) => {
+    response.writeHead(200, { 'content-type': 'application/json' });
+    const interval = setInterval(() => response.write(' '), 2);
+    response.on('close', () => clearInterval(interval));
+  });
+  await new Promise<void>((resolve) => server.listen(0, '127.0.0.1', resolve));
+  const address = server.address(); assert.ok(address && typeof address === 'object');
+  const localUrl = `http://127.0.0.1:${address.port}`;
+  const original = http.request;
+  // Only the test substitutes the socket destination. Production validates/pins the public IP.
+  const transport = mock.method(https, 'request', (...args: unknown[]) => original(localUrl,
+    args[1] as RequestOptions, args[2] as (response: IncomingMessage) => void));
+  syncBuiltinESMExports();
+  const started = Date.now();
+  try {
+    await assert.rejects(async () => {
+      const response = await anchorFetch('https://93.184.216.34', { method: 'POST', body: '{}', signal: AbortSignal.timeout(40) });
+      await response.text();
+    }, /abort/i);
+  } finally {
+    transport.mock.restore(); syncBuiltinESMExports(); server.closeAllConnections();
+    await new Promise<void>((resolve) => server.close(() => resolve()));
+  }
+  assert.ok(Date.now() - started < 1000, 'total deadline, not idle-byte timeout');
+});
+
+
+test('PE-fact receipts preserve valid inclusion and exact untrusted/false-anchor refusals offline', async () => {
+  const s = await setup(); const good = await startAnchorStub(); const bad = await startAnchorStub('false');
+  const policy = { slug: 'pe-fact', name: 'PE fact', action: 'Check an anchored fact', description: 'Test policy', predicates: [], standing: () => [] };
+  try {
+    for (const which of ['valid', 'untrusted', 'false'] as const) {
+      const gate = await Gate.create({ domain: DOMAIN, key: s.key, jwks: s.issuer.jwks, relayVerify: false,
+        nowSeconds: () => NOW, admissionLog: s.log, rpcUrl: which === 'false' ? bad.url : good.url, fetchFn: fetch });
+      const c = gate.issueChallenge(policy); const hash = `0x${'ab'.repeat(32)}` as Hex;
+      const privateKeyHex = 'a'.repeat(64); const address = deriveAddressFromPrivateKey(privateKeyHex).toLowerCase();
+      const claims = [{ pe_id: 'pe_fact_test', envelope_hash: hash }];
+      const { body } = buildAgentPresentationRequest({ privateKeyHex, tier: 'pe_fact', burnId: 'b'.repeat(64),
+        audience: c.audience, challenge: c.challenge, challengeEnvelope: c, nowSeconds: NOW,
+        peFacts: [{ peId: claims[0]!.pe_id, envelopeHash: hash }] });
+      const requester = { type: 'domain', id: DOMAIN };
+      const common = { v: 2, presenter_address: address, burn_id: body.burn_id, pe_facts: claims,
+        jti: body.jti, iat: body.iat, exp: body.exp, requester, chal_exp: c.expiresAt };
+      const h = Buffer.from(JSON.stringify({ alg: 'EdDSA', typ: 'provian-presentation-pefact+jwt', kid: s.issuer.kid })).toString('base64url');
+      const p = Buffer.from(JSON.stringify({ ...common, iss: 'https://provian.ai', ctx: 'pe_fact_cosign' })).toString('base64url');
+      const signature = crypto.sign(null, Buffer.from(`${h}.${p}`), s.issuer.privateKey).toString('base64url');
+      const token = Buffer.from(JSON.stringify({ tier: 'pe_fact',
+        payload: { ...common, tier: 'pe_fact', iss: address, sub: 'wallet_test', aud: c.audience, chal: c.challenge, presenter_pop: body.pop },
+        provian_jws: `${h}.${p}.${signature}`, proofs: [{ ...claims[0], anchored: true,
+          anchor: { batch_id: `0x${'11'.repeat(32)}`, contract_address: which === 'untrusted' ? `0x${'88'.repeat(20)}` : PROVIAN_BASE_PE_ANCHOR },
+          leaf: { leaf_value: keccak256(encodePacked(['bytes1', 'bytes32'], ['0x00', hash])) }, merkle_proof: [`0x${'22'.repeat(32)}`] }],
+      })).toString('base64url');
+      const decision = await gate.decide(policy, token);
+      assert.equal(decision.decision, which === 'valid' ? 'allow' : 'block', JSON.stringify(decision.reasons));
+      if (which === 'untrusted') assert.deepEqual(decision.reasons, ['local verify: pe_fact_anchor_untrusted']);
+      if (which === 'false') assert.deepEqual(decision.reasons, ['local verify: pe_fact_proof_onchain_invalid']);
+      const entry = entries(s.dir).find((value) => value.record.token === token)!;
+      const result = await reverifyAdmission(entry, s.key.publicJwk, policy);
+      assert.equal(result.presentation?.valid, which === 'valid'); assert.equal(result.verification_matches, true);
+      assert.equal(result.anchor_check, which === 'valid' ? 'valid' : which === 'untrusted' ? 'untrusted' : 'invalid');
+    }
+  } finally { await good.close(); await bad.close(); }
 });
