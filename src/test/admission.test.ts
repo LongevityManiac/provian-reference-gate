@@ -296,3 +296,22 @@ test('PE-fact receipts preserve valid inclusion and exact untrusted/false-anchor
     }
   } finally { await good.close(); await bad.close(); }
 });
+
+
+test('RED — empty 204 anchor responses are handled without escaping the async request', async () => {
+  const server = http.createServer((_request, response) => { response.writeHead(204); response.end(); });
+  await new Promise<void>((resolve) => server.listen(0, '127.0.0.1', resolve));
+  const address = server.address(); assert.ok(address && typeof address === 'object');
+  const original = http.request;
+  const transport = mock.method(https, 'request', (...args: unknown[]) => original(`http://127.0.0.1:${address.port}`,
+    args[1] as RequestOptions, args[2] as (response: IncomingMessage) => void));
+  syncBuiltinESMExports();
+  try {
+    const response = await anchorFetch('https://93.184.216.34', { method: 'POST', body: '{}', signal: AbortSignal.timeout(1000) });
+    assert.equal(response.status, 204); assert.equal(response.body, null);
+    await assert.rejects(response.json(), /JSON/);
+  } finally {
+    transport.mock.restore(); syncBuiltinESMExports(); server.closeAllConnections();
+    await new Promise<void>((resolve) => server.close(() => resolve()));
+  }
+});

@@ -72,7 +72,12 @@ export const anchorFetch: typeof fetch = async (input, init) => {
       const chunks: Buffer[] = []; let size = 0;
       response.on('data', (chunk: Buffer) => { size += chunk.length; if (size > 64 * 1024) response.destroy(new Error('anchor RPC response too large')); else chunks.push(chunk); });
       response.on('error', reject);
-      response.on('end', () => resolve(new Response(Buffer.concat(chunks), { status: response.statusCode ?? 500 })));
+      response.on('end', () => {
+        try {
+          const status = response.statusCode ?? 500;
+          resolve(new Response([204, 205, 304].includes(status) ? null : Buffer.concat(chunks), { status }));
+        } catch (error) { reject(error); }
+      });
     });
     request.on('error', reject); request.on('timeout', () => request.destroy(new Error('anchor RPC timeout')));
     request.end(typeof init?.body === 'string' ? init.body : '');
