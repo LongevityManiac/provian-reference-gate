@@ -18,10 +18,12 @@
     "start": "node dist/server.js",
     "walkthrough": "node dist/walkthrough.js",
     "contrast": "node dist/contrast.js",
-    "test": "npm run build && node --test dist/test/gate.test.js dist/test/report.test.js"
+    "reverify-admission": "node dist/reverify-admission.js",
+    "test": "npm run build && node --test dist/test/gate.test.js dist/test/report.test.js dist/test/admission.test.js"
   },
   "dependencies": {
-    "@provian/agent-sdk": "^1.10.0"
+    "@provian/agent-sdk": "^1.10.0",
+    "viem": "2.53.1"
   },
   "devDependencies": {
     "@types/node": "^20.14.0",

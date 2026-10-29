@@ -18,6 +18,8 @@
 import { createServer, type IncomingMessage, type ServerResponse } from 'node:http';
 import { REQUESTER_WELL_KNOWN_PATH } from '@provian/agent-sdk';
 import { Gate } from './gate.js';
+import { createFileAdmissionLog, AdmissionLogError } from './admission.js';
+import path from 'node:path';
 import { examplePolicies } from './examples/index.js';
 import { fileSeenStore, loadOrCreateKey, readEnv } from './config.js';
 import type { GatePolicy } from './types.js';
@@ -54,6 +56,7 @@ export async function main(): Promise<void> {
   const env = readEnv();
   const { key, created } = loadOrCreateKey(env.dataDir);
   const gate = await Gate.create({
+    ...(env.admissionLog ? { admissionLog: createFileAdmissionLog(path.join(env.dataDir, 'admissions')) } : {}),
     domain: env.domain,
     key,
     relayUrl: env.relayUrl,
@@ -102,7 +105,7 @@ export async function main(): Promise<void> {
       }
       json(res, 404, { error: 'not found' });
     } catch (err) {
-      json(res, 400, { error: err instanceof Error ? err.message : 'bad request' });
+      json(res, err instanceof AdmissionLogError ? 503 : 400, { error: err instanceof Error ? err.message : 'bad request' });
     }
   });
 

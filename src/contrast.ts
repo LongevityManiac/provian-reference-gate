@@ -17,6 +17,8 @@
  */
 import crypto from 'node:crypto';
 import { writeFileSync } from 'node:fs';
+import { createFileAdmissionLog } from './admission.js';
+import path from 'node:path';
 import { Gate, generateGateKey } from './gate.js';
 import { examplePolicies } from './examples/index.js';
 import { formatReport } from './report.js';
@@ -24,7 +26,7 @@ import { describeDisclosure, describePredicate } from './policy.js';
 import { DOMAIN, forgeReputationToken } from './illustrative/forge.js';
 import { startAnchorStub } from './illustrative/anchor-stub.js';
 import { ILLUSTRATIVE_NOW, establishedPresenter, freshPresenter, illustrativeIssuer, type IllustrativePresenter } from './illustrative/presenters.js';
-import type { Decision, GatePolicy } from './types.js';
+import type { Decision, GateKey, GatePolicy } from './types.js';
 
 /** The live reputation-tier burn floor, in PVT (what a real presentation at this tier costs). */
 export const REPUTATION_FLOOR_PVT = 15;
@@ -50,6 +52,7 @@ export interface ContrastRecord {
   readonly note: string;
   readonly at: string;
   readonly gate: string;
+  readonly gate_public_jwk: GateKey['publicJwk'];
   readonly issuer: { readonly kid: string; readonly x: string; readonly note: string };
   readonly presenters: ReadonlyArray<{ readonly id: string; readonly label: string; readonly summary: string; readonly address: string; readonly wallet_id: string }>;
   readonly examples: ReadonlyArray<{
@@ -89,7 +92,8 @@ export async function runContrast(): Promise<ContrastRecord> {
   const issuer = illustrativeIssuer();
   const anchor = await startAnchorStub();
   try {
-    const gate = await Gate.create({ domain: DOMAIN, key: generateGateKey('gate-k1'), jwks: issuer.jwks, relayVerify: false, nowSeconds: () => ILLUSTRATIVE_NOW, rpcUrl: anchor.url });
+    const key = generateGateKey('gate-k1');
+    const gate = await Gate.create({ admissionLog: createFileAdmissionLog(path.resolve(process.env.GATE_DATA_DIR ?? './data', 'admissions')), domain: DOMAIN, key, jwks: issuer.jwks, relayVerify: false, nowSeconds: () => ILLUSTRATIVE_NOW, rpcUrl: anchor.url, fetchFn: fetch });
     const presenters = [freshPresenter(), establishedPresenter()];
     const examples: ContrastRecord['examples'][number][] = [];
     for (const policy of Object.values(examplePolicies())) {
@@ -103,19 +107,20 @@ export async function runContrast(): Promise<ContrastRecord> {
         runs,
       });
     }
-    return assemble(issuer, presenters, examples);
+    return assemble(issuer, presenters, examples, key);
   } finally {
     await anchor.close();
   }
 }
 
-function assemble(issuer: ReturnType<typeof illustrativeIssuer>, presenters: IllustrativePresenter[], examples: ContrastRecord['examples'][number][]): ContrastRecord {
+function assemble(issuer: ReturnType<typeof illustrativeIssuer>, presenters: IllustrativePresenter[], examples: ContrastRecord['examples'][number][], key: GateKey): ContrastRecord {
   return {
     kind: 'provian-reference-gate.illustrative-contrast.v1',
     illustrative: true,
     note: 'Illustrative. Presentations signed by the reference’s own test issuer key, not by Provian; presenters are fixtures. Every decision went through the same SDK verifier a live gate uses; the relay’s second opinion was off, and the one anchor read a disclosed record needs was answered by a local stub, not Base.',
     at: new Date(ILLUSTRATIVE_NOW * 1000).toISOString(),
     gate: DOMAIN,
+    gate_public_jwk: key.publicJwk,
     issuer: { kid: issuer.kid, x: issuer.jwks[0]?.x ?? '', note: 'TEST key derived from a public label — not Provian’s.' },
     presenters: presenters.map((p) => ({ id: p.id, label: p.label, summary: p.summary, address: p.presenter.address, wallet_id: p.presenter.walletId })),
     examples,

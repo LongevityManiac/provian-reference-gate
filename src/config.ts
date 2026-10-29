@@ -13,6 +13,7 @@ export interface GateEnv {
   readonly domain: string;
   readonly relayUrl: string;
   readonly relayVerify: boolean;
+  readonly admissionLog: boolean;
   readonly dataDir: string;
   readonly port: number;
   /** What the mission-critical and sensitive-site examples require (unset = the illustrative defaults). */
@@ -47,6 +48,7 @@ export function readEnv(env: NodeJS.ProcessEnv = process.env): GateEnv {
     domain,
     relayUrl: (env.PROVIAN_RELAY_URL ?? 'https://api.provian.ai').replace(/\/+$/, ''),
     relayVerify: (env.GATE_RELAY_VERIFY ?? 'true').toLowerCase() !== 'false',
+    admissionLog: (env.GATE_ADMISSION_LOG ?? 'true').toLowerCase() !== 'false',
     dataDir: path.resolve(env.GATE_DATA_DIR ?? './data'),
     port,
     examples: exampleConfigFromEnv(env),

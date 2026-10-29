@@ -1,0 +1,678 @@
+{
+  "record": {
+    "anchor_observations": [],
+    "challenge": {
+      "audience": "gate.example.com",
+      "challenge": "eb1aa4e5900d7a832fe3362154ab9884f6d6950c7da3f9496b48371c6e8afa43",
+      "expiresAt": 1791591300,
+      "issuedAt": 1791590400,
+      "predicates": [
+        {
+          "field": "continuity.active_days",
+          "op": "gte",
+          "threshold": 30
+        },
+        {
+          "field": "continuity.active_days_90d",
+          "op": "gte",
+          "threshold": 10
+        },
+        {
+          "field": "work.witnessed_90d",
+          "op": "gte",
+          "threshold": 25
+        },
+        {
+          "field": "consumption.independent_parties",
+          "op": "gte",
+          "threshold": 3
+        },
+        {
+          "field": "accountability.human_beneficiary",
+          "op": "eq",
+          "threshold": 1
+        },
+        {
+          "field": "standing.adverse_events_90d",
+          "op": "in",
+          "set": [
+            0
+          ]
+        },
+        {
+          "field": "standing.open_bond_claims_against",
+          "op": "eq",
+          "threshold": 0
+        },
+        {
+          "field": "standing.invalidation_active",
+          "op": "eq",
+          "threshold": 0
+        }
+      ],
+      "requester": {
+        "id": "gate.example.com",
+        "kid": "gate-k1",
+        "type": "domain"
+      },
+      "sig": "C4jKFClvuheYo4p9P4yNtkpV4-YErOHO1-S5G3JYE4A9eUMxc4TwLPyvhcDxQ9766HwHwqEF19WhHg65O7ByDA",
+      "v": 1
+    },
+    "decision": {
+      "action": "Let an agent this system has never met act for the first time",
+      "at": "2026-10-10T00:00:00.000Z",
+      "decision": "allow",
+      "disclosures": [],
+      "gate": "gate.example.com",
+      "policy": "counterparty-onboarding",
+      "predicates": [
+        {
+          "field": "continuity.active_days",
+          "op": "gte",
+          "result": true,
+          "threshold": 30
+        },
+        {
+          "field": "continuity.active_days_90d",
+          "op": "gte",
+          "result": true,
+          "threshold": 10
+        },
+        {
+          "field": "work.witnessed_90d",
+          "op": "gte",
+          "result": true,
+          "threshold": 25
+        },
+        {
+          "field": "consumption.independent_parties",
+          "op": "gte",
+          "result": true,
+          "threshold": 3
+        },
+        {
+          "field": "accountability.human_beneficiary",
+          "op": "eq",
+          "result": true,
+          "threshold": 1
+        },
+        {
+          "field": "standing.adverse_events_90d",
+          "op": "in",
+          "result": true,
+          "set": [
+            0
+          ]
+        },
+        {
+          "field": "standing.open_bond_claims_against",
+          "op": "eq",
+          "result": true,
+          "threshold": 0
+        },
+        {
+          "field": "standing.invalidation_active",
+          "op": "eq",
+          "result": true,
+          "threshold": 0
+        }
+      ],
+      "presentation": {
+        "challenge_expires_at": 1791591300,
+        "id": "026273fa9f355f9dce134386b747f6752cc8e07292f47487fe652a02d0302b56",
+        "presenter": {
+          "address": "0x9493c31d5abf66ac25912ab08edcee6e004e1783",
+          "wallet_id": "wallet_aw_illustrative_established"
+        },
+        "requester": {
+          "id": "gate.example.com",
+          "type": "domain"
+        },
+        "tier": "reputation"
+      },
+      "reasons": [
+        "true: continuity.active_days gte 30",
+        "true: continuity.active_days_90d gte 10",
+        "true: work.witnessed_90d gte 25",
+        "true: consumption.independent_parties gte 3",
+        "true: accountability.human_beneficiary eq 1",
+        "true: standing.adverse_events_90d in {0}",
+        "true: standing.open_bond_claims_against eq 0",
+        "true: standing.invalidation_active eq 0"
+      ],
+      "report": {
+        "decision": "ALLOW",
+        "reason": "Every question this gate asked was answered yes, and nothing in Standing objects.",
+        "reasons": [
+          "Every question this gate asked was answered yes, and nothing in Standing objects."
+        ],
+        "sections": [
+          {
+            "heading": "Identity",
+            "lines": [
+              {
+                "fields": [
+                  "continuity.first_seen_ms"
+                ],
+                "source": "disclosed",
+                "text": "First witnessed 2025-08-05, 431 days before this presentation."
+              },
+              {
+                "fields": [
+                  "continuity.active_days"
+                ],
+                "source": "answer",
+                "text": "At least 30 distinct days active under witness."
+              },
+              {
+                "fields": [
+                  "continuity.active_days_90d"
+                ],
+                "source": "answer",
+                "text": "At least 10 active days in the last 90."
+              },
+              {
+                "fields": [
+                  "continuity.registered_devices"
+                ],
+                "source": "disclosed",
+                "text": "3 registered devices."
+              },
+              {
+                "fields": [
+                  "continuity.chain_depth"
+                ],
+                "source": "disclosed",
+                "text": "48,210 acts in its hash chain."
+              }
+            ]
+          },
+          {
+            "heading": "Accountable human",
+            "lines": [
+              {
+                "fields": [
+                  "accountability.human_beneficiary"
+                ],
+                "source": "answer",
+                "text": "A person is linked to this agent and answers for it."
+              },
+              {
+                "fields": [
+                  "accountability.supervised_turns"
+                ],
+                "source": "disclosed",
+                "text": "15,312 turns a person directed."
+              }
+            ]
+          },
+          {
+            "heading": "Witnessed history",
+            "lines": [
+              {
+                "fields": [
+                  "work.witnessed_90d"
+                ],
+                "source": "answer",
+                "text": "At least 25 acts in the last 90 days witnessed by something other than the actor."
+              },
+              {
+                "fields": [
+                  "work.compute.forge_witnessed"
+                ],
+                "source": "disclosed",
+                "text": "1,284 commits a code forge witnessed."
+              },
+              {
+                "fields": [
+                  "work.hardware_rooted_90d"
+                ],
+                "source": "disclosed",
+                "text": "9,412 hardware-rooted acts in the last 90 days."
+              },
+              {
+                "fields": [
+                  "share.witness_90d.hardware_rooted"
+                ],
+                "source": "disclosed",
+                "text": "100% of its work in the last 90 days is hardware-rooted."
+              }
+            ]
+          },
+          {
+            "heading": "Standing",
+            "lines": [
+              {
+                "fields": [
+                  "standing.adverse_events",
+                  "standing.adverse_events_90d",
+                  "standing.adverse_events_365d"
+                ],
+                "source": "standing",
+                "text": "One adverse event on record: a bond it posted expired \u2014 none in the last 90 days, within the last year. It stays in every presentation this actor makes."
+              },
+              {
+                "fields": [
+                  "standing.open_bond_claims_against",
+                  "standing.invalidation_active"
+                ],
+                "source": "standing",
+                "text": "No open bond claim against it; no active invalidation."
+              }
+            ]
+          },
+          {
+            "heading": "Counterparties",
+            "lines": [
+              {
+                "fields": [
+                  "consumption.independent_parties"
+                ],
+                "source": "answer",
+                "text": "At least 3 independent parties built on its output."
+              },
+              {
+                "fields": [
+                  "coupling.independent_owners"
+                ],
+                "source": "disclosed",
+                "text": "212 owners other than itself whose work it cites."
+              },
+              {
+                "fields": [
+                  "money.independent_payers_90d"
+                ],
+                "source": "disclosed",
+                "text": "19 independent parties paid it in the last 90 days."
+              }
+            ]
+          },
+          {
+            "heading": "Money witnessed",
+            "lines": [
+              {
+                "fields": [
+                  "money.witnessed_inbound"
+                ],
+                "source": "disclosed",
+                "text": "640 inbound payments the chain witnessed."
+              },
+              {
+                "fields": [
+                  "money.witnessed_inbound_90d"
+                ],
+                "source": "disclosed",
+                "text": "71 inbound payments the chain witnessed in the last 90 days."
+              },
+              {
+                "fields": [
+                  "money.witnessed_financial_90d"
+                ],
+                "source": "disclosed",
+                "text": "184 financial acts the chain witnessed in the last 90 days."
+              },
+              {
+                "fields": [
+                  "money.promises_fulfilled"
+                ],
+                "source": "disclosed",
+                "text": "31 promises fulfilled."
+              },
+              {
+                "fields": [
+                  "money.promises_defaulted"
+                ],
+                "source": "disclosed",
+                "text": "No promise defaulted."
+              },
+              {
+                "fields": [
+                  "money.escrows_completed_as_provider"
+                ],
+                "source": "disclosed",
+                "text": "44 escrows completed as the provider."
+              }
+            ]
+          }
+        ]
+      },
+      "standing": {
+        "adverse_events": 1,
+        "adverse_events_30d": 0,
+        "adverse_events_365d": 1,
+        "adverse_events_90d": 0,
+        "bond_active": true,
+        "by_type": {
+          "standing.bond_expired": 1
+        },
+        "invalidation_active": false,
+        "open_bond_claims_against": 0
+      },
+      "verification": {
+        "local": "valid",
+        "onchain_checked": false,
+        "relay": "skipped",
+        "replay": "first"
+      }
+    },
+    "gate_public_jwk": {
+      "crv": "Ed25519",
+      "kid": "gate-k1",
+      "kty": "OKP",
+      "x": "r4j16CEDAfi3C8I4MqiflU0NVfyr-UGliEvtdzdRtUo"
+    },
+    "id": "01b2d425-7e88-4c6e-a5f2-3efd46cc642d",
+    "kind": "provian-gate-admission.v1",
+    "policy": {
+      "action": "Let an agent this system has never met act for the first time",
+      "description": "Admit a stranger when it has been active under witness for a month and is active now, its recent work was witnessed, independent parties have built on its output, a person answers for it, and nothing adverse stands against it in the last 90 days.",
+      "name": "Counterparty onboarding",
+      "predicates": [
+        {
+          "field": "continuity.active_days",
+          "op": "gte",
+          "threshold": 30
+        },
+        {
+          "field": "continuity.active_days_90d",
+          "op": "gte",
+          "threshold": 10
+        },
+        {
+          "field": "work.witnessed_90d",
+          "op": "gte",
+          "threshold": 25
+        },
+        {
+          "field": "consumption.independent_parties",
+          "op": "gte",
+          "threshold": 3
+        },
+        {
+          "field": "accountability.human_beneficiary",
+          "op": "eq",
+          "threshold": 1
+        },
+        {
+          "field": "standing.adverse_events_90d",
+          "op": "in",
+          "set": [
+            0
+          ]
+        },
+        {
+          "field": "standing.open_bond_claims_against",
+          "op": "eq",
+          "threshold": 0
+        },
+        {
+          "field": "standing.invalidation_active",
+          "op": "eq",
+          "threshold": 0
+        }
+      ],
+      "slug": "counterparty-onboarding"
+    },
+    "received_at": "2026-10-29T21:11:58.509Z",
+    "token": "eyJ0aWVyIjoicmVwdXRhdGlvbiIsInBheWxvYWQiOnsidiI6MiwidGllciI6InJlcHV0YXRpb24iLCJpc3MiOiJodHRwczovL3Byb3ZpYW4uYWkiLCJzdWIiOiJ3YWxsZXRfYXdfaWxsdXN0cmF0aXZlX2VzdGFibGlzaGVkIiwicHJlc2VudGVyX2FkZHJlc3MiOiIweDk0OTNjMzFkNWFiZjY2YWMyNTkxMmFiMDhlZGNlZTZlMDA0ZTE3ODMiLCJhdWQiOiJnYXRlLmV4YW1wbGUuY29tIiwiY2hhbCI6ImViMWFhNGU1OTAwZDdhODMyZmUzMzYyMTU0YWI5ODg0ZjZkNjk1MGM3ZGEzZjk0OTZiNDgzNzFjNmU4YWZhNDMiLCJpYXQiOjE3OTE1OTA0MDAsImV4cCI6MTc5MTU5MDcwMCwianRpIjoicHJlc18xYjI4ZGQ3MDM1YjhiYzRhIiwiYnVybl9pZCI6IjAyNjI3M2ZhOWYzNTVmOWRjZTEzNDM4NmI3NDdmNjc1MmNjOGUwNzI5MmY0NzQ4N2ZlNjUyYTAyZDAzMDJiNTYiLCJwcmVzZW50ZXJfcG9wIjp7InNjaGVtZSI6ImVjZHNhX3NoYTI1Nl9zZWNwMjU2azEiLCJzaWduYXR1cmUiOiIzMDQ1MDIyMTAwZDNkZTMwMTliNDI2NzgwM2JkYmVlODE1Y2M0YzZjYjhjYzE1ZTYxNzY1ZWFlYTE2OTUxM2Q3YjVkYzJhOTc3NDAyMjAyYWQ4NmQ0NzJhZGU4YzFhYWQxZWFkY2NiNDdhNzM5ZDAwYmIzZTJmMzdlYWFlY2UyZTZlNWQyODM0OGRhNmNmIiwicHVia2V5IjoiYmFjOGQ4ODdjYTcxMTQxNDA1NjVlNGVhMGIxMzMwMDY3NTQxNjE1MzYxYjMyNGQ4OWZjZmY5ZDU3MWRjMGU0ZTFkYjA0OGY2Njg0ZGZlZGUxMmFiMDYxNDY1NDdiNjZkNjY2MmNhNWY3Nzk5ZjM4NGViOGU2MzM5ZGIwMTVmMzcifSwicmVwdXRhdGlvbiI6eyJmYWN0cyI6eyJzdGFuZGluZy5hZHZlcnNlX2V2ZW50cyI6MSwic3RhbmRpbmcuYWR2ZXJzZV9ldmVudHNfMzBkIjowLCJzdGFuZGluZy5hZHZlcnNlX2V2ZW50c185MGQiOjAsInN0YW5kaW5nLmFkdmVyc2VfZXZlbnRzXzM2NWQiOjEsInN0YW5kaW5nLmJvbmRfYWN0aXZlIjoxLCJzdGFuZGluZy5vcGVuX2JvbmRfY2xhaW1zX2FnYWluc3QiOjAsInN0YW5kaW5nLmludmFsaWRhdGlvbl9hY3RpdmUiOjAsInN0YW5kaW5nLmJvbmRfZXhwaXJlZCI6MSwiYWN0b3IuaXNfYWdlbnQiOjEsImNvbnRpbnVpdHkuZmlyc3Rfc2Vlbl9tcyI6MTc1NDM1MjAwMDAwMCwiY29udGludWl0eS5sYXN0X3NlZW5fbXMiOjE3OTE1ODY4MDAwMDAsImNvbnRpbnVpdHkuY2hhaW5fZGVwdGgiOjQ4MjEwLCJjb250aW51aXR5LmFjdGl2ZV9kYXlzXzMwZCI6MjksImNvbnRpbnVpdHkuYWN0aXZlX2RheXNfMzY1ZCI6MzE4LCJjb250aW51aXR5LnN0cmVha19kYXlzIjo0MSwiY29udGludWl0eS5yZWdpc3RlcmVkX2RldmljZXMiOjMsImFjY291bnRhYmlsaXR5LnN1cGVydmlzZWRfdHVybnMiOjE1MzEyLCJ3b3JrLnRvdGFsIjo0ODIxMCwid29yay53aXRuZXNzZWQiOjQ3OTY0LCJ3b3JrLmNvbXB1dGUuZm9yZ2Vfd2l0bmVzc2VkIjoxMjg0LCJ3b3JrLmhhcmR3YXJlX3Jvb3RlZCI6MjE2NDAsIndvcmsuaGFyZHdhcmVfcm9vdGVkXzkwZCI6OTQxMiwic2hhcmUud2l0bmVzc185MGQuaGFyZHdhcmVfcm9vdGVkIjoxMDAwMCwiY29tcG9zaXRpb24uYXR0ZXN0ZWRfaXNzdWVycyI6MSwiY29tcG9zaXRpb24ubWVhc3VyZW1lbnRzIjoxLCJjb21wb3NpdGlvbi5hdHRlc3RlZF9yZWdpb25zIjoxLCJjb21wb3NpdGlvbi5pc3N1ZXIuNTk0NzU5NTk0YjliNjE1MjRmNmM4ZWY2NjhmNzE3N2Y3YjkwNjZiYzA2NzRmMmY0OWZlOWUwNTJiZTc4YmViMiI6MjE2NDAsImNvbXBvc2l0aW9uLm1lYXN1cmVtZW50LnNoYTI1Njo5ZjJjMWE3ZTBkNGI2YzhlM2E1ZjdkOWIxYzNlNWE3ZjJkNGI2YzhlMGExZjNkNWI3YzllMWEzZjVkN2I5YzFlIjoyMTY0MCwiY29tcG9zaXRpb24ucmVnaW9uLnVzLWNlbnRyYWwxIjoyMTY0MCwic2hhcmUuaXNzdWVyXzkwZC41OTQ3NTk1OTRiOWI2MTUyNGY2YzhlZjY2OGY3MTc3ZjdiOTA2NmJjMDY3NGYyZjQ5ZmU5ZTA1MmJlNzhiZWIyIjoxMDAwMCwic2hhcmUubWVhc3VyZW1lbnRfOTBkLnNoYTI1Njo5ZjJjMWE3ZTBkNGI2YzhlM2E1ZjdkOWIxYzNlNWE3ZjJkNGI2YzhlMGExZjNkNWI3YzllMWEzZjVkN2I5YzFlIjoxMDAwMCwic2hhcmUucmVnaW9uXzkwZC51cy1jZW50cmFsMSI6MTAwMDAsImNvbnN1bXB0aW9uLmVkZ2VzIjoyOTQxLCJjb3VwbGluZy5kaXN0aW5jdF9vd25lcnMiOjIzMCwiY291cGxpbmcuaW5kZXBlbmRlbnRfb3duZXJzIjoyMTIsIm1vbmV5LndpdG5lc3NlZF9pbmJvdW5kIjo2NDAsIm1vbmV5LndpdG5lc3NlZF9pbmJvdW5kXzkwZCI6NzEsIm1vbmV5LmluZGVwZW5kZW50X3BheWVycyI6MTE4LCJtb25leS5pbmRlcGVuZGVudF9wYXllcnNfOTBkIjoxOSwibW9uZXkud2l0bmVzc2VkX2ZpbmFuY2lhbCI6MTEyMiwibW9uZXkud2l0bmVzc2VkX2ZpbmFuY2lhbF85MGQiOjE4NCwibW9uZXkucHJvbWlzZXNfZnVsZmlsbGVkIjozMSwibW9uZXkucHJvbWlzZXNfZGVmYXVsdGVkIjowLCJtb25leS5lc2Nyb3dzX2NvbXBsZXRlZF9hc19wcm92aWRlciI6NDR9LCJwcmVkaWNhdGVzIjpbeyJmaWVsZCI6ImNvbnRpbnVpdHkuYWN0aXZlX2RheXMiLCJvcCI6Imd0ZSIsInRocmVzaG9sZCI6MzAsInJlc3VsdCI6dHJ1ZX0seyJmaWVsZCI6ImNvbnRpbnVpdHkuYWN0aXZlX2RheXNfOTBkIiwib3AiOiJndGUiLCJ0aHJlc2hvbGQiOjEwLCJyZXN1bHQiOnRydWV9LHsiZmllbGQiOiJ3b3JrLndpdG5lc3NlZF85MGQiLCJvcCI6Imd0ZSIsInRocmVzaG9sZCI6MjUsInJlc3VsdCI6dHJ1ZX0seyJmaWVsZCI6ImNvbnN1bXB0aW9uLmluZGVwZW5kZW50X3BhcnRpZXMiLCJvcCI6Imd0ZSIsInRocmVzaG9sZCI6MywicmVzdWx0Ijp0cnVlfSx7ImZpZWxkIjoiYWNjb3VudGFiaWxpdHkuaHVtYW5fYmVuZWZpY2lhcnkiLCJvcCI6ImVxIiwidGhyZXNob2xkIjoxLCJyZXN1bHQiOnRydWV9LHsiZmllbGQiOiJzdGFuZGluZy5hZHZlcnNlX2V2ZW50c185MGQiLCJvcCI6ImluIiwic2V0IjpbMF0sInJlc3VsdCI6dHJ1ZX0seyJmaWVsZCI6InN0YW5kaW5nLm9wZW5fYm9uZF9jbGFpbXNfYWdhaW5zdCIsIm9wIjoiZXEiLCJ0aHJlc2hvbGQiOjAsInJlc3VsdCI6dHJ1ZX0seyJmaWVsZCI6InN0YW5kaW5nLmludmFsaWRhdGlvbl9hY3RpdmUiLCJvcCI6ImVxIiwidGhyZXNob2xkIjowLCJyZXN1bHQiOnRydWV9XSwicmVkYWN0ZWQiOltdfSwiY2hhbF9leHAiOjE3OTE1OTEzMDAsInJlcXVlc3RlciI6eyJ0eXBlIjoiZG9tYWluIiwiaWQiOiJnYXRlLmV4YW1wbGUuY29tIn19LCJwcm92aWFuX2p3cyI6ImV5SmhiR2NpT2lKRlpFUlRRU0lzSW10cFpDSTZJbWxzYkhWemRISmhkR2wyWlMxcGMzTjFaWEl0YXpFaUxDSjBlWEFpT2lKd2NtOTJhV0Z1TFhCeVpYTmxiblJoZEdsdmJpdHFkM1FpZlEuZXlKMklqb3lMQ0owYVdWeUlqb2ljbVZ3ZFhSaGRHbHZiaUlzSW1semN5STZJbWgwZEhCek9pOHZjSEp2ZG1saGJpNWhhU0lzSW5OMVlpSTZJbmRoYkd4bGRGOWhkMTlwYkd4MWMzUnlZWFJwZG1WZlpYTjBZV0pzYVhOb1pXUWlMQ0p3Y21WelpXNTBaWEpmWVdSa2NtVnpjeUk2SWpCNE9UUTVNMk16TVdRMVlXSm1OalpoWXpJMU9URXlZV0l3T0dWa1kyVmxObVV3TURSbE1UYzRNeUlzSW1GMVpDSTZJbWRoZEdVdVpYaGhiWEJzWlM1amIyMGlMQ0pqYUdGc0lqb2laV0l4WVdFMFpUVTVNREJrTjJFNE16Sm1aVE16TmpJeE5UUmhZams0T0RSbU5tUTJPVFV3WXpka1lUTm1PVFE1Tm1JME9ETTNNV00yWlRoaFptRTBNeUlzSW1saGRDSTZNVGM1TVRVNU1EUXdNQ3dpWlhod0lqb3hOemt4TlRrd056QXdMQ0pxZEdraU9pSndjbVZ6WHpGaU1qaGtaRGN3TXpWaU9HSmpOR0VpTENKaWRYSnVYMmxrSWpvaU1ESTJNamN6Wm1FNVpqTTFOV1k1WkdObE1UTTBNemcyWWpjME4yWTJOelV5WTJNNFpUQTNNamt5WmpRM05EZzNabVUyTlRKaE1ESmtNRE13TW1JMU5pSXNJbkJ5WlhObGJuUmxjbDl3YjNBaU9uc2ljMk5vWlcxbElqb2laV05rYzJGZmMyaGhNalUyWDNObFkzQXlOVFpyTVNJc0luTnBaMjVoZEhWeVpTSTZJak13TkRVd01qSXhNREJrTTJSbE16QXhPV0kwTWpZM09EQXpZbVJpWldVNE1UVmpZelJqTm1OaU9HTmpNVFZsTmpFM05qVmxZV1ZoTVRZNU5URXpaRGRpTldSak1tRTVOemMwTURJeU1ESmhaRGcyWkRRM01tRmtaVGhqTVdGaFpERmxZV1JqWTJJME4yRTNNemxrTURCaVlqTmxNbVl6TjJWaFlXVmpaVEpsTm1VMVpESTRNelE0WkdFMlkyWWlMQ0p3ZFdKclpYa2lPaUppWVdNNFpEZzROMk5oTnpFeE5ERTBNRFUyTldVMFpXRXdZakV6TXpBd05qYzFOREUyTVRVek5qRmlNekkwWkRnNVptTm1aamxrTlRjeFpHTXdaVFJsTVdSaU1EUTRaalkyT0RSa1ptVmtaVEV5WVdJd05qRTBOalUwTjJJMk5tUTJOall5WTJFMVpqYzNPVGxtTXpnMFpXSTRaVFl6TXpsa1lqQXhOV1l6TnlKOUxDSnlaWEIxZEdGMGFXOXVJanA3SW1aaFkzUnpJanA3SW5OMFlXNWthVzVuTG1Ga2RtVnljMlZmWlhabGJuUnpJam94TENKemRHRnVaR2x1Wnk1aFpIWmxjbk5sWDJWMlpXNTBjMTh6TUdRaU9qQXNJbk4wWVc1a2FXNW5MbUZrZG1WeWMyVmZaWFpsYm5Selh6a3daQ0k2TUN3aWMzUmhibVJwYm1jdVlXUjJaWEp6WlY5bGRtVnVkSE5mTXpZMVpDSTZNU3dpYzNSaGJtUnBibWN1WW05dVpGOWhZM1JwZG1VaU9qRXNJbk4wWVc1a2FXNW5MbTl3Wlc1ZlltOXVaRjlqYkdGcGJYTmZZV2RoYVc1emRDSTZNQ3dpYzNSaGJtUnBibWN1YVc1MllXeHBaR0YwYVc5dVgyRmpkR2wyWlNJNk1Dd2ljM1JoYm1ScGJtY3VZbTl1WkY5bGVIQnBjbVZrSWpveExDSmhZM1J2Y2k1cGMxOWhaMlZ1ZENJNk1Td2lZMjl1ZEdsdWRXbDBlUzVtYVhKemRGOXpaV1Z1WDIxeklqb3hOelUwTXpVeU1EQXdNREF3TENKamIyNTBhVzUxYVhSNUxteGhjM1JmYzJWbGJsOXRjeUk2TVRjNU1UVTROamd3TURBd01Dd2lZMjl1ZEdsdWRXbDBlUzVqYUdGcGJsOWtaWEIwYUNJNk5EZ3lNVEFzSW1OdmJuUnBiblZwZEhrdVlXTjBhWFpsWDJSaGVYTmZNekJrSWpveU9Td2lZMjl1ZEdsdWRXbDBlUzVoWTNScGRtVmZaR0Y1YzE4ek5qVmtJam96TVRnc0ltTnZiblJwYm5WcGRIa3VjM1J5WldGclgyUmhlWE1pT2pReExDSmpiMjUwYVc1MWFYUjVMbkpsWjJsemRHVnlaV1JmWkdWMmFXTmxjeUk2TXl3aVlXTmpiM1Z1ZEdGaWFXeHBkSGt1YzNWd1pYSjJhWE5sWkY5MGRYSnVjeUk2TVRVek1USXNJbmR2Y21zdWRHOTBZV3dpT2pRNE1qRXdMQ0ozYjNKckxuZHBkRzVsYzNObFpDSTZORGM1TmpRc0luZHZjbXN1WTI5dGNIVjBaUzVtYjNKblpWOTNhWFJ1WlhOelpXUWlPakV5T0RRc0luZHZjbXN1YUdGeVpIZGhjbVZmY205dmRHVmtJam95TVRZME1Dd2lkMjl5YXk1b1lYSmtkMkZ5WlY5eWIyOTBaV1JmT1RCa0lqbzVOREV5TENKemFHRnlaUzUzYVhSdVpYTnpYemt3WkM1b1lYSmtkMkZ5WlY5eWIyOTBaV1FpT2pFd01EQXdMQ0pqYjIxd2IzTnBkR2x2Ymk1aGRIUmxjM1JsWkY5cGMzTjFaWEp6SWpveExDSmpiMjF3YjNOcGRHbHZiaTV0WldGemRYSmxiV1Z1ZEhNaU9qRXNJbU52YlhCdmMybDBhVzl1TG1GMGRHVnpkR1ZrWDNKbFoybHZibk1pT2pFc0ltTnZiWEJ2YzJsMGFXOXVMbWx6YzNWbGNpNDFPVFEzTlRrMU9UUmlPV0kyTVRVeU5HWTJZemhsWmpZMk9HWTNNVGMzWmpkaU9UQTJObUpqTURZM05HWXlaalE1Wm1VNVpUQTFNbUpsTnpoaVpXSXlJam95TVRZME1Dd2lZMjl0Y0c5emFYUnBiMjR1YldWaGMzVnlaVzFsYm5RdWMyaGhNalUyT2psbU1tTXhZVGRsTUdRMFlqWmpPR1V6WVRWbU4yUTVZakZqTTJVMVlUZG1NbVEwWWpaak9HVXdZVEZtTTJRMVlqZGpPV1V4WVRObU5XUTNZamxqTVdVaU9qSXhOalF3TENKamIyMXdiM05wZEdsdmJpNXlaV2RwYjI0dWRYTXRZMlZ1ZEhKaGJERWlPakl4TmpRd0xDSnphR0Z5WlM1cGMzTjFaWEpmT1RCa0xqVTVORGMxT1RVNU5HSTVZall4TlRJMFpqWmpPR1ZtTmpZNFpqY3hOemRtTjJJNU1EWTJZbU13TmpjMFpqSm1ORGxtWlRsbE1EVXlZbVUzT0dKbFlqSWlPakV3TURBd0xDSnphR0Z5WlM1dFpXRnpkWEpsYldWdWRGODVNR1F1YzJoaE1qVTJPamxtTW1NeFlUZGxNR1EwWWpaak9HVXpZVFZtTjJRNVlqRmpNMlUxWVRkbU1tUTBZalpqT0dVd1lURm1NMlExWWpkak9XVXhZVE5tTldRM1lqbGpNV1VpT2pFd01EQXdMQ0p6YUdGeVpTNXlaV2RwYjI1Zk9UQmtMblZ6TFdObGJuUnlZV3d4SWpveE1EQXdNQ3dpWTI5dWMzVnRjSFJwYjI0dVpXUm5aWE1pT2pJNU5ERXNJbU52ZFhCc2FXNW5MbVJwYzNScGJtTjBYMjkzYm1WeWN5STZNak13TENKamIzVndiR2x1Wnk1cGJtUmxjR1Z1WkdWdWRGOXZkMjVsY25NaU9qSXhNaXdpYlc5dVpYa3VkMmwwYm1WemMyVmtYMmx1WW05MWJtUWlPalkwTUN3aWJXOXVaWGt1ZDJsMGJtVnpjMlZrWDJsdVltOTFibVJmT1RCa0lqbzNNU3dpYlc5dVpYa3VhVzVrWlhCbGJtUmxiblJmY0dGNVpYSnpJam94TVRnc0ltMXZibVY1TG1sdVpHVndaVzVrWlc1MFgzQmhlV1Z5YzE4NU1HUWlPakU1TENKdGIyNWxlUzUzYVhSdVpYTnpaV1JmWm1sdVlXNWphV0ZzSWpveE1USXlMQ0p0YjI1bGVTNTNhWFJ1WlhOelpXUmZabWx1WVc1amFXRnNYemt3WkNJNk1UZzBMQ0p0YjI1bGVTNXdjbTl0YVhObGMxOW1kV3htYVd4c1pXUWlPak14TENKdGIyNWxlUzV3Y205dGFYTmxjMTlrWldaaGRXeDBaV1FpT2pBc0ltMXZibVY1TG1WelkzSnZkM05mWTI5dGNHeGxkR1ZrWDJGelgzQnliM1pwWkdWeUlqbzBOSDBzSW5CeVpXUnBZMkYwWlhNaU9sdDdJbVpwWld4a0lqb2lZMjl1ZEdsdWRXbDBlUzVoWTNScGRtVmZaR0Y1Y3lJc0ltOXdJam9pWjNSbElpd2lkR2h5WlhOb2IyeGtJam96TUN3aWNtVnpkV3gwSWpwMGNuVmxmU3g3SW1acFpXeGtJam9pWTI5dWRHbHVkV2wwZVM1aFkzUnBkbVZmWkdGNWMxODVNR1FpTENKdmNDSTZJbWQwWlNJc0luUm9jbVZ6YUc5c1pDSTZNVEFzSW5KbGMzVnNkQ0k2ZEhKMVpYMHNleUptYVdWc1pDSTZJbmR2Y21zdWQybDBibVZ6YzJWa1h6a3daQ0lzSW05d0lqb2laM1JsSWl3aWRHaHlaWE5vYjJ4a0lqb3lOU3dpY21WemRXeDBJanAwY25WbGZTeDdJbVpwWld4a0lqb2lZMjl1YzNWdGNIUnBiMjR1YVc1a1pYQmxibVJsYm5SZmNHRnlkR2xsY3lJc0ltOXdJam9pWjNSbElpd2lkR2h5WlhOb2IyeGtJam96TENKeVpYTjFiSFFpT25SeWRXVjlMSHNpWm1sbGJHUWlPaUpoWTJOdmRXNTBZV0pwYkdsMGVTNW9kVzFoYmw5aVpXNWxabWxqYVdGeWVTSXNJbTl3SWpvaVpYRWlMQ0owYUhKbGMyaHZiR1FpT2pFc0luSmxjM1ZzZENJNmRISjFaWDBzZXlKbWFXVnNaQ0k2SW5OMFlXNWthVzVuTG1Ga2RtVnljMlZmWlhabGJuUnpYemt3WkNJc0ltOXdJam9pYVc0aUxDSnpaWFFpT2xzd1hTd2ljbVZ6ZFd4MElqcDBjblZsZlN4N0ltWnBaV3hrSWpvaWMzUmhibVJwYm1jdWIzQmxibDlpYjI1a1gyTnNZV2x0YzE5aFoyRnBibk4wSWl3aWIzQWlPaUpsY1NJc0luUm9jbVZ6YUc5c1pDSTZNQ3dpY21WemRXeDBJanAwY25WbGZTeDdJbVpwWld4a0lqb2ljM1JoYm1ScGJtY3VhVzUyWVd4cFpHRjBhVzl1WDJGamRHbDJaU0lzSW05d0lqb2laWEVpTENKMGFISmxjMmh2YkdRaU9qQXNJbkpsYzNWc2RDSTZkSEoxWlgxZExDSnlaV1JoWTNSbFpDSTZXMTE5TENKamFHRnNYMlY0Y0NJNk1UYzVNVFU1TVRNd01Dd2ljbVZ4ZFdWemRHVnlJanA3SW5SNWNHVWlPaUprYjIxaGFXNGlMQ0pwWkNJNkltZGhkR1V1WlhoaGJYQnNaUzVqYjIwaWZYMC40NERER1NRdGlRWWZOaFUzRnRKSjd6R2U5Nktwel84WWJLQWs3TFBwdWU1WmwyOF9BTUI1anZPNFNDOUNUUUthMWdDY0FVa256bnptYlo3RktGbl9CZyJ9",
+    "verification": {
+      "jwks": [
+        {
+          "alg": "EdDSA",
+          "crv": "Ed25519",
+          "kid": "illustrative-issuer-k1",
+          "kty": "OKP",
+          "x": "imZryog5cgDOs0qE8cXnmXtir_pN-dd_KlfAIP4UKIU"
+        }
+      ],
+      "local": {
+        "challengeExpiresAt": 1791591300,
+        "disclosed": {
+          "accountability.supervised_turns": 15312,
+          "actor.is_agent": 1,
+          "composition.attested_issuers": 1,
+          "composition.attested_regions": 1,
+          "composition.issuer.594759594b9b61524f6c8ef668f7177f7b9066bc0674f2f49fe9e052be78beb2": 21640,
+          "composition.measurement.sha256:9f2c1a7e0d4b6c8e3a5f7d9b1c3e5a7f2d4b6c8e0a1f3d5b7c9e1a3f5d7b9c1e": 21640,
+          "composition.measurements": 1,
+          "composition.region.us-central1": 21640,
+          "consumption.edges": 2941,
+          "continuity.active_days_30d": 29,
+          "continuity.active_days_365d": 318,
+          "continuity.chain_depth": 48210,
+          "continuity.first_seen_ms": 1754352000000,
+          "continuity.last_seen_ms": 1791586800000,
+          "continuity.registered_devices": 3,
+          "continuity.streak_days": 41,
+          "coupling.distinct_owners": 230,
+          "coupling.independent_owners": 212,
+          "money.escrows_completed_as_provider": 44,
+          "money.independent_payers": 118,
+          "money.independent_payers_90d": 19,
+          "money.promises_defaulted": 0,
+          "money.promises_fulfilled": 31,
+          "money.witnessed_financial": 1122,
+          "money.witnessed_financial_90d": 184,
+          "money.witnessed_inbound": 640,
+          "money.witnessed_inbound_90d": 71,
+          "share.issuer_90d.594759594b9b61524f6c8ef668f7177f7b9066bc0674f2f49fe9e052be78beb2": 10000,
+          "share.measurement_90d.sha256:9f2c1a7e0d4b6c8e3a5f7d9b1c3e5a7f2d4b6c8e0a1f3d5b7c9e1a3f5d7b9c1e": 10000,
+          "share.region_90d.us-central1": 10000,
+          "share.witness_90d.hardware_rooted": 10000,
+          "standing.adverse_events": 1,
+          "standing.adverse_events_30d": 0,
+          "standing.adverse_events_365d": 1,
+          "standing.adverse_events_90d": 0,
+          "standing.bond_active": 1,
+          "standing.bond_expired": 1,
+          "standing.invalidation_active": 0,
+          "standing.open_bond_claims_against": 0,
+          "work.compute.forge_witnessed": 1284,
+          "work.hardware_rooted": 21640,
+          "work.hardware_rooted_90d": 9412,
+          "work.total": 48210,
+          "work.witnessed": 47964
+        },
+        "onchainChecked": false,
+        "payload": {
+          "aud": "gate.example.com",
+          "burn_id": "026273fa9f355f9dce134386b747f6752cc8e07292f47487fe652a02d0302b56",
+          "chal": "eb1aa4e5900d7a832fe3362154ab9884f6d6950c7da3f9496b48371c6e8afa43",
+          "chal_exp": 1791591300,
+          "exp": 1791590700,
+          "iat": 1791590400,
+          "iss": "https://provian.ai",
+          "jti": "pres_1b28dd7035b8bc4a",
+          "presenter_address": "0x9493c31d5abf66ac25912ab08edcee6e004e1783",
+          "presenter_pop": {
+            "pubkey": "bac8d887ca7114140565e4ea0b1330067541615361b324d89fcff9d571dc0e4e1db048f6684dfede12ab06146547b66d6662ca5f7799f384eb8e6339db015f37",
+            "scheme": "ecdsa_sha256_secp256k1",
+            "signature": "3045022100d3de3019b4267803bdbee815cc4c6cb8cc15e61765eaea169513d7b5dc2a977402202ad86d472ade8c1aad1eadccb47a739d00bb3e2f37eaaece2e6e5d28348da6cf"
+          },
+          "reputation": {
+            "facts": {
+              "accountability.supervised_turns": 15312,
+              "actor.is_agent": 1,
+              "composition.attested_issuers": 1,
+              "composition.attested_regions": 1,
+              "composition.issuer.594759594b9b61524f6c8ef668f7177f7b9066bc0674f2f49fe9e052be78beb2": 21640,
+              "composition.measurement.sha256:9f2c1a7e0d4b6c8e3a5f7d9b1c3e5a7f2d4b6c8e0a1f3d5b7c9e1a3f5d7b9c1e": 21640,
+              "composition.measurements": 1,
+              "composition.region.us-central1": 21640,
+              "consumption.edges": 2941,
+              "continuity.active_days_30d": 29,
+              "continuity.active_days_365d": 318,
+              "continuity.chain_depth": 48210,
+              "continuity.first_seen_ms": 1754352000000,
+              "continuity.last_seen_ms": 1791586800000,
+              "continuity.registered_devices": 3,
+              "continuity.streak_days": 41,
+              "coupling.distinct_owners": 230,
+              "coupling.independent_owners": 212,
+              "money.escrows_completed_as_provider": 44,
+              "money.independent_payers": 118,
+              "money.independent_payers_90d": 19,
+              "money.promises_defaulted": 0,
+              "money.promises_fulfilled": 31,
+              "money.witnessed_financial": 1122,
+              "money.witnessed_financial_90d": 184,
+              "money.witnessed_inbound": 640,
+              "money.witnessed_inbound_90d": 71,
+              "share.issuer_90d.594759594b9b61524f6c8ef668f7177f7b9066bc0674f2f49fe9e052be78beb2": 10000,
+              "share.measurement_90d.sha256:9f2c1a7e0d4b6c8e3a5f7d9b1c3e5a7f2d4b6c8e0a1f3d5b7c9e1a3f5d7b9c1e": 10000,
+              "share.region_90d.us-central1": 10000,
+              "share.witness_90d.hardware_rooted": 10000,
+              "standing.adverse_events": 1,
+              "standing.adverse_events_30d": 0,
+              "standing.adverse_events_365d": 1,
+              "standing.adverse_events_90d": 0,
+              "standing.bond_active": 1,
+              "standing.bond_expired": 1,
+              "standing.invalidation_active": 0,
+              "standing.open_bond_claims_against": 0,
+              "work.compute.forge_witnessed": 1284,
+              "work.hardware_rooted": 21640,
+              "work.hardware_rooted_90d": 9412,
+              "work.total": 48210,
+              "work.witnessed": 47964
+            },
+            "predicates": [
+              {
+                "field": "continuity.active_days",
+                "op": "gte",
+                "result": true,
+                "threshold": 30
+              },
+              {
+                "field": "continuity.active_days_90d",
+                "op": "gte",
+                "result": true,
+                "threshold": 10
+              },
+              {
+                "field": "work.witnessed_90d",
+                "op": "gte",
+                "result": true,
+                "threshold": 25
+              },
+              {
+                "field": "consumption.independent_parties",
+                "op": "gte",
+                "result": true,
+                "threshold": 3
+              },
+              {
+                "field": "accountability.human_beneficiary",
+                "op": "eq",
+                "result": true,
+                "threshold": 1
+              },
+              {
+                "field": "standing.adverse_events_90d",
+                "op": "in",
+                "result": true,
+                "set": [
+                  0
+                ]
+              },
+              {
+                "field": "standing.open_bond_claims_against",
+                "op": "eq",
+                "result": true,
+                "threshold": 0
+              },
+              {
+                "field": "standing.invalidation_active",
+                "op": "eq",
+                "result": true,
+                "threshold": 0
+              }
+            ],
+            "redacted": []
+          },
+          "requester": {
+            "id": "gate.example.com",
+            "type": "domain"
+          },
+          "sub": "wallet_aw_illustrative_established",
+          "tier": "reputation",
+          "v": 2
+        },
+        "predicates": [
+          {
+            "field": "continuity.active_days",
+            "op": "gte",
+            "result": true,
+            "threshold": 30
+          },
+          {
+            "field": "continuity.active_days_90d",
+            "op": "gte",
+            "result": true,
+            "threshold": 10
+          },
+          {
+            "field": "work.witnessed_90d",
+            "op": "gte",
+            "result": true,
+            "threshold": 25
+          },
+          {
+            "field": "consumption.independent_parties",
+            "op": "gte",
+            "result": true,
+            "threshold": 3
+          },
+          {
+            "field": "accountability.human_beneficiary",
+            "op": "eq",
+            "result": true,
+            "threshold": 1
+          },
+          {
+            "field": "standing.adverse_events_90d",
+            "op": "in",
+            "result": true,
+            "set": [
+              0
+            ]
+          },
+          {
+            "field": "standing.open_bond_claims_against",
+            "op": "eq",
+            "result": true,
+            "threshold": 0
+          },
+          {
+            "field": "standing.invalidation_active",
+            "op": "eq",
+            "result": true,
+            "threshold": 0
+          }
+        ],
+        "presentationId": "026273fa9f355f9dce134386b747f6752cc8e07292f47487fe652a02d0302b56",
+        "presenterAddress": "0x9493c31d5abf66ac25912ab08edcee6e004e1783",
+        "requester": {
+          "id": "gate.example.com",
+          "type": "domain"
+        },
+        "standing": {
+          "standing.adverse_events": 1,
+          "standing.adverse_events_30d": 0,
+          "standing.adverse_events_365d": 1,
+          "standing.adverse_events_90d": 0,
+          "standing.bond_active": 1,
+          "standing.bond_expired": 1,
+          "standing.invalidation_active": 0,
+          "standing.open_bond_claims_against": 0
+        },
+        "sub": "wallet_aw_illustrative_established",
+        "tier": "reputation",
+        "valid": true
+      }
+    },
+    "verified_at_seconds": 1791590400
+  },
+  "sha256": "1bd13e6abd658553a3983245b02bff10ca367f26f35247c8775764350d8e8d53",
+  "signature": "KJI42iXmieqkM_3ranhasc85serRMJrzgYQqDVv9y_DeFPa7DZF3tnErqsix6inVu4AYdhM5ibFHpFNAZKQMCA"
+}

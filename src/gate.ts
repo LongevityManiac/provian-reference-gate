@@ -50,7 +50,7 @@
  *
  * Nothing here is Provian policy. The questions, the thresholds and the consequence are the gate's.
  */
-import { randomBytes } from 'node:crypto';
+import { randomBytes, randomUUID } from 'node:crypto';
 import {
   issuePresentationChallenge,
   verifyPresentationToken,
@@ -72,12 +72,22 @@ import type { AnsweredPredicate, Decision, GateKey, GatePolicy, Predicate, Verif
 import { adverseStandingOf, describePredicate, evaluatePredicates, samePredicate, samePredicateSet, sameDisclosureSet } from './policy.js';
 import type { DisclosureAnswer } from '@provian/agent-sdk';
 import { buildReport } from './report.js';
+import { captureAnchorObservations, anchorFetch } from './anchor-evidence.js';
+import { AdmissionLogError, publicPresentationKeys, sealAdmission, type AdmissionLog, type AdmissionRecord } from './admission.js';
 
 export const DEFAULT_RELAY_URL = 'https://api.provian.ai';
 /** Mirrors the relay: a token is checked inside ±60 s of clock skew. */
 const CLOCK_SKEW_SECONDS = 60;
 
+interface DecisionEvidence {
+  challenge: ChallengeEnvelope | null;
+  local: VerifyPresentationResult | null;
+  jwks: readonly PresentationJwk[];
+}
+
 export interface GateOptions {
+  /** Optional operator-owned receipts; independent of the seen-store. */
+  readonly admissionLog?: AdmissionLog;
   /** The gate's domain — a lowercase DNS hostname it controls and serves HTTPS on. */
   readonly domain: string;
   /** The gate's Ed25519 key (`generateGateKey()`), whose public half the domain publishes. */
@@ -131,11 +141,13 @@ export class Gate {
   readonly key: GateKey;
   readonly relayUrl: string;
   private readonly relayVerify: boolean;
+  private readonly admissionLog: AdmissionLog | undefined;
   private jwks: readonly PresentationJwk[];
   private readonly seenStore: PresentationSeenStore;
   private readonly challengeTtl: number;
   private readonly rpcUrl: string | undefined;
   private readonly fetchFn: typeof fetch;
+  private readonly anchorFetchFn: typeof fetch;
   private readonly now: () => number;
   /** Challenges this gate issued and has not yet consumed, by nonce. */
   private readonly issued = new Map<string, IssuedChallenge>();
@@ -144,6 +156,7 @@ export class Gate {
     if (!/^(?=.{4,253}$)(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}$/.test(opts.domain)) {
       throw new Error('domain must be a lowercase DNS hostname (the requester identity)');
     }
+    this.admissionLog = opts.admissionLog;
     this.domain = opts.domain;
     this.key = opts.key;
     this.relayUrl = (opts.relayUrl ?? DEFAULT_RELAY_URL).replace(/\/+$/, '');
@@ -153,6 +166,7 @@ export class Gate {
     this.challengeTtl = opts.challengeTtlSeconds ?? CHALLENGE_DEFAULT_TTL_SECONDS;
     this.rpcUrl = opts.rpcUrl;
     this.fetchFn = opts.fetchFn ?? fetch;
+    this.anchorFetchFn = opts.fetchFn ?? anchorFetch;
     this.now = opts.nowSeconds ?? (() => Math.floor(Date.now() / 1000));
   }
 
@@ -195,6 +209,7 @@ export class Gate {
     });
     // A nonce of our own making can never collide with one we already hold; refuse rather than overwrite.
     if (this.issued.has(envelope.challenge)) throw new Error('challenge nonce collision');
+    this.admissionLog?.rememberChallenge(envelope);
     this.issued.set(envelope.challenge, { envelope, policy: policy.slug, consumedAt: null });
     return envelope;
   }
@@ -211,19 +226,43 @@ export class Gate {
    * among those this gate issued (service mode), or supplied explicitly (CLI mode); either way its
    * signature is re-checked against this gate's own key — THE KEY CHECK — before anything else.
    *
-   * Never throws: any failure, including an unexpected one, is a `block`.
+   * Verification failures return block. An attached log must durably append before a decision is
+   * returned; storage failure throws AdmissionLogError (the service returns 503, never admission).
    */
   async decide(policy: GatePolicy, token: string, opts: { challenge?: ChallengeEnvelope | string } = {}): Promise<Decision> {
+    const receivedAt = new Date().toISOString();
+    const now = this.now();
+    const evidence: DecisionEvidence = { challenge: null, local: null, jwks: publicPresentationKeys(this.jwks) };
+    let decision: Decision;
     try {
-      return await this.decideOrThrow(policy, token, opts);
+      const decoded = decodePresentationToken(token.trim());
+      const nonce = decoded?.payload?.chal;
+      evidence.challenge = opts.challenge !== undefined ? parseChallengeEnvelope(opts.challenge)
+        : typeof nonce === 'string' ? this.issued.get(nonce)?.envelope ?? this.admissionLog?.findChallenge(nonce) ?? null : null;
+      decision = await this.decideOrThrow(policy, token, opts, evidence, now);
     } catch (err) {
-      return this.block(policy, [`error: ${err instanceof Error ? err.message : String(err)}`], null, [], null, null);
+      decision = this.block(policy, [`error: ${err instanceof Error ? err.message : String(err)}`], null, [], null, null);
     }
+    if (this.admissionLog) {
+      const record: AdmissionRecord = {
+        kind: 'provian-gate-admission.v1', id: randomUUID(), received_at: receivedAt, verified_at_seconds: now,
+        token, challenge: evidence.challenge,
+        policy: { slug: policy.slug, name: policy.name, action: policy.action, description: policy.description,
+          predicates: policy.predicates, ...(policy.disclosures ? { disclosures: policy.disclosures } : {}) },
+        verification: { local: evidence.local, jwks: evidence.jwks },
+        anchor_observations: evidence.local && (evidence.local.valid ? evidence.local.onchainChecked
+          : ['replayed', 'disclosure_record_invalid', 'pe_fact_proof_onchain_invalid'].includes(evidence.local.reason))
+          ? await captureAnchorObservations(token, this.rpcUrl, this.anchorFetchFn, evidence.local.valid || evidence.local.reason === 'replayed') : [], decision,
+        gate_public_jwk: { kty: 'OKP', crv: 'Ed25519', kid: this.key.publicJwk.kid, x: this.key.publicJwk.x },
+      };
+      try { await this.admissionLog.append(sealAdmission(record, this.key)); }
+      catch { throw new AdmissionLogError(); }
+    }
+    return decision;
   }
 
-  private async decideOrThrow(policy: GatePolicy, token: string, opts: { challenge?: ChallengeEnvelope | string }): Promise<Decision> {
+  private async decideOrThrow(policy: GatePolicy, token: string, opts: { challenge?: ChallengeEnvelope | string }, evidence: DecisionEvidence, now: number): Promise<Decision> {
     this.prune();
-    const now = this.now();
 
     // The token must at least be a presentation. (Its contents are not trusted until verified.)
     const presentation = typeof token === 'string' ? decodePresentationToken(token.trim()) : null;
@@ -287,11 +326,11 @@ export class Gate {
 
     // STEP 3b — the local verify: Provian's keys, the presenter's live-key signature, binding,
     // freshness, deadline, tier, predicates answered, Standing present — and ONE-SHOT acceptance.
-    let local = await this.localVerify(token, envelope, now);
-    if (!local.valid && local.reason === 'reputation_jws_unknown_kid') {
+    let local = await this.localVerify(token, envelope, now, evidence);
+    if (!local.valid && (local.reason === 'reputation_jws_unknown_kid' || local.reason === 'pe_fact_cosign_unknown_kid')) {
       // Key rotation: refresh Provian's keys once and try again.
       this.jwks = await fetchProvianPresentationKeys(this.relayUrl, this.fetchFn);
-      local = await this.localVerify(token, envelope, now);
+      local = await this.localVerify(token, envelope, now, evidence);
     }
     if (!local.valid) {
       const replay: VerificationRecord['replay'] = local.reason === 'replayed' ? 'replayed' : 'n/a';
@@ -387,10 +426,12 @@ export class Gate {
   }
 
   /** The SDK's local verifier, with this gate's expectations folded in from the envelope it issued. */
-  private localVerify(token: string, envelope: ChallengeEnvelope, now: number): Promise<VerifyPresentationResult> {
-    return verifyPresentationToken(token, {
+  private async localVerify(token: string, envelope: ChallengeEnvelope, now: number, evidence: DecisionEvidence): Promise<VerifyPresentationResult> {
+    const jwks = publicPresentationKeys(this.jwks);
+    evidence.jwks = jwks;
+    const result = await verifyPresentationToken(token, {
       challenge: envelope,          // audience, nonce, predicates, deadline, requester — all from our envelope
-      jwks: this.jwks,              // Provian's published keys (cached)
+      jwks,              // Provian's published keys (cached)
       seenStore: this.seenStore,    // accept each presentation id ONCE
       acceptOnce: true,
       requireOnchain: true,         // a PE fact must verify against the PEAnchor on Base
@@ -398,6 +439,8 @@ export class Gate {
       nowSeconds: now,
       fetchFn: this.fetchFn,
     });
+    evidence.local = result;
+    return result;
   }
 
   /** Why the relay's answer and the local answer differ, or null when they agree. */

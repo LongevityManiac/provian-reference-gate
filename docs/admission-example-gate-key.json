@@ -1,0 +1,6 @@
+{
+  "kty": "OKP",
+  "crv": "Ed25519",
+  "x": "r4j16CEDAfi3C8I4MqiflU0NVfyr-UGliEvtdzdRtUo",
+  "kid": "gate-k1"
+}

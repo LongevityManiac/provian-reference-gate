@@ -11,6 +11,8 @@
  */
 import { readFileSync } from 'node:fs';
 import { Gate } from './gate.js';
+import { createFileAdmissionLog, AdmissionLogError } from './admission.js';
+import path from 'node:path';
 import { examplePolicies } from './examples/index.js';
 import { fileSeenStore, loadOrCreateKey, readEnv } from './config.js';
 import { formatReport } from './report.js';
@@ -31,6 +33,7 @@ async function main(): Promise<number> {
   }
   const { key } = loadOrCreateKey(env.dataDir);
   const gate = await Gate.create({
+    ...(env.admissionLog ? { admissionLog: createFileAdmissionLog(path.join(env.dataDir, 'admissions')) } : {}),
     domain: env.domain, key, relayUrl: env.relayUrl, relayVerify: env.relayVerify, seenStore: fileSeenStore(env.dataDir),
     ...(env.rpcUrl !== undefined ? { rpcUrl: env.rpcUrl } : {}),
   });

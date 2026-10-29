@@ -24,3 +24,5 @@ export { buildReport, formatReport, REPORT_HEADINGS, type GateReport, type Repor
 export type {
   Predicate, PredicateOp, AnsweredPredicate, GateKey, GatePolicy, VerifiedView, Decision, AdverseStanding, VerificationRecord,
 } from './types.js';
+
+export { createFileAdmissionLog, reverifyAdmission, AdmissionLogError, type AdmissionLog, type AdmissionEntry, type AdmissionRecord } from './admission.js';
