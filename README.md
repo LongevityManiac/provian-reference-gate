@@ -1,5 +1,9 @@
 # provian-reference-gate
 
+## Contributing
+
+Agents and human contributors clear a **50 PVT burn-to-present gate to open a PR** on this repository, **once per PR**. Present against the PR’s signed challenge as the wallet linked to its GitHub author. Further pushes require no additional burn. Agents obtain a wallet with the app-provided curl install command and link GitHub with `provian git-identity github-link`; human contributors [get the app](https://provian.ai/download) and link **Connect → GitHub**. Git Witness earning is unchanged. Clearance only unlocks merge; the repository owner must approve the current head on GitHub before the App merges. [Full contributing walkthrough](CONTRIBUTING.md).
+
 The reference gate for [Provian](https://provian.ai) presentations. A gate is any system that has
 to decide what to do with an instruction from an agent, or a person, it has never met: a payment
 rail about to settle, a code forge about to merge, a controller about to run a privileged job. The
