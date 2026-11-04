@@ -1,8 +1,10 @@
-# Contributing to Provian
+# Contributing to the Provian reference gate
 
-Opening a pull request on **LongevityManiac/provian** or **LongevityManiac/provian-reference-gate** requires a **50 PVT burn-to-present handshake, once per PR**. Provian operates this live gate on its own door. The gate’s identity is **provian.ai**, published at [its well-known key document](https://provian.ai/.well-known/provian-requester.json).
+**The repository owner, LongevityManiac, is exempt:** owner pushes and PRs, including CC/Codex work from the owner’s checkout, need no burn, presentation, gate check or review; direct push and merge are allowed.
 
-An opened or reopened PR receives the **Provian PR gate** check, the `presentation-required` label and one instructions comment. The check stays unsuccessful until the PR author presents against that PR’s signed challenge with at least 50 PVT burned. A verified presentation clears the PR for ordinary review. Clearance only unlocks merge. After clearance, the repository owner must submit an **Approve** review on the current PR head. Only Git Witness merges the protected branches; a push requires a fresh approval without another burn. Further pushes and reopening a cleared PR require no additional burn. A presentation for another PR is refused. A burn is destroyed PVT; the gate receives no payment. This is this gate’s configured price; protocol floors and other gates’ prices are unchanged. **Git Witness earning is unchanged: merged commits keep earning.**
+For every other PR, **the actual GitHub author presents from its own verified wallet**. A human author uses that human’s wallet in the app; an agent author uses that agent’s wallet through the SDK, MCP or CLI. Another wallet cannot sponsor or pay for the PR. Opening a contributor pull request on **LongevityManiac/provian** or **LongevityManiac/provian-reference-gate** requires a **50 PVT burn-to-present handshake, once per PR**. Provian operates this live gate on its own door. The gate’s identity is **provian.ai**, published at [its well-known key document](https://provian.ai/.well-known/provian-requester.json).
+
+An opened or reopened PR receives the **Provian PR gate** check, the `presentation-required` label and one instructions comment. The check stays unsuccessful until the PR author presents against that PR’s signed challenge with at least 50 PVT burned. A verified presentation clears the PR for ordinary review. Clearance only unlocks merge. After clearance, the repository owner must submit an **Approve** review on the current PR head. For non-owner PRs, Git Witness merges the protected branches; a push requires a fresh approval without another burn. Further pushes and reopening a cleared PR require no additional burn. A presentation for another PR is refused. A burn is destroyed PVT; the gate receives no payment. This is this gate’s configured price; protocol floors and other gates’ prices are unchanged. **Git Witness earning is unchanged: merged commits keep earning.**
 
 ## Agent contributor
 
@@ -24,14 +26,7 @@ An opened or reopened PR receives the **Provian PR gate** check, the `presentati
 
    Poll no faster than the returned `interval` until `status` is `completed`. The SDK uses `githubIdentityLink(config)` followed by `githubIdentityLink(config, state)`; MCP uses `link_github_identity({})` followed by `link_github_identity({state})`. GitHub proves the account id; a claimed username, commit email or Git Witness installation cannot substitute for this proof. The authorization token is used only to read the account identity and is never stored or returned. Git Witness repository installation and earning continue separately.
 
-   An operator-controlled Git Witness integration can also create an agent’s PR without a GitHub user account. The agent prepares a JSON request with `repository`, `head`, `head_sha`, `base`, `title` and `body`, then signs it locally:
-
-   ```sh
-   provian github-pr-request --request-json @request.json > signed-request.json
-   # Packaged SDK: npx @provian/agent-sdk github-pr-request --request-json @request.json
-   ```
-
-   The operator passes that signed request to `provian-backend/scripts/create-agent-pr.ts --request-file signed-request.json` with the existing App credentials. The integration verifies the active wallet’s signature and exact branch commit before creating the bot-authored PR. Only that PR is bound to the signing wallet; the bot has no global wallet mapping. The PR still needs its own 50 PVT presentation and the owner’s approving review after clearance. The signing command authorizes PR creation and does not burn or transfer funds.
+   The agent opens the PR using its own authenticated GitHub account (for example, `gh pr create`), then presents from its own linked wallet. App-bot PR creation cannot substitute for that authorship and is retired. Atlas pays only for PRs authored by Atlas’s own GitHub account.
 
 3. Open the PR, read the gate comment and fetch the PR-specific challenge. For example, for PR 123 in `provian`:
 

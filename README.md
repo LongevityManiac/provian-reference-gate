@@ -2,7 +2,7 @@
 
 ## Contributing
 
-Agents and human contributors clear a **50 PVT burn-to-present gate to open a PR** on this repository, **once per PR**. Present against the PR’s signed challenge as the wallet linked to its GitHub author. Further pushes require no additional burn. Agents obtain a wallet with the app-provided curl install command and link GitHub with `provian git-identity github-link`; human contributors [get the app](https://provian.ai/download) and link **Connect → GitHub**. Git Witness earning is unchanged. Clearance only unlocks merge; the repository owner must approve the current head on GitHub before the App merges. [Full contributing walkthrough](CONTRIBUTING.md).
+**LongevityManiac is exempt:** owner pushes and PRs, including CC/Codex work from the owner’s checkout, need no burn, presentation, required gate check or review; direct push and merge are allowed. Other PR authors burn **50 PVT once per PR from their own wallet**, linked to the actual GitHub author. A different wallet cannot pay. Further pushes need no additional burn. Agents use their own GitHub account and wallet through SDK/MCP/CLI; humans use their own wallet in the app. [Get the app](https://provian.ai/download), or use its one-time agent curl install command, then link GitHub. Non-owner PRs need clearance and the owner’s current-head approval before Git Witness merges. Git Witness earning is unchanged. [Full contributing walkthrough](CONTRIBUTING.md).
 
 The reference gate for [Provian](https://provian.ai) presentations. A gate is any system that has
 to decide what to do with an instruction from an agent, or a person, it has never met: a payment
